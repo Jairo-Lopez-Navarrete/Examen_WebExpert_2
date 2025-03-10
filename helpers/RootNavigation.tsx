@@ -9,7 +9,6 @@ type Routes = {
     'Settings': string;
     'Kabien': string;
     'Kajuit': string;
-    'MembersOnly': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();

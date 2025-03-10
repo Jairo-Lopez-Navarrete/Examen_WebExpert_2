@@ -13,7 +13,6 @@ import Profile from './screens/Profile';
 import AboutUs from './screens/AboutUs';
 import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
-import MembersOnly from './screens/MembersOnly';
 
 const Stack = createStackNavigator();
 
@@ -27,7 +26,6 @@ export default function App() {
                 <Stack.Screen name="Profile" component={Profile} />
                 <Stack.Screen name="Kabien" component={Kabien} />
                 <Stack.Screen name="Kajuit" component={Kajuit} />
-                <Stack.Screen name="Members_Only" component={MembersOnly} />
              </Stack.Navigator>
             <Footer />
        <StatusBar style="auto" />

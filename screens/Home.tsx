@@ -26,24 +26,6 @@ export default function Home(){
                  </ImageBackground>
             </Pressable>
         </View>
-        <View style={styles.imageContainer}>
-            <Pressable onPress={() => navigate('MembersOnly')}>
-                 <ImageBackground source={require('../assets/TestPic3.jpg')} style={styles.image} imageStyle={styles.imageBorder}>
-                 <View style={styles.textContainer}>
-                      <Text style={styles.imageText}>Members Only</Text>
-
-                 </View>
-                 </ImageBackground>
-            </Pressable>
-            <Pressable onPress={() => navigate('Home')}>
-                 <ImageBackground source={require('../assets/TestPic4.png')} style={styles.image} imageStyle={styles.imageBorder}>
-                 <View style={styles.textContainer}>
-                      <Text style={styles.imageText}>Another One</Text>
-                      
-                 </View>
-                 </ImageBackground>
-            </Pressable>
-        </View>
     </View>
   );
 };
@@ -74,7 +56,7 @@ textContainer: {
   },
   imageContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
