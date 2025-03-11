@@ -1,54 +1,79 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Pressable, Image, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Profile(){
+export default function Profile() {
+  const navigation = useNavigation();
+  
+  const [user, setUser] = useState({
+    name: "Jairo Lopez Navarrete",
+    birthdate: "26/12/2000",
+    work: "Working at Kapitan!",
+    profilePic: null, // Standaard geen foto
+  });
+
   return (
     <View style={styles.container}>
-      <Ionicons name="person-circle" style={styles.icon}/>
-      <Text style={styles.text}>Jairo Lopez Navarrete</Text>
-      <Text style={styles.text}>26/12/2000</Text>
-      <Text style={styles.text}>Working at Kapitan!</Text>
+      <Image source={user.profilePic ? { uri: user.profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
+      <Text style={styles.text}>{user.name}</Text>
+      <Text style={styles.text}>{user.birthdate}</Text>
+      <Text style={styles.text}>{user.work}</Text>
 
-      <Pressable style={styles.button}>
-            <Text style={styles.changeText}> Change Profile </Text>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('EditProfile', { user, setUser })}>
+        <Ionicons name="create-outline" size={24} color="white" />
+        <Text style={styles.buttonText}>Bewerk Profiel</Text>
       </Pressable>
-      <Pressable >
-            <Text style={styles.deleteText}> Delete Profile </Text>
+
+      <Pressable style={styles.logoutButton} onPress={() => Alert.alert("Uitgelogd", "Je bent succesvol uitgelogd.")}>
+        <Ionicons name="log-out-outline" size={24} color="white" />
+        <Text style={styles.buttonText}>Uitloggen</Text>
       </Pressable>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
-  icon: {
-    fontSize: 100,
-    color: '#ADA48C',
+  profileImage: {
+    width: 200,
+    height: 250,
+    borderRadius: 60,
+    marginBottom: 5,
   },
   text: {
-    fontSize: 25,
-    marginTop: 10,
-    marginBottom: 10,
-    color: '#232323'
+    fontSize: 20,
+    marginBottom: 5,
+    color: '#232323',
   },
   button: {
-    backgroundColor: '#987653',
-    padding: 20,
-    borderRadius: 15,
-    margin: 20
+    backgroundColor: '#007AFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+    justifyContent: 'center',
+    width: 200,
   },
-  changeText: {
-    fontSize: 20,
-    fontWeight: 500,
-    color: '#fff'
+  logoutButton: {
+    backgroundColor: '#FF3B30',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+    justifyContent: 'center',
+    width: 200,
   },
-  deleteText: {
-    
-  }
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    marginLeft: 10,
+  },
 });

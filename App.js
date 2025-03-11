@@ -14,6 +14,7 @@ import AboutUs from './screens/AboutUs';
 import Calendar from './screens/Calendar';
 import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
+import EditProfile from './screens/EditProfile';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
                 <Stack.Screen name="Kabien" component={Kabien} />
                 <Stack.Screen name="Kajuit" component={Kajuit} />
                 <Stack.Screen name="Calendar" component={Calendar} />
+                <Stack.Screen name="EditProfile" component={EditProfile} />
              </Stack.Navigator>
             <Footer />
        <StatusBar style="auto" />
