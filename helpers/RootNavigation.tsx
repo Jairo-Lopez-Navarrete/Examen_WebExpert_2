@@ -9,6 +9,7 @@ type Routes = {
     'Settings': string;
     'Kabien': string;
     'Kajuit': string;
+    'Calendar': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();

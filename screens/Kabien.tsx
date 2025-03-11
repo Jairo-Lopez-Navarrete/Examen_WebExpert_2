@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView} from 'react-native';
 //import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {navigate} from '../helpers/RootNavigation';
 
 
 export default function Kabien(){
-
-
     const [modalVisible, setModalVisible] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -63,6 +62,7 @@ export default function Kabien(){
              </Pressable>
             ))}
         </View>
+
         <Modal visible={modalVisible} transparent={true} animationType="fade">
             <View style={styles.modalContainer}>
                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
@@ -80,7 +80,7 @@ export default function Kabien(){
                 </TouchableOpacity>
             </View>
         </Modal>
-        <Text style={styles.text}>Wat je GRATIS krijgt van ons.</Text>
+        <Text style={styles.text}>Dit is wat je krijgt.</Text>
         <View style={styles.textContainer}>
             <Text>{included[0]}</Text>
             <Text>{included[1]}</Text>
@@ -99,22 +99,17 @@ export default function Kabien(){
             <Text>{notIncluded[4]}</Text>
         </View>
    </View>
+   <View>
+   <TouchableOpacity style={styles.calenderButton} onPress={() => navigate('Calendar')}>
+                <Ionicons name="calendar-outline" size={30} color="white" />
+                <Text style={styles.buttonText}>Dit is wat ik wil</Text>
+   </TouchableOpacity>
+   </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-/*textContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 8,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    overflow: 'hidden'
-    },*/
   container: {
     flex: 1,
     //justifyContent: 'center',
@@ -131,15 +126,10 @@ const styles = StyleSheet.create({
   textContainer: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-
-  },
-  /*imageContainer: {
-    display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end'
-  },*/
+    flexWrap: 'wrap',
+    padding: 10,
+  },
   image: {
     width: '95%',
     height: 200,
@@ -189,5 +179,25 @@ const styles = StyleSheet.create({
     //zINdex: 5,
     //elevation: 5,
     fontSize: 17,
+  },
+  calenderButton: {
+        backgroundColor: '#156484',
+        padding: 15,
+        marginTop: 0,
+        margin: 15,
+        borderRadius: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    marginLeft: 10
   }
 });
