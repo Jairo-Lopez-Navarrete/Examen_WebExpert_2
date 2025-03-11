@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 export default function Footer(){
     return(
@@ -10,7 +11,7 @@ export default function Footer(){
                 <Ionicons name="home" style={styles.icon}/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigate('AboutUs')}>
-                <Ionicons name="mail" style={styles.icon}/>
+                <Fontisto name="anchor" style={styles.icon}/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigate('Profile')}>
                 <Ionicons name="person" style={styles.icon}/>

@@ -50,13 +50,14 @@ textContainer: {
   },
   text: {
     fontSize: 20,
+    height: 70,
     fontWeight: 'bold',
     color: '#232323',
     padding: 5,
   },
   imageContainer: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
