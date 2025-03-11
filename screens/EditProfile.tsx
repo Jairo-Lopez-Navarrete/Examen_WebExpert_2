@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image } from 'reac
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EditProfile() {
   const navigation = useNavigation();
@@ -14,19 +15,23 @@ export default function EditProfile() {
   const [work, setWork] = useState(user.work);
   const [profilePic, setProfilePic] = useState(user.profilePic);
 
+  // Functie voor het kiezen van een afbeelding
   const pickImage = () => {
     ImagePicker.launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (response.didCancel) return;
       if (response.assets) {
-        setProfilePic(response.assets[0].uri);
+        setProfilePic(response.assets[0].uri); // Zet de gekozen afbeelding
       }
     });
   };
 
-  const handleSave = () => {
-    setUser({ name, birthdate, work, profilePic });
+  // Functie voor het opslaan van de wijzigingen in AsyncStorage
+  const handleSave = async () => {
+    const updatedUser = { name, birthdate, work, profilePic };
+    await AsyncStorage.setItem('user', JSON.stringify(updatedUser)); // Sla de gegevens op
+    setUser(updatedUser); // Werk de user state bij
     Alert.alert("Opgeslagen!", "Je profiel is bijgewerkt.");
-    navigation.goBack();
+    navigation.goBack(); // Ga terug naar de profielpagina
   };
 
   return (
