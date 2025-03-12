@@ -26,11 +26,29 @@ export default function Login() {
       return;
     }
 
-    const user = { name, birthdate, work, profilePic: null };
-
-    await AsyncStorage.setItem('user', JSON.stringify(user)); // Opslaan
-    navigation.replace('Profile'); // Navigeer naar profiel
+    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dateRegex.test(birthdate)) {
+     Alert.alert("Fout", "Voer een geldige geboortedatum in (DD-MM-YYYY).");
+     return;
   };
+  const [day, month, year] = birthdate.split('-').map(Number);
+  const birthDateObj = new Date(year, month - 1, day);
+  const today = new Date();
+  const age = today.getFullYear() - birthDateObj.getFullYear();
+
+  // Controleer of de datum in de toekomst ligt of de gebruiker jonger is dan 16
+  if (birthDateObj > today || age < 16) {
+    Alert.alert("Fout", "Je moet een geldige datum invoeren.");
+    return;
+  }
+   // Sla gebruiker op in AsyncStorage
+   const userData = { name, birthdate, work };
+   await AsyncStorage.setItem('user', JSON.stringify(userData));
+ 
+   // Navigeer naar het profiel
+   navigation.replace('Profile');
+ };
+
 
   return (
     <View style={styles.container}>

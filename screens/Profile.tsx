@@ -36,7 +36,7 @@ export default function Profile() {
       <Text style={styles.text}>{user.work}</Text>
 
       
-      <Pressable style={styles.changeButton} onPress={handleLogout}>
+      <Pressable style={styles.changeButton} onPress={() => navigation.navigate('EditProfile', { user, setUser })}>
         <Ionicons name="open" style={styles.icons} color="white" />
         <Text style={styles.changeButtonText}>Verander je profiel</Text>
       </Pressable>

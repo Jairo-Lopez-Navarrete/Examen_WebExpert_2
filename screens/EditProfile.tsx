@@ -17,21 +17,51 @@ export default function EditProfile() {
 
   // Functie voor het kiezen van een afbeelding
   const pickImage = () => {
-    ImagePicker.launchImageLibrary({ mediaType: 'photo' }, (response) => {
-      if (response.didCancel) return;
-      if (response.assets) {
-        setProfilePic(response.assets[0].uri); // Zet de gekozen afbeelding
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        selectionLimit: 1, // Zorgt ervoor dat er maar één afbeelding wordt gekozen
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('Gebruiker annuleerde het kiezen van een afbeelding.');
+          return;
+        }
+        if (response.errorMessage) {
+          console.log('Fout bij het selecteren van afbeelding:', response.errorMessage);
+          return;
+        }
+        if (response.assets && response.assets.length > 0) {
+          setProfilePic(response.assets[0].uri); // Zet de afbeelding in de state
+        }
       }
-    });
+    );
   };
 
   // Functie voor het opslaan van de wijzigingen in AsyncStorage
   const handleSave = async () => {
+    // Controleer of de geboortedatum correct is
+    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dateRegex.test(birthdate)) {
+      Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");
+      return;
+    }
+  
+    const [day, month, year] = birthdate.split('-').map(Number);
+    const birthDateObj = new Date(year, month - 1, day);
+    const today = new Date();
+    const age = today.getFullYear() - birthDateObj.getFullYear();
+  
+    if (birthDateObj > today || age < 16) {
+      Alert.alert("Fout", "Voer een geldige datum in!");
+      return;
+    }
+  
     const updatedUser = { name, birthdate, work, profilePic };
-    await AsyncStorage.setItem('user', JSON.stringify(updatedUser)); // Sla de gegevens op
-    setUser(updatedUser); // Werk de user state bij
+    await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
     Alert.alert("Opgeslagen!", "Je profiel is bijgewerkt.");
-    navigation.goBack(); // Ga terug naar de profielpagina
+    navigation.goBack();
   };
 
   return (
@@ -39,8 +69,8 @@ export default function EditProfile() {
       <Text style={styles.title}>Bewerk je profiel</Text>
 
       <Pressable onPress={pickImage}>
+      <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
         <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-        <Ionicons name="camera-outline" size={30} color="gray" style={styles.cameraIcon} />
       </Pressable>
 
       <Text style={styles.label}>Naam</Text>
@@ -58,8 +88,8 @@ export default function EditProfile() {
       </Pressable>
 
       <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="close-circle-outline" size={24} color="white" />
-        <Text style={styles.buttonText}>Annuleren</Text>
+        <Ionicons name="close-circle-outline" size={24} color="black" />
+        <Text style={styles.cancelButtonText}>Annuleren</Text>
       </Pressable>
     </View>
   );
@@ -117,7 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelButton: {
-    backgroundColor: '#FF3B30',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
@@ -128,6 +157,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: '#fff',
+    marginLeft: 10,
+  },
+  cancelButtonText: {
+    textDecorationLine: "underline",
+    fontSize: 18,
+    color: '#000',
     marginLeft: 10,
   },
 });
