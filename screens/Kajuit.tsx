@@ -33,13 +33,13 @@ export default function Kabien(){
     };
 
     const included = [
-        ["Ruime werkplek ", "Wifi"],
+        ["Plek in de studio, tussen de medewerkers op ruime bureau's"],
         ["Opbergruimte ", "Warme dranken & water"],
         ["Keukenfaciliteiten ", "Terras"],
         ["Toilet ", "Douche (voor fietsers)"],
         ["Stroomverbruik & verzekering"],
-        ["Catering opties"],
-        ["Bereikbaarheid"]
+        ["Bereikbaarheid"],
+        ["Douche aanwezig (voor fietsers)"]
     ]
 
     const notIncluded = [
@@ -100,7 +100,7 @@ export default function Kabien(){
         </View>
    </View>
    <View>
-   <TouchableOpacity style={styles.calenderButton} onPress={() => navigate('Calendar')}>
+   <TouchableOpacity style={styles.calenderButton} onPress={() => navigate('CalendarPage')}>
                 <Ionicons name="calendar-outline" size={30} color="white" />
                 <Text style={styles.buttonText}>Dit is wat ik wil</Text>
    </TouchableOpacity>

@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import AboutUs from './screens/AboutUs';
-import Calendar from './screens/Calendar';
+import CalendarPage from './screens/CalendarPage';
 import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
 import EditProfile from './screens/EditProfile';
@@ -26,11 +26,11 @@ export default function App() {
              <Stack.Navigator screenOptions={{headerShown: false}}>
              <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
                 <Stack.Screen name="Home" component={Home}/>
-                <Stack.Screen name="About_Us" component={AboutUs} />
+                <Stack.Screen name="AboutUs" component={AboutUs} />
                 <Stack.Screen name="Profile" component={Profile}/>
                 <Stack.Screen name="Kabien" component={Kabien} />
                 <Stack.Screen name="Kajuit" component={Kajuit} />
-                <Stack.Screen name="Calendar" component={Calendar} />
+                <Stack.Screen name="CalendarPage" component={CalendarPage} />
                 <Stack.Screen name="EditProfile" component={EditProfile} />
              </Stack.Navigator>
             <Footer />

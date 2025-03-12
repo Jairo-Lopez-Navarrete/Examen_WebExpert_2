@@ -100,7 +100,7 @@ export default function Kabien(){
         </View>
    </View>
    <View>
-   <TouchableOpacity style={styles.calenderButton} onPress={() => navigate('Calendar')}>
+   <TouchableOpacity style={styles.calenderButton} onPress={() => navigate('CalendarPage')}>
                 <Ionicons name="calendar-outline" size={30} color="white" />
                 <Text style={styles.buttonText}>Dit is wat ik wil</Text>
    </TouchableOpacity>

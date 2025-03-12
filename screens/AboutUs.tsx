@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-export default function Calendar(){
+export default function AboutUs(){
   
   return (
     <View style={styles.container}><Text>Elloo... Gudbaai</Text></View>
