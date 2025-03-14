@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share} from 'react-native';
 //import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {navigate} from '../helpers/RootNavigation';
@@ -8,6 +8,26 @@ import {navigate} from '../helpers/RootNavigation';
 export default function Kabien(){
     const [modalVisible, setModalVisible] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const shareInfo = async () => {
+          try {
+            const result = await Share.share({
+              message: 'Check deze geweldige werkplek: Kajuit! Ruime werkplekken, Wifi, Keukenfaciliteiten en meer. Perfect voor freelancers en bedrijven!\n\n Bekijk de details hier: https://jouwwebsite.com/kajuit',
+            });
+        
+            if (result.action === Share.sharedAction) {
+              if (result.activityType) {
+                console.log('Gedeeld via: ', result.activityType);
+              } else {
+                console.log('Deel actie werd uitgevoerd.');
+              }
+            } else if (result.action === Share.dismissedAction) {
+              console.log('Deel actie werd geannuleerd.');
+            }
+          } catch (error) {
+            console.error('Fout bij delen:', error);
+          }
+        };
 
     const images = [
         require('../assets/TestPic1.png'),
@@ -53,7 +73,12 @@ export default function Kabien(){
   return (
     <ScrollView>
         <View style={styles.container}>
-        <Text style={styles.text}>Het wordt dus Kajuit!</Text>
+        <View style={styles.titleContainer}>
+            <Text style={styles.text}>Het wordt dus Kajuit!</Text>
+            <TouchableOpacity onPress={shareInfo}>
+                <Ionicons name="arrow-redo" style={styles.iconShare}/>
+            </TouchableOpacity>
+        </View>
         <Image source={require('../assets/TestPic4.png')} style={styles.image}/>
         <View style={styles.imageSmallContainer}>
             {images.map((image, index) =>(
@@ -116,6 +141,16 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  iconShare: {
+    fontSize: 25,
+    marginLeft: 10
   },
   text: {
     fontSize: 20,

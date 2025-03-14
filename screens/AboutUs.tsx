@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 export default function AboutUs() {
   return (
     <ScrollView>
-      <View contentContainerStyle={styles.container}>
+      <View style={styles.container}>
       <Image
         source={require('../assets/icon.png')} // Voeg je eigen logo hier toe
         style={styles.logo}
