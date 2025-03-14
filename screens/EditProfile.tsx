@@ -20,7 +20,7 @@ export default function EditProfile() {
     ImagePicker.launchImageLibrary(
       {
         mediaType: 'photo',
-        selectionLimit: 1, // Zorgt ervoor dat er maar één afbeelding wordt gekozen
+        selectionLimit: 1,
       },
       (response) => {
         if (response.didCancel) {
@@ -32,7 +32,7 @@ export default function EditProfile() {
           return;
         }
         if (response.assets && response.assets.length > 0) {
-          setProfilePic(response.assets[0].uri); // Zet de afbeelding in de state
+          setProfilePic(response.assets[0].uri); 
         }
       }
     );
@@ -40,7 +40,7 @@ export default function EditProfile() {
 
   // Functie voor het opslaan van de wijzigingen in AsyncStorage
   const handleSave = async () => {
-    // Controleer of de geboortedatum correct is
+    
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(birthdate)) {
       Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");

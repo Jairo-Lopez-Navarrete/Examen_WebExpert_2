@@ -62,8 +62,8 @@ textContainer: {
     alignItems: 'flex-end'
   },
   image: {
-    width: 160,
-    height: 210,
+    width: 170,
+    height: 250,
     margin: 5,
     display: 'flex',
     justifyContent: 'flex-end'

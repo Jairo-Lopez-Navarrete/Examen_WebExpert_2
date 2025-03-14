@@ -8,25 +8,28 @@ export default function Profile() {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
 
-  // Laad de gebruiker van AsyncStorage bij het laden van de pagina
   useEffect(() => {
     const getUser = async () => {
-      const userData = await AsyncStorage.getItem('user');
-      if (!userData) {
-        navigation.replace('Login'); // Stuur gebruiker naar Login als niet ingelogd
-      } else {
-        setUser(JSON.parse(userData)); // Zet de user-data
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (!userData) {
+          navigation.replace('Login');
+        } else {
+          setUser(JSON.parse(userData));  // Zet de user data van AsyncStorage
+        }
+      } catch (error) {
+        console.error('Fout bij het ophalen van de gebruiker:', error);
       }
     };
     getUser();
   }, []);
 
-  if (!user) return null; // Voorkom error als user niet geladen is
-
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('user'); // Verwijder gegevens
-    navigation.replace('Login'); // Stuur terug naar login
+    await AsyncStorage.removeItem('user');  // Verwijder de gebruiker
+    navigation.replace('Login');
   };
+
+  if (!user) return null; // Voorkom error als user niet geladen is
 
   return (
     <View style={styles.container}>

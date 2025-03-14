@@ -9,45 +9,32 @@ export default function Login() {
   const [birthdate, setBirthdate] = useState('');
   const [work, setWork] = useState('');
 
-  // Check of gebruiker al ingelogd is
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const userData = await AsyncStorage.getItem('user');
-      if (userData) {
-        navigation.replace('Profile'); // Direct naar profiel als ingelogd
-      }
-    };
-    checkLoginStatus();
-  }, []);
-
   const handleLogin = async () => {
     if (!name || !birthdate || !work) {
       Alert.alert('Fout', 'Vul alle velden in.');
       return;
     }
 
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!dateRegex.test(birthdate)) {
-     Alert.alert("Fout", "Voer een geldige geboortedatum in (DD-MM-YYYY).");
-     return;
-  };
-  const [day, month, year] = birthdate.split('-').map(Number);
-  const birthDateObj = new Date(year, month - 1, day);
-  const today = new Date();
-  const age = today.getFullYear() - birthDateObj.getFullYear();
+    try {
+      const response = await fetch('http://192.168.156.29:3000/login', {  // API endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, birthdate, work }),
+      });
 
-  // Controleer of de datum in de toekomst ligt of de gebruiker jonger is dan 16
-  if (birthDateObj > today || age < 16) {
-    Alert.alert("Fout", "Je moet een geldige datum invoeren.");
-    return;
-  }
-   // Sla gebruiker op in AsyncStorage
-   const userData = { name, birthdate, work };
-   await AsyncStorage.setItem('user', JSON.stringify(userData));
- 
-   // Navigeer naar het profiel
-   navigation.replace('Profile');
- };
+      if (!response.ok) throw new Error('Login mislukt');
+
+      const data = await response.json();
+      // Sla de gebruiker op in AsyncStorage voor offline gebruik
+      await AsyncStorage.setItem('user', JSON.stringify(data));
+
+      // Navigeer naar het profiel
+      navigation.replace('Profile', { user: data });
+    } catch (error) {
+      Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
+      console.error(error);
+    }
+  };
 
 
   return (

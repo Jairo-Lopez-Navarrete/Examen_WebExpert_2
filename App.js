@@ -20,6 +20,12 @@ import Login from './screens/Login';
 const Stack = createStackNavigator();
 
 export default function App() {
+  const response = fetch('http://192.168.156.29/login');
+  const getAPIdata = () => {
+    let result = fetch("")
+    console.warn(response)
+  }
+
   return (
     <NavigationContainer ref={navigationRef}>
       <Header />
