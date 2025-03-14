@@ -20,6 +20,8 @@ import Login from './screens/Login';
 const Stack = createStackNavigator();
 
 export default function App() {
+  //const {width, height} = useWindowDimensions();
+
   return (
       <NavigationContainer ref={navigationRef}>
       <Header />
