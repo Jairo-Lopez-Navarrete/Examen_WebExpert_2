@@ -5,9 +5,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './helpers/RootNavigation';
 
 
-
+//components
 import Header from './components/Header';
 import Footer from './components/Footer';
+
+//screens
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import AboutUs from './screens/AboutUs';
@@ -23,22 +25,22 @@ export default function App() {
   //const {width, height} = useWindowDimensions();
 
   return (
-      <NavigationContainer ref={navigationRef}>
-      <Header />
-             <Stack.Navigator screenOptions={{headerShown: false}}>
-             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-                <Stack.Screen name="Home" component={Home}/>
-                <Stack.Screen name="AboutUs" component={AboutUs} />
-                <Stack.Screen name="Profile" component={Profile}/>
-                <Stack.Screen name="Kabien" component={Kabien} />
-                <Stack.Screen name="Kajuit" component={Kajuit} />
-                <Stack.Screen name="CalendarPage" component={CalendarPage} />
-                <Stack.Screen name="EditProfile" component={EditProfile} />
-             </Stack.Navigator>
-            <Footer />
-       <StatusBar style="auto" />
-     </NavigationContainer>
-  );
+    <NavigationContainer ref={navigationRef}>
+    <Header />
+           <Stack.Navigator screenOptions={{headerShown: false}}>
+           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+              <Stack.Screen name="Home" component={Home}/>
+              <Stack.Screen name="AboutUs" component={AboutUs} />
+              <Stack.Screen name="Profile" component={Profile}/>
+              <Stack.Screen name="Kabien" component={Kabien} />
+              <Stack.Screen name="Kajuit" component={Kajuit} />
+              <Stack.Screen name="CalendarPage" component={CalendarPage} />
+              <Stack.Screen name="EditProfile" component={EditProfile} />
+           </Stack.Navigator>
+          <Footer />
+     <StatusBar style="auto" />
+   </NavigationContainer>
+);
 }
 
 const styles = StyleSheet.create({

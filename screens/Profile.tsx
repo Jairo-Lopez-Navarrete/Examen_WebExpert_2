@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -7,29 +7,45 @@ import { useNavigation } from '@react-navigation/native';
 export default function Profile() {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ Voegt een laadstatus toe
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const userData = await AsyncStorage.getItem('user');
-        if (!userData) {
-          navigation.replace('Login');
-        } else {
-          setUser(JSON.parse(userData));  // Zet de user data van AsyncStorage
+        if (userData) {
+          setUser(JSON.parse(userData)); // ✅ Gebruikersdata opslaan
         }
       } catch (error) {
         console.error('Fout bij het ophalen van de gebruiker:', error);
+      } finally {
+        setLoading(false); // 🔄 Stop met laden, ongeacht of er data is
       }
     };
     getUser();
   }, []);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      navigation.replace('Login'); // ✅ Voorkomt navigatiefout door dit pas na de renderfase te doen
+    }
+  }, [loading, user]);
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text>Even geduld...</Text>
+      </View>
+    );
+  }
+
+  if (!user) return null; // 🛑 Zorgt ervoor dat de component geen fout veroorzaakt tijdens navigatie
+
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('user');  // Verwijder de gebruiker
+    await AsyncStorage.removeItem('user'); // ✅ Verwijdert gebruikersgegevens
     navigation.replace('Login');
   };
-
-  if (!user) return null; // Voorkom error als user niet geladen is
 
   return (
     <View style={styles.container}>
@@ -38,11 +54,11 @@ export default function Profile() {
       <Text style={styles.text}>{user.birthdate}</Text>
       <Text style={styles.text}>{user.work}</Text>
 
-      
       <Pressable style={styles.changeButton} onPress={() => navigation.navigate('EditProfile', { user, setUser })}>
         <Ionicons name="open" style={styles.icons} color="white" />
         <Text style={styles.changeButtonText}>Verander je profiel</Text>
       </Pressable>
+
       <Pressable style={styles.logoutButton} onPress={handleLogout}>
         <Ionicons name="log-out-outline" style={styles.icons} color="black" />
         <Text style={styles.buttonTextLogout}>Uitloggen</Text>
@@ -101,5 +117,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     marginLeft: 10,
-  }
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
