@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 
 export default function AboutUs() {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView>
+      <View contentContainerStyle={styles.container}>
       <Image
         source={require('../assets/icon.png')} // Voeg je eigen logo hier toe
         style={styles.logo}
@@ -32,6 +33,7 @@ export default function AboutUs() {
       <Text style={styles.paragraph}>
         Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen via [e-mail, telefoonnummer, etc.].
       </Text>
+      </View>
     </ScrollView>
   );
 }
