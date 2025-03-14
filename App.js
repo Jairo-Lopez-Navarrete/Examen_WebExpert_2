@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './helpers/RootNavigation';
@@ -20,14 +20,8 @@ import Login from './screens/Login';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const response = fetch('http://192.168.156.29/login');
-  const getAPIdata = () => {
-    let result = fetch("")
-    console.warn(response)
-  }
-
   return (
-    <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef}>
       <Header />
              <Stack.Navigator screenOptions={{headerShown: false}}>
              <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
@@ -41,7 +35,7 @@ export default function App() {
              </Stack.Navigator>
             <Footer />
        <StatusBar style="auto" />
-      </NavigationContainer>
+     </NavigationContainer>
   );
 }
 
@@ -51,5 +45,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDF5EC',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  landscapeBox: {
+    width: 150,
+    height: 150,
+  },
+  portraitBox: {
+    width: 100,
+    height: 100,
   },
 });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity, Alert, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
@@ -15,7 +15,7 @@ export default function EditProfile() {
   const [work, setWork] = useState(user.work);
   const [profilePic, setProfilePic] = useState(user.profilePic);
 
-  // Functie voor het kiezen van een afbeelding
+  // Functie voor het kiezen van een afbeelding (werkt (nog) niet)
   const pickImage = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -38,7 +38,7 @@ export default function EditProfile() {
     );
   };
 
-  // Functie voor het opslaan van de wijzigingen in AsyncStorage
+  //dit zorgt ervoor dat de wijzigingen opslaan van asyncstorage als je wijzigingen aanbrengt
   const handleSave = async () => {
     
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
@@ -68,10 +68,10 @@ export default function EditProfile() {
     <View style={styles.container}>
       <Text style={styles.title}>Bewerk je profiel</Text>
 
-      <Pressable onPress={pickImage}>
+      <TouchableOpacity onPress={pickImage}>
       <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
         <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-      </Pressable>
+      </TouchableOpacity>
 
       <Text style={styles.label}>Naam</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
@@ -106,11 +106,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 20,
     marginBottom: 20,
   },
   profileImage: {
-    width: 120,
-    height: 120,
+    width: 140,
+    height: 140,
     borderRadius: 60,
     alignSelf: 'center',
     marginBottom: 10,

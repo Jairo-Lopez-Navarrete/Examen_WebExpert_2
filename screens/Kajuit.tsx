@@ -33,7 +33,7 @@ export default function Kabien(){
     };
 
     const included = [
-        ["Plek in de studio, tussen de medewerkers op ruime bureau's"],
+        ["Ruime bureau in de studio ", "tussen de medewerkers"],
         ["Opbergruimte ", "Warme dranken & water"],
         ["Keukenfaciliteiten ", "Terras"],
         ["Toilet ", "Douche (voor fietsers)"],
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    width: 350,
     flexWrap: 'wrap',
     padding: 10,
   },

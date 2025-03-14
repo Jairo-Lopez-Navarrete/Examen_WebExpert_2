@@ -1,12 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ImageBackground, useWindowDimensions } from 'react-native';
 import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Home(){
+  // const {width, height} = useWindowDimensions();
+  // const isLandscape = width > height;
   
   return (
     <View style={styles.container}>
+      {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
+        Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
+      </Text> */}
         <Text style={styles.text}>Selecteer de cabine die je wilt!</Text>
         <View style={styles.imageContainer}>
             <Pressable onPress={() => navigate('Kabien')}>
@@ -78,5 +83,23 @@ textContainer: {
   },
   icon: {
     fontSize: 17,
-  }
+  },
+
+
+  // landscapeText: {
+  //   fontSize: 24,
+  // },
+  // box: {
+  //   width: 100,
+  //   height: 100,
+  //   backgroundColor: 'tomato',
+  // },
+  // landscapeBox: {
+  //   width: 150,
+  //   height: 150,
+  // },
+  // portraitBox: {
+  //   width: 100,
+  //   height: 100,
+  // }
 });
