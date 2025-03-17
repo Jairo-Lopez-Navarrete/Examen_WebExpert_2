@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
   },
   iconShare: {
     fontSize: 25,
-    marginLeft: 10
+    marginLeft: 10,
+    color: '#827B78'
   },
   text: {
     fontSize: 20,

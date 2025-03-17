@@ -9,14 +9,17 @@ export default function Login() {
   const [birthdate, setBirthdate] = useState('');
   const [work, setWork] = useState('');
 
+
   const handleLogin = async () => {
     if (!name || !birthdate || !work) {
       Alert.alert('Fout', 'Vul alle velden in.');
       return;
     }
 
+    // 192.168.156.29
+
     try {
-      const response = await fetch('http://192.168.156.29:3000/login', {  // API endpoint
+      const response = await fetch('http://localhost:3000/login', {  // API endpoint
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, birthdate, work }),
@@ -25,10 +28,10 @@ export default function Login() {
       if (!response.ok) throw new Error('Login mislukt');
 
       const data = await response.json();
-      // Sla de gebruiker op in AsyncStorage voor offline gebruik
+      // Slaat de gebruiker op in AsyncStorage voor offline gebruik
       await AsyncStorage.setItem('user', JSON.stringify(data));
 
-      // Navigeer naar het profiel
+      // Navigeert naar het profiel
       navigation.replace('Profile', { user: data });
     } catch (error) {
       Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   input: {
     width: '100%',
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
+    marginTop: 30,
     backgroundColor: '#007AFF',
     padding: 15,
     borderRadius: 8,
