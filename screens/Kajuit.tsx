@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share} from 'react-native';
-//import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {navigate} from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,18 +11,17 @@ export default function Kabien(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-      // Controleer bij het laden van de pagina of de gebruiker is ingelogd
       const checkLoginStatus = async () => {
         try {
           const user = await AsyncStorage.getItem('user');
           if (user) {
-            setIsLoggedIn(true); // Gebruiker is ingelogd
+            setIsLoggedIn(true);
           } else {
-            setIsLoggedIn(false); // Gebruiker is niet ingelogd
+            setIsLoggedIn(false);
           }
         } catch (error) {
           console.error('Fout bij het ophalen van gebruikersgegevens:', error);
-          setIsLoggedIn(false); // Fout, neem aan dat gebruiker niet ingelogd is
+          setIsLoggedIn(false);
         }
       };
   
