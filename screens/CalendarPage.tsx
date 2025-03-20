@@ -6,7 +6,7 @@ import { Calendar } from 'react-native-calendars';
 export default function CalendarPage() {
   const [location, setLocation] = useState(null);
   const [selected, setSelected] = useState('');
-  const [selectedTimes, setSelectedTimes] = useState({}); // Een object om dagdelen per datum bij te houden
+  const [selectedTimes, setSelectedTimes] = useState({});
 
   useEffect(() => {
     requestLocationPermission();
@@ -72,8 +72,8 @@ export default function CalendarPage() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{ padding: 20 }}>
-          <Text style={{ fontSize: 18, marginBottom: 10 }}>Locatiegegevens:</Text>
+        <View style={styles.viewChange}>
+          <Text style={styles.textChange}>Locatiegegevens:</Text>
           {location ? (
             <Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>
           ) : (
@@ -130,6 +130,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f5f5f5',
+  },
+
+  viewChange: {
+    padding: 20
+  },
+  textChange: {
+    fontSize: 18, 
+    marginBottom: 10
   },
   calendarStyle: {
     height: '50%',
