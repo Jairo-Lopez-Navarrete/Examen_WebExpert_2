@@ -1,75 +1,174 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform } from 'react-native';
-import Geolocation from 'react-native-geolocation-service'
-import {Calendar} from 'react-native-calendars';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform, ScrollView } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import { Calendar } from 'react-native-calendars';
 
-export default function CalendarPage(){
-    const [location, setLocation] = useState(null);
-    const [selected, setSelected] = useState('');
+export default function CalendarPage() {
+  const [location, setLocation] = useState(null);
+  const [selected, setSelected] = useState('');
+  const [selectedTimes, setSelectedTimes] = useState({}); // Een object om dagdelen per datum bij te houden
 
-    useEffect(() => {
-        requestLocationPermission();
-    })
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
 
-    const requestLocationPermission = async () => {
-        if (Platform.OS === 'android') {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Locatietoegang nodig',
-              message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
-              buttonNeutral: 'Vraag later',
-              buttonNegative: 'Annuleren',
-              buttonPositive: 'OK',
-            }
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('Locatietoegang verleend');
-          } else {
-            console.log('Locatietoegang geweigerd');
-          }
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Locatietoegang nodig',
+          message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
+          buttonNeutral: 'Vraag later',
+          buttonNegative: 'Annuleren',
+          buttonPositive: 'OK',
         }
-      };
-    
-      // Functie om de huidige locatie op te halen
-      const getLocation = () => {
-        Geolocation.getCurrentPosition(
-          (position) => {
-            console.log(position);
-            setLocation(position.coords);
-          },
-          (error) => {
-            console.error(error);
-            Alert.alert('Fout', 'Kon locatie niet ophalen. Controleer je instellingen.');
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-        );
-      };
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Locatietoegang verleend');
+      } else {
+        console.log('Locatietoegang geweigerd');
+      }
+    }
+  };
 
-    return(
-       <View style={styles.container}>
+  // Functie om de huidige locatie op te halen
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+        setLocation(position.coords);
+      },
+      (error) => {
+        console.error(error);
+        Alert.alert('Fout', 'Kon locatie niet ophalen. Controleer je instellingen.');
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  // Functie om een dagdeel voor een specifieke datum in te stellen
+  const handleTimeSelection = (time) => {
+    setSelectedTimes((prevTimes) => ({
+      ...prevTimes,
+      [selected]: time, // Voeg de datum en het geselecteerde dagdeel toe
+    }));
+  };
+
+  // Functie om de gemarkeerde dagen bij te houden
+  const getMarkedDates = () => {
+    const markedDates = {};
+    Object.keys(selectedTimes).forEach((date) => {
+      markedDates[date] = {
+        selected: true,
+        marked: true,
+        selectedColor: 'blue',
+        selectedTextColor: 'white', // Maak de tekst wit voor geselecteerde dagen
+      };
+    });
+    return markedDates;
+  };
+
+  return (
+    <ScrollView>
+      <View style={styles.container}>
         <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 18, marginBottom: 10 }}>Locatiegegevens:</Text>
-      {location ? (
-        <Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>
-      ) : (
-        <Text>Nog geen locatie opgehaald.</Text>
-      )}
-      <Pressable title="Haal locatie op" onPress={getLocation} />
-    </View>
-            <Calendar style={styles.calendarStyle} onDayPress={(day) => setSelected(day.datestring)} markedDates={{[selected]: {selected: true, marked: true, selectedColor: 'blue'}}} theme={{todayTextColor: 'red', arrowColor: 'blue'}}/>
-       </View>
-    )
+          <Text style={{ fontSize: 18, marginBottom: 10 }}>Locatiegegevens:</Text>
+          {location ? (
+            <Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>
+          ) : (
+            <Text>Nog geen locatie opgehaald.</Text>
+          )}
+          <Pressable onPress={getLocation}>
+            <Text>Haal locatie op</Text>
+          </Pressable>
+        </View>
+
+        <Calendar
+          style={styles.calendarStyle}
+          onDayPress={(day) => {
+            setSelected(day.dateString); // Stel de geselecteerde dag in
+          }}
+          markedDates={getMarkedDates()} // Markeer de geselecteerde dagen
+          theme={{
+            todayTextColor: 'red',
+            arrowColor: 'blue',
+          }}
+        />
+
+        {/* Toon keuze voor dagdeel zodra een dag is geselecteerd */}
+        {selected && !selectedTimes[selected] && (
+          <View style={styles.timeSelectionContainer}>
+            <Text style={styles.timeSelectionText}>Kies een dagdeel voor {selected}:</Text>
+            <Pressable onPress={() => handleTimeSelection('s morgens')} style={styles.timeButton}>
+              <Text style={styles.timeButtonText}>S Morgens</Text>
+            </Pressable>
+            <Pressable onPress={() => handleTimeSelection('s middags')} style={styles.timeButton}>
+              <Text style={styles.timeButtonText}>S Middags</Text>
+            </Pressable>
+            <Pressable onPress={() => handleTimeSelection('s avonds')} style={styles.timeButton}>
+              <Text style={styles.timeButtonText}>S Avonds</Text>
+            </Pressable>
+          </View>
+        )}
+
+        {/* Toon de geselecteerde tijd als het is geselecteerd */}
+        {selectedTimes[selected] && (
+          <View style={styles.selectionConfirmation}>
+            <Text style={styles.confirmationText}>
+              Je hebt {selected} geselecteerd en gekozen voor {selectedTimes[selected]}.
+            </Text>
+          </View>
+        )}
+      </View>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        //justifyContent: 'center',
-        //alignItems: 'center'
-    },
-    calendarStyle: {
-        height: '100%',
-        width: '100%'
-    }
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  calendarStyle: {
+    height: '50%',
+    width: '100%',
+    marginTop: 20,
+  },
+  timeSelectionContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#e1e1e1',
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+  timeSelectionText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  timeButton: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  timeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  selectionConfirmation: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#d1ffd6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  confirmationText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

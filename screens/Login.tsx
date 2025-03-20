@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -8,30 +8,57 @@ export default function Login() {
   const [name, setName] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [work, setWork] = useState('');
-
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');  // State voor wachtwoord bevestigen
 
   const handleLogin = async () => {
-    if (!name || !birthdate || !work) {
+    if (!name || !birthdate || !work || !password || !confirmPassword) {
       Alert.alert('Fout', 'Vul alle velden in.');
       return;
     }
 
-    // 192.168.156.29
+    // Controleer of de geboortedatum geldig is
+    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dateRegex.test(birthdate)) {
+      Alert.alert('Fout', 'Voer een geldige geboortedatum in (Dag-Maand-Jaar).');
+      return;
+    }
+
+    const [day, month, year] = birthdate.split('-').map(Number);
+    const birthDateObj = new Date(year, month - 1, day);
+    const today = new Date();
+    const age = today.getFullYear() - birthDateObj.getFullYear();
+
+    if (birthDateObj > today || age < 16) {
+      Alert.alert('Fout', 'Je moet boven de 16 zijn!');
+      return;
+    }
+
+    // Wachtwoord validatie
+    if (password.length < 6) {
+      Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
+      return;
+    }
+
+    // Controleer of de wachtwoorden overeenkomen
+    if (password !== confirmPassword) {
+      Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
+      return;
+    }
 
     try {
-      const response = await fetch('http://localhost:3000/login', {  // API endpoint
+      const response = await fetch('http://192.168.156.29:3000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, birthdate, work }),
+        body: JSON.stringify({ name, birthdate, work, password }),  // Wachtwoord toevoegen aan de payload
       });
 
       if (!response.ok) throw new Error('Login mislukt');
 
       const data = await response.json();
-      // Slaat de gebruiker op in AsyncStorage voor offline gebruik
+      // Gegevens opslaan met AsyncStorage voor offline gebruik
       await AsyncStorage.setItem('user', JSON.stringify(data));
 
-      // Navigeert naar het profiel
       navigation.replace('Profile', { user: data });
     } catch (error) {
       Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
@@ -39,13 +66,31 @@ export default function Login() {
     }
   };
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
-      <TextInput style={styles.input} placeholder="Geboortedatum" value={birthdate} onChangeText={setBirthdate} />
+      <TextInput
+        style={styles.input}
+        placeholder="Geboortedatum (DD-MM-YYYY)"
+        value={birthdate}
+        onChangeText={setBirthdate}
+      />
       <TextInput style={styles.input} placeholder="Werk" value={work} onChangeText={setWork} />
+      <TextInput
+        style={styles.input}
+        placeholder="Wachtwoord"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry={true} // Zorgt ervoor dat het wachtwoord als sterren wordt weergegeven
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Wachtwoord herhalen"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry={true} // Zorgt ervoor dat het wachtwoord als sterren wordt weergegeven
+      />
 
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Inloggen</Text>

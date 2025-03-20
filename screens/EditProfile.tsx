@@ -1,95 +1,84 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity, Alert, Image } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'react-native-image-picker';
+import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-export default function EditProfile() {
+export default function Login() {
   const navigation = useNavigation();
-  const route = useRoute();
-  const { user, setUser } = route.params;
+  const [name, setName] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [work, setWork] = useState('');
+  const [password, setPassword] = useState('');  // Voeg state toe voor wachtwoord
 
-  const [name, setName] = useState(user.name);
-  const [birthdate, setBirthdate] = useState(user.birthdate);
-  const [work, setWork] = useState(user.work);
-  const [profilePic, setProfilePic] = useState(user.profilePic);
-
-  // Functie voor het kiezen van een afbeelding (werkt (nog) niet)
-  const pickImage = () => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: 'photo',
-        selectionLimit: 1,
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('Gebruiker annuleerde het kiezen van een afbeelding.');
-          return;
-        }
-        if (response.errorMessage) {
-          console.log('Fout bij het selecteren van afbeelding:', response.errorMessage);
-          return;
-        }
-        if (response.assets && response.assets.length > 0) {
-          setProfilePic(response.assets[0].uri); 
-        }
-      }
-    );
-  };
-
-  //dit zorgt ervoor dat de wijzigingen opslaan van asyncstorage als je wijzigingen aanbrengt
-  const handleSave = async () => {
-    
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!dateRegex.test(birthdate)) {
-      Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");
+  const handleLogin = async () => {
+    if (!name || !birthdate || !work || !password) {
+      Alert.alert('Fout', 'Vul alle velden in.');
       return;
     }
-  
+
+    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dateRegex.test(birthdate)) {
+      Alert.alert('Fout', 'Voer een geldige geboortedatum in (Dag-Maand-Jaar).');
+      return;
+    }
+
     const [day, month, year] = birthdate.split('-').map(Number);
     const birthDateObj = new Date(year, month - 1, day);
     const today = new Date();
     const age = today.getFullYear() - birthDateObj.getFullYear();
-  
+
     if (birthDateObj > today || age < 16) {
-      Alert.alert("Fout", "Voer een geldige datum in!");
+      Alert.alert('Fout', 'Je moet boven de 16 zijn!');
       return;
     }
-  
-    const updatedUser = { name, birthdate, work, profilePic };
-    await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    Alert.alert("Opgeslagen!", "Je profiel is bijgewerkt.");
-    navigation.goBack();
+
+    // Wachtwoord validatie
+    if (password.length < 6) {
+      Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://192.168.156.29:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, birthdate, work, password }),  // Wachtwoord toevoegen aan de payload
+      });
+
+      if (!response.ok) throw new Error('Login mislukt');
+
+      const data = await response.json();
+      // Gegevens opslaan met AsyncStorage voor offline gebruik
+      await AsyncStorage.setItem('user', JSON.stringify(data));
+
+      navigation.replace('Profile', { user: data });
+    } catch (error) {
+      Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
+      console.error(error);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bewerk je profiel</Text>
+      <Text style={styles.title}>Login</Text>
+      <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
+      <TextInput
+        style={styles.input}
+        placeholder="Geboortedatum (DD-MM-YYYY)"
+        value={birthdate}
+        onChangeText={setBirthdate}
+      />
+      <TextInput style={styles.input} placeholder="Werk" value={work} onChangeText={setWork} />
+      <TextInput
+        style={styles.input}
+        placeholder="Wachtwoord"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry={true} // Zorgt ervoor dat het wachtwoord als sterren wordt weergegeven
+      />
 
-      <TouchableOpacity onPress={pickImage}>
-      <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
-        <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-      </TouchableOpacity>
-
-      <Text style={styles.label}>Naam</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
-
-      <Text style={styles.label}>Geboortedatum</Text>
-      <TextInput style={styles.input} value={birthdate} onChangeText={setBirthdate} />
-
-      <Text style={styles.label}>Werk</Text>
-      <TextInput style={styles.input} value={work} onChangeText={setWork} />
-
-      <Pressable style={styles.saveButton} onPress={handleSave}>
-        <Ionicons name="checkmark-circle-outline" size={24} color="white" />
-        <Text style={styles.buttonText}>Opslaan</Text>
-      </Pressable>
-
-      <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="close-circle-outline" size={24} color="black" />
-        <Text style={styles.cancelButtonText}>Annuleren</Text>
+      <Pressable style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Inloggen</Text>
       </Pressable>
     </View>
   );
@@ -98,72 +87,32 @@ export default function EditProfile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#f5f5f5',
+    padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 140,
-    height: 140,
-    borderRadius: 60,
-    alignSelf: 'center',
-    marginBottom: 10,
-  },
-  cameraIcon: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'white',
-    padding: 5,
-    borderRadius: 15,
-  },
-  label: {
-    fontSize: 18,
-    marginBottom: 5,
-    color: '#333',
+    marginBottom: 30,
   },
   input: {
-    backgroundColor: 'white',
+    width: '100%',
     padding: 10,
-    borderRadius: 8,
-    fontSize: 16,
-    marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 10,
   },
-  saveButton: {
+  button: {
+    marginTop: 30,
     backgroundColor: '#007AFF',
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
-    justifyContent: 'center',
-  },
-  cancelButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
-    justifyContent: 'center',
+    borderRadius: 8,
   },
   buttonText: {
+    color: 'white',
     fontSize: 18,
-    color: '#fff',
-    marginLeft: 10,
-  },
-  cancelButtonText: {
-    textDecorationLine: "underline",
-    fontSize: 18,
-    color: '#000',
-    marginLeft: 10,
   },
 });

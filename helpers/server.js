@@ -34,4 +34,4 @@ app.post('/logout', (req, res) => {
   res.json({ message: 'Uitgelogd' });
 });
 
-app.listen(3000, () => console.log('Server draait op poort 3000'));
+app.listen(3000, '0.0.0.0', () => console.log('Server draait op poort 3000'));
