@@ -18,11 +18,14 @@ import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
 import EditProfile from './screens/EditProfile';
 import Login from './screens/Login';
+import PaymentPage from './screens/PaymentPage';
 
 const Stack = createStackNavigator();
 
-export default function App() {
-  //const {width, height} = useWindowDimensions();
+// eerst gebruikde ik export default function App(){}, maar deze lijkt niet te werken om een of ander reden met usewindowdimensions
+
+const App = () => {
+  const {height, width, scale, fontScale} = useWindowDimensions();
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -34,7 +37,8 @@ export default function App() {
               <Stack.Screen name="Profile" component={Profile}/>
               <Stack.Screen name="Kabien" component={Kabien} />
               <Stack.Screen name="Kajuit" component={Kajuit} />
-              <Stack.Screen name="CalendarPage" component={CalendarPage} />
+              <Stack.Screen name="CalendarPage" component={CalendarPage}  options={{ headerShown: false }}/>
+              <Stack.Screen name="PaymentPage" component={PaymentPage} />
               <Stack.Screen name="EditProfile" component={EditProfile} />
            </Stack.Navigator>
           <Footer />
@@ -42,6 +46,8 @@ export default function App() {
    </NavigationContainer>
 );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
