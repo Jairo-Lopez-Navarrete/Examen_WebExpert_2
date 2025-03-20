@@ -153,12 +153,13 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
     calendarStyle: {
-      height: '50%',
+      // height: '50%',
       width: '100%',
-      marginTop: 20,
+      marginTop: '5%',
+      marginBottom: '5%'
     },
     timeSelectionContainer: {
-      marginTop: 20,
+      marginBottom: '5%',
       padding: 10,
       backgroundColor: '#e1e1e1',
       borderRadius: 8,
@@ -193,10 +194,9 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     paymentButton: {
-      backgroundColor: '#28a745',
+      backgroundColor: '#be5845',
       padding: 15,
       borderRadius: 8,
-      marginTop: 25,
       alignItems: 'center',
     },
     paymentButtonText: {
