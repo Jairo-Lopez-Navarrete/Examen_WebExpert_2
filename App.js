@@ -31,13 +31,13 @@ const App = () => {
     <NavigationContainer ref={navigationRef}>
     <Header />
            <Stack.Navigator screenOptions={{headerShown: false}}>
-           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+           <Stack.Screen name="Login" component={Login}/>
               <Stack.Screen name="Home" component={Home}/>
               <Stack.Screen name="AboutUs" component={AboutUs} />
               <Stack.Screen name="Profile" component={Profile}/>
               <Stack.Screen name="Kabien" component={Kabien} />
               <Stack.Screen name="Kajuit" component={Kajuit} />
-              <Stack.Screen name="CalendarPage" component={CalendarPage}  options={{ headerShown: false }}/>
+              <Stack.Screen name="CalendarPage" component={CalendarPage}/>
               <Stack.Screen name="PaymentPage" component={PaymentPage} />
               <Stack.Screen name="EditProfile" component={EditProfile} />
            </Stack.Navigator>

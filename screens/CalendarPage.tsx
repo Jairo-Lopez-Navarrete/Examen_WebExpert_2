@@ -32,7 +32,6 @@ export default function CalendarPage() {
     }
   };
 
-  // Functie om de huidige locatie op te halen
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -43,19 +42,28 @@ export default function CalendarPage() {
         console.error(error);
         Alert.alert('Fout', 'Kon locatie niet ophalen. Controleer je instellingen.');
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 10000 }
     );
   };
 
-  // Functie om een dagdeel voor een specifieke datum in te stellen
   const handleTimeSelection = (time) => {
-    setSelectedTimes((prevTimes) => ({
-      ...prevTimes,
-      [selected]: time, // Voeg de datum en het geselecteerde dagdeel toe
-    }));
+    // Controleer of het geselecteerde dagdeel al bestaat
+    if (selectedTimes[selected] === time) {
+      // Als het dagdeel al geselecteerd is, verwijder het
+      setSelectedTimes((prevTimes) => {
+        const newTimes = { ...prevTimes };
+        delete newTimes[selected]; // Verwijder het geselecteerde dagdeel voor deze datum
+        return newTimes;
+      });
+    } else {
+      // Anders, sla het geselecteerde dagdeel op
+      setSelectedTimes((prevTimes) => ({
+        ...prevTimes,
+        [selected]: time, // Voeg het nieuwe dagdeel toe voor de geselecteerde datum
+      }));
+    }
   };
 
-  // Functie om de gemarkeerde dagen bij te houden
   const getMarkedDates = () => {
     const markedDates = {};
     Object.keys(selectedTimes).forEach((date) => {
@@ -63,7 +71,7 @@ export default function CalendarPage() {
         selected: true,
         marked: true,
         selectedColor: 'blue',
-        selectedTextColor: 'white', // Maak de tekst wit voor geselecteerde dagen
+        selectedTextColor: 'white',
       };
     });
     return markedDates;
@@ -96,7 +104,6 @@ export default function CalendarPage() {
           }}
         />
 
-        {/* Toon keuze voor dagdeel zodra een dag is geselecteerd */}
         {selected && !selectedTimes[selected] && (
           <View style={styles.timeSelectionContainer}>
             <Text style={styles.timeSelectionText}>Kies een dagdeel voor {selected}:</Text>
@@ -112,7 +119,6 @@ export default function CalendarPage() {
           </View>
         )}
 
-        {/* Toon de geselecteerde tijd als het is geselecteerd */}
         {selectedTimes[selected] && (
           <View style={styles.selectionConfirmation}>
             <Text style={styles.confirmationText}>
@@ -131,13 +137,12 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f5f5f5',
   },
-
   viewChange: {
-    padding: 20
+    padding: 20,
   },
   textChange: {
-    fontSize: 18, 
-    marginBottom: 10
+    fontSize: 18,
+    marginBottom: 10,
   },
   calendarStyle: {
     height: '50%',
