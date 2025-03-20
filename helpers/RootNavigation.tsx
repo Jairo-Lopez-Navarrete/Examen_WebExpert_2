@@ -11,6 +11,7 @@ type Routes = {
     'CalendarPage': string;
     'EditProfile': string;
     'PaymentPage': string;
+    'Login': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();
