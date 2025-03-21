@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { navigationRef } from './helpers/RootNavigation';
 
 // components
-import Header from './components/Header';
+// import Header from './components/Header';
 import Footer from './components/Footer';
 
 // screens
@@ -51,10 +51,10 @@ const App = () => {
           </ScrollView>
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
-          <Header />
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Home" component={Home} />
+          {/* <Header /> */}
+          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653',}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20,}, }}  >
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Kabien" component={Kabien} />
@@ -74,6 +74,10 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#007AFF',
+            headerTintColor: '#fff',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FDF5EC',

@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "newsapp",
-    "slug": "newsapp",
+    "name": "graduaatsProef",
+    "slug": "graduaatsproef",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,6 +17,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.myapp.android",
+      "versionCode": 1,
+      "permissions": ["CAMERA", "LOCATION", "ACCES_FINE_LOCATION", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

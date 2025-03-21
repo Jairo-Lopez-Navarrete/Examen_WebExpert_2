@@ -3,12 +3,17 @@ import { View, Text, StyleSheet, Pressable, ImageBackground, useWindowDimensions
 import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+ //components
+import Header from '../components/Header';
+
 export default function Home(){
   // const {width, height} = useWindowDimensions();
   // const isLandscape = width > height;
+
   
   return (
     <View style={styles.container}>
+      <Header />
       {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
         Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
       </Text> */}
@@ -48,7 +53,7 @@ textContainer: {
     overflow: 'hidden'
     },
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
