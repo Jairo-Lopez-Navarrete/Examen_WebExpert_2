@@ -1,37 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PaymentPage({ route }) {
-  const { selectedTimes } = route.params; 
+  const { selectedTimes } = route.params;
 
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [reservations, setReservations] = useState(selectedTimes);
 
-  
   const pricePerReservation = 20;
-
   
-  const totalReservations = Object.keys(selectedTimes).length;
-
-  
+  const totalReservations = Object.keys(reservations).length;
   const totalPrice = totalReservations * pricePerReservation;
 
   useEffect(() => {
-    console.log('Geselecteerde tijden:', selectedTimes);
-  }, [selectedTimes]);
+    const saveReservations = async () => {
+      try {
+        await AsyncStorage.setItem('reservations', JSON.stringify(reservations));
+      } catch (error) {
+        console.error('Error saving reservations', error);
+      }
+    };
 
-  
+    saveReservations();
+  }, [reservations]);
+
   const handlePayment = () => {
     if (!paymentMethod) {
-      Alert.alert('Fout', 'Kies eerst een betaalmethode!');
+      alert('Kies eerst een betaalmethode!');
       return;
     }
 
-    Alert.alert(
-      'Betaling voltooid!',
-      `Je hebt €${totalPrice} betaald via ${paymentMethod}.`,
-      [{ text: 'OK', onPress: () => console.log('Betaling bevestigd') }]
-    );
+    alert(`Je hebt €${totalPrice} betaald via ${paymentMethod}.`);
+  };
+
+  const handleRemoveReservation = (date) => {
+    const updatedReservations = { ...reservations };
+    delete updatedReservations[date];
+    setReservations(updatedReservations);
   };
 
   return (
@@ -39,21 +46,24 @@ export default function PaymentPage({ route }) {
       <Text style={styles.header}>Betalingspagina</Text>
       <Text style={styles.info}>Je hebt de volgende dagen geselecteerd:</Text>
 
-      {Object.keys(selectedTimes).map((date) => (
-        <Text key={date} style={styles.reservationText}>
-          {date}: {selectedTimes[date]}
-        </Text>
-      ))}
-
-     
-      <Text style={styles.summary}>
-        Aantal reserveringen: {totalReservations}
-      </Text>
-      <Text style={styles.summary}>
-        Totaalprijs: €{totalPrice}
-      </Text>
-
+      <FlatList
+        data={Object.keys(reservations)}
+        renderItem={({ item }) => (
+          <View style={styles.reservationItem}>
+            <Text style={styles.reservationText}>
+              {item}: {reservations[item]}
+            </Text>
+            <Pressable onPress={() => handleRemoveReservation(item)} style={styles.removeButton}>
+              <Text style={styles.removeButtonText}>Verwijderen</Text>
+            </Pressable>
+          </View>
+        )}
+        keyExtractor={(item) => item}
+      />
       
+      <Text style={styles.summary}>Aantal reserveringen: {totalReservations}</Text>
+      <Text style={styles.summary}>Totaalprijs: €{totalPrice}</Text>
+
       <Text style={styles.label}>Kies een betaalmethode:</Text>
       <Picker
         selectedValue={paymentMethod}
@@ -67,7 +77,6 @@ export default function PaymentPage({ route }) {
         <Picker.Item label="Bancontact" value="Bancontact" />
       </Picker>
 
-     
       <Pressable style={styles.payButton} onPress={handlePayment}>
         <Text style={styles.payButtonText}>Betalen</Text>
       </Pressable>
@@ -75,7 +84,7 @@ export default function PaymentPage({ route }) {
   );
 }
 
-// ** Stijlen **
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -91,9 +100,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
   },
+  reservationItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    alignItems: 'center',
+  },
   reservationText: {
     fontSize: 16,
-    marginBottom: 5,
+  },
+  removeButton: {
+    backgroundColor: '#FF3B30',
+    padding: 5,
+    borderRadius: 5,
+  },
+  removeButtonText: {
+    color: 'white',
+    fontSize: 14,
   },
   summary: {
     fontSize: 18,
