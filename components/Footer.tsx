@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     footer: {
         backgroundColor: '#987653',
         width: '100%',
-        height: 80,
+        height: 75,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly'

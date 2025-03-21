@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity, Alert, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
@@ -14,8 +14,10 @@ export default function EditProfile() {
   const [birthdate, setBirthdate] = useState(user.birthdate);
   const [work, setWork] = useState(user.work);
   const [profilePic, setProfilePic] = useState(user.profilePic);
+  const [password, setPassword] = useState(''); // Nieuw veld voor wachtwoord
+  const [confirmPassword, setConfirmPassword] = useState(''); // Nieuw veld voor wachtwoord bevestigen
 
-  // Functie voor het kiezen van een afbeelding (werkt (nog) niet)
+  // Functie voor het kiezen van een afbeelding
   const pickImage = () => {
     ImagePicker.launchImageLibrary(
       {
@@ -38,9 +40,8 @@ export default function EditProfile() {
     );
   };
 
-  //dit zorgt ervoor dat de wijzigingen opslaan van asyncstorage
+  // Opslaan van de wijzigingen in AsyncStorage
   const handleSave = async () => {
-    
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(birthdate)) {
       Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");
@@ -53,25 +54,41 @@ export default function EditProfile() {
     const age = today.getFullYear() - birthDateObj.getFullYear();
   
     if (birthDateObj > today || age < 16) {
-      Alert.alert("Fout", "Voer een geldige datum in!");
+      Alert.alert("Fout", "Je moet ouder als 16 zijn!");
+      return;
+    }
+  
+   
+    if (password && password.length < 6) {
+      Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
+      return;
+    }
+  
+    if (password && password !== confirmPassword) {
+      Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
       return;
     }
   
     const updatedUser = { name, birthdate, work, profilePic };
+  
+    if (password) {
+      updatedUser.password = password;
+    }
+  
     await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
     setUser(updatedUser);
-    Alert.alert("Opgeslagen!", "Je profiel is bijgewerkt.");
     navigation.goBack();
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
       <Text style={styles.title}>Bewerk je profiel</Text>
 
-      <TouchableOpacity onPress={pickImage}>
-      <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
+      <Pressable onPress={pickImage}>
+        <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
         <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-      </TouchableOpacity>
+      </Pressable>
 
       <Text style={styles.label}>Naam</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
@@ -81,6 +98,22 @@ export default function EditProfile() {
 
       <Text style={styles.label}>Werk</Text>
       <TextInput style={styles.input} value={work} onChangeText={setWork} />
+
+      <Text style={styles.label}>Nieuw Wachtwoord (optioneel)</Text>
+      <TextInput
+        style={styles.input}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <Text style={styles.label}>Bevestig Wachtwoord</Text>
+      <TextInput
+        style={styles.input}
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
 
       <Pressable style={styles.saveButton} onPress={handleSave}>
         <Ionicons name="checkmark-circle-outline" size={24} color="white" />
@@ -92,6 +125,7 @@ export default function EditProfile() {
         <Text style={styles.cancelButtonText}>Annuleren</Text>
       </Pressable>
     </View>
+    </ScrollView>
   );
 }
 

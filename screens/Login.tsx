@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,7 +9,8 @@ export default function Login() {
   const [birthdate, setBirthdate] = useState('');
   const [work, setWork] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');  // State voor wachtwoord bevestigen
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);  // Voeg een loading state toe
 
   const handleLogin = async () => {
     if (!name || !birthdate || !work || !password || !confirmPassword) {
@@ -34,17 +35,18 @@ export default function Login() {
       return;
     }
 
-    // Wachtwoord validatie
     if (password.length < 6) {
       Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
       return;
     }
 
-    // Controleer of de wachtwoorden overeenkomen
     if (password !== confirmPassword) {
       Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
       return;
     }
+
+    // Zet de loading state op true wanneer de login wordt gestart
+    setLoading(true);
 
     try {
       const response = await fetch('http://192.168.156.29:3000/login', {
@@ -63,6 +65,9 @@ export default function Login() {
     } catch (error) {
       Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
       console.error(error);
+    } finally {
+      // Zet de loading state weer op false nadat de aanroep is voltooid
+      setLoading(false);
     }
   };
 
@@ -82,19 +87,23 @@ export default function Login() {
         placeholder="Wachtwoord"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={true} // Zorgt ervoor dat het wachtwoord als sterren wordt weergegeven
+        secureTextEntry={true}
       />
       <TextInput
         style={styles.input}
         placeholder="Wachtwoord herhalen"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
-        secureTextEntry={true} // Zorgt ervoor dat het wachtwoord als sterren wordt weergegeven
+        secureTextEntry={true}
       />
 
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Inloggen</Text>
-      </Pressable>
+      {loading ? (
+        <ActivityIndicator size="large" color="#007AFF" />  // Laadindicator wanneer aanroep bezig is
+      ) : (
+        <Pressable style={styles.button} onPress={handleLogin} disabled={loading}>
+          <Text style={styles.buttonText}>Inloggen</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
