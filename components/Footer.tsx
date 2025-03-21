@@ -1,8 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {navigate} from '../helpers/RootNavigation';
+import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+
 
 export default function Footer(){
     return(
@@ -16,6 +18,11 @@ export default function Footer(){
             <TouchableOpacity style={styles.button} onPress={() => navigate('Profile')}>
                 <Ionicons name="person" style={styles.icon}/>
             </TouchableOpacity>
+
+            {/* werkt niet */}
+            <TouchableOpacity style={styles.button} onPress={() => navigation.openDrawer()}>
+                <Ionicons name="menu" style={styles.icon} />
+            </TouchableOpacity>
         </View>
     )
 }
@@ -27,13 +34,13 @@ const styles = StyleSheet.create({
         height: 80,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-evenly'
     },
     icon: {
         color: '#fff',
         fontSize: 30,
-        marginLeft: 20,
-        marginRight: 20
+        // marginLeft: 20,
+        // marginRight: 20
     },
     button: {
         padding: 20,
