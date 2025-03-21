@@ -8,11 +8,3 @@
     <!-- in de achtergrond volgen -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 </manifest>
-
-<activity
-  android:name=".MainActivity"
-  android:label="@string/app_name"
-  android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-  android:screenOrientation="unspecified"> <!-- Of helemaal geen android:screenOrientation -->
-  ...
-</activity>

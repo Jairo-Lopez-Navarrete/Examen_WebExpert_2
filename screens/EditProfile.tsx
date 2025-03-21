@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -19,6 +19,51 @@ export default function EditProfile() {
 
   // Functie voor het kiezen van een afbeelding
   const pickImage = () => {
+    Alert.alert(
+      "Kies een optie",
+      "Wil je een foto maken of een foto kiezen uit je galerij?",
+      [
+        {
+          text: "Camera",
+          onPress: () => launchCamera(),
+        },
+        {
+          text: "Galerij",
+          onPress: () => launchImageLibrary(),
+        },
+        {
+          text: "Annuleren",
+          style: "cancel",
+        },
+      ]
+    );
+  };
+
+  const launchCamera = () => {
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        cameraType: 'back', // Je kunt ook 'front' gebruiken voor de frontcamera
+        saveToPhotos: true, // Foto wordt opgeslagen in de fotogalerij
+        includeBase64: false,
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('Gebruiker annuleerde het maken van een foto.');
+          return;
+        }
+        if (response.errorCode) {
+          console.log('Fout bij het nemen van een foto:', response.errorMessage);
+          return;
+        }
+        if (response.assets && response.assets.length > 0) {
+          setProfilePic(response.assets[0].uri);
+        }
+      }
+    );
+  };
+
+  const launchImageLibrary = () => {
     ImagePicker.launchImageLibrary(
       {
         mediaType: 'photo',
@@ -34,7 +79,7 @@ export default function EditProfile() {
           return;
         }
         if (response.assets && response.assets.length > 0) {
-          setProfilePic(response.assets[0].uri); 
+          setProfilePic(response.assets[0].uri);
         }
       }
     );
