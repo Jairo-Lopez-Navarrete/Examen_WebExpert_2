@@ -3,24 +3,24 @@ import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 export default function PaymentPage({ route }) {
-  const { selectedTimes } = route.params; // Ontvang de geselecteerde dagen en tijden
+  const { selectedTimes } = route.params; 
 
-  const [paymentMethod, setPaymentMethod] = useState(''); // Gekozen betaalmethode
+  const [paymentMethod, setPaymentMethod] = useState('');
 
-  // Stel een vaste prijs per reservering in (€20 per reservering)
+  
   const pricePerReservation = 20;
 
-  // Bereken het totaal aantal reserveringen
+  
   const totalReservations = Object.keys(selectedTimes).length;
 
-  // Bereken de totale prijs
+  
   const totalPrice = totalReservations * pricePerReservation;
 
   useEffect(() => {
     console.log('Geselecteerde tijden:', selectedTimes);
   }, [selectedTimes]);
 
-  // Simuleer betaling
+  
   const handlePayment = () => {
     if (!paymentMethod) {
       Alert.alert('Fout', 'Kies eerst een betaalmethode!');
@@ -45,7 +45,7 @@ export default function PaymentPage({ route }) {
         </Text>
       ))}
 
-      {/* Toon het aantal reservaties en het totaalbedrag */}
+     
       <Text style={styles.summary}>
         Aantal reserveringen: {totalReservations}
       </Text>
@@ -53,7 +53,7 @@ export default function PaymentPage({ route }) {
         Totaalprijs: €{totalPrice}
       </Text>
 
-      {/* Picker voor betaalmethoden */}
+      
       <Text style={styles.label}>Kies een betaalmethode:</Text>
       <Picker
         selectedValue={paymentMethod}
@@ -67,7 +67,7 @@ export default function PaymentPage({ route }) {
         <Picker.Item label="Bancontact" value="Bancontact" />
       </Picker>
 
-      {/* Betaal knop */}
+     
       <Pressable style={styles.payButton} onPress={handlePayment}>
         <Text style={styles.payButtonText}>Betalen</Text>
       </Pressable>

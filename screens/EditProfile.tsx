@@ -14,10 +14,10 @@ export default function EditProfile() {
   const [birthdate, setBirthdate] = useState(user.birthdate);
   const [work, setWork] = useState(user.work);
   const [profilePic, setProfilePic] = useState(user.profilePic);
-  const [password, setPassword] = useState(''); // Nieuw veld voor wachtwoord
-  const [confirmPassword, setConfirmPassword] = useState(''); // Nieuw veld voor wachtwoord bevestigen
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); 
 
-  // Functie voor het kiezen van een afbeelding
+  
   const pickImage = () => {
     Alert.alert(
       "Kies een optie",
@@ -43,8 +43,8 @@ export default function EditProfile() {
     ImagePicker.launchCamera(
       {
         mediaType: 'photo',
-        cameraType: 'back', // Je kunt ook 'front' gebruiken voor de frontcamera
-        saveToPhotos: true, // Foto wordt opgeslagen in de fotogalerij
+        cameraType: 'back', 
+        saveToPhotos: true, 
         includeBase64: false,
       },
       (response) => {
