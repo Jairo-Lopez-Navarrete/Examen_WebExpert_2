@@ -52,7 +52,7 @@ const App = () => {
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
           {/* <Header /> */}
-          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653',}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20,}, }}  >
+          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653', height: 100,}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20,}, }}  >
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />

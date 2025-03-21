@@ -50,7 +50,7 @@ textContainer: {
     padding: 8,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
     },
   container: {
     // flex: 1,
@@ -60,7 +60,9 @@ textContainer: {
   },
   text: {
     fontSize: 20,
-    height: 70,
+    // height: 70,
+    marginTop: '20%',
+    justifyContent: 'center',
     fontWeight: 'bold',
     color: '#232323',
     padding: 5,
