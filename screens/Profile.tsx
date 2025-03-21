@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -48,7 +48,8 @@ export default function Profile() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
       <Image source={user.profilePic ? { uri: user.profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
       <Text style={styles.text}>{user.name}</Text>
       <Text style={styles.text}>{user.birthdate}</Text>
@@ -64,6 +65,7 @@ export default function Profile() {
         <Text style={styles.buttonTextLogout}>Uitloggen</Text>
       </Pressable>
     </View>
+    </ScrollView>
   );
 }
 

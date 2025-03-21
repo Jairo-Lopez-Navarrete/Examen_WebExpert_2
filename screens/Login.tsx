@@ -58,7 +58,7 @@ export default function Login() {
       if (!response.ok) throw new Error('Login mislukt');
 
       const data = await response.json();
-      // Gegevens opslaan met AsyncStorage voor offline gebruik
+      //slaat gegevens op bij AsyncStorage voor offline gebruik
       await AsyncStorage.setItem('user', JSON.stringify(data));
 
       navigation.replace('Profile', { user: data });
@@ -66,13 +66,12 @@ export default function Login() {
       Alert.alert('Fout', 'Login mislukt, probeer opnieuw.');
       console.error(error);
     } finally {
-      // Zet de loading state weer op false nadat de aanroep is voltooid
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
+      <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
       <TextInput

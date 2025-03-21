@@ -35,14 +35,22 @@ const App = () => {
 
   return (
     <NavigationContainer ref={navigationRef}>
+
+      {/* SafeAreaProvider is een contextprovider die wordt gebruikt om de veilige gebiedsinformatie van het apparaat beschikbaar te maken voor de rest van je componenten in je applicatie. Dit betekent dat andere componenten die binnen de SafeAreaProvider worden geplaatst, toegang hebben tot de veilige ruimte van het scherm. */}
       <SafeAreaProvider>
+
+      {/* SafeAreaView is een component dat wordt gebruikt om de inhoud van je app automatisch binnen de "veilige" gebieden van het apparaat te plaatsen. Dit zorgt ervoor dat je UI niet wordt bedekt door systeemcomponenten zoals de notch, statusbalk of navigatiebalk. */}
         <SafeAreaView style={styles.container}>
+
+          {/* de pull-to-refresh wilt niet werken a.t.m */}
         <ScrollView
             style={styles.hiddenScrollView}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           >
             <View style={{ height: 1 }}></View>
           </ScrollView>
+           {/* de pull-to-refresh wilt niet werken a.t.m */}
+
           <Header />
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />

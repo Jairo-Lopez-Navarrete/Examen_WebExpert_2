@@ -10,7 +10,7 @@ export default function PaymentPage({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Betalingspagina</Text>
+      <Text style={styles.header}>Betalingspagina moet nog gemaakt worden</Text>
       <Text style={styles.info}>Je hebt de volgende dagen geselecteerd:</Text>
       {Object.keys(selectedTimes).map((date) => (
         <Text key={date}>
