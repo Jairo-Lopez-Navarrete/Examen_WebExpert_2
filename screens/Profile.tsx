@@ -18,21 +18,23 @@ export default function Profile() {
       }, []);
   
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('user');
-        if (userData) {
-          setUser(JSON.parse(userData));
-        }
-      } catch (error) {
-        console.error('Fout bij het ophalen van de gebruiker:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getUser();
-  }, []);
+      useEffect(() => {
+        const getUser = async () => {
+          try {
+            const userData = await AsyncStorage.getItem('user');
+            if (userData) {
+              setUser(JSON.parse(userData));
+            } else {
+              navigation.replace('Login'); // Terug naar login als er geen user is opgeslagen
+            }
+          } catch (error) {
+            console.error('Fout bij het ophalen van de gebruiker:', error);
+          } finally {
+            setLoading(false);
+          }
+        };
+        getUser();
+      }, []);
 
   useEffect(() => {
     if (!loading && !user) {

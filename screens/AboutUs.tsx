@@ -13,7 +13,7 @@ export default function AboutUs() {
     }, []);
 
   return (
-    <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Image
         source={require('../assets/icon.png')}

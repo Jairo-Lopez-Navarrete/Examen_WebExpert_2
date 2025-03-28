@@ -19,19 +19,20 @@ import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
 import EditProfile from './screens/EditProfile';
 import Login from './screens/Login';
+import Register from './screens/Register';
 import PaymentPage from './screens/PaymentPage';
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  const [refreshing, setRefreshing] = useState(false);
+  // const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -52,7 +53,7 @@ const App = () => {
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
           {/* <Header /> */}
-          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653', height: 100,}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20,}, }}  >
+          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653', height: 66,}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20}, }}  >
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />
@@ -62,6 +63,7 @@ const App = () => {
             <Stack.Screen name="CalendarPage" component={CalendarPage} />
             <Stack.Screen name="PaymentPage" component={PaymentPage} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="Register" component={Register} />
           </Stack.Navigator>
           <Footer />
           <StatusBar style="auto" />

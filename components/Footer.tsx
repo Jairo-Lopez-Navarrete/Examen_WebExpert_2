@@ -20,9 +20,9 @@ export default function Footer(){
             </TouchableOpacity>
 
             {/* werkt niet */}
-            <TouchableOpacity style={styles.button} onPress={() => navigation.openDrawer()}>
+            {/* <TouchableOpacity style={styles.button} onPress={() => navigation.openDrawer()}>
                 <Ionicons name="menu" style={styles.icon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     )
 }
@@ -31,18 +31,15 @@ const styles = StyleSheet.create({
     footer: {
         backgroundColor: '#987653',
         width: '100%',
-        height: 75,
+        height: 66,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly'
     },
     icon: {
         color: '#fff',
-        fontSize: 30,
+        fontSize: 25,
         // marginLeft: 20,
         // marginRight: 20
     },
-    button: {
-        padding: 20,
-    }
 })

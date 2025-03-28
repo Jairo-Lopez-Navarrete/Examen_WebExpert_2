@@ -6,7 +6,6 @@ export default function Header(props: any) {
   return (
     <View style={styles.header}>
       <Text style={styles.title}>Karveel</Text>
-      <Text style={styles.slogan}>Ontmoet Kapitan en ontdek onze ruimtes in het karveel! </Text>
     </View>
   );
 }
@@ -15,8 +14,7 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#987653',
         width: '100%',
-        height: 140,
-        padding: 20,
+        height: 70,
         justifyContent: 'center',
         alignItems: 'center'
     },

@@ -21,7 +21,7 @@ export default function Home(){
 
   
   return (
-    <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Header />
       {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>

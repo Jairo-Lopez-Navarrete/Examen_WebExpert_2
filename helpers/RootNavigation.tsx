@@ -12,6 +12,7 @@ type Routes = {
     'EditProfile': string;
     'PaymentPage': string;
     'Login': string;
+    'Register': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();

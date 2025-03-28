@@ -20,27 +20,12 @@ export default function EditProfile() {
 
 
     
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    // Ververs de gebruiker door opnieuw AsyncStorage te lezen
-    const getUser = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('user');
-        if (userData) {
-          setUser(JSON.parse(userData));
-        } else {
-          console.log('Geen gebruikersgegevens gevonden.');
-        }
-      } catch (error) {
-        console.error('Fout bij het ophalen van de gebruiker:', error);
-      } finally {
-        setRefreshing(false);  // Stop de refresh animatie
-      }
-    };
-  
-    getUser();  // Roep de functie aan om de gebruiker te verversen
-  
-  }, []);
+      const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
 
   
   const pickImage = () => {
