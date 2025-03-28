@@ -1,9 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, RefreshControl  } from 'react-native';
 
 export default function AboutUs() {
+
+    const [refreshing, setRefreshing] = useState(false);
+  
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
+
   return (
-    <ScrollView>
+    <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Image
         source={require('../assets/icon.png')}

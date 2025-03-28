@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share} from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {navigate} from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,15 @@ export default function Kabien(){
     const [modalVisible, setModalVisible] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+          
+            const onRefresh = useCallback(() => {
+              setRefreshing(true);
+              setTimeout(() => {
+                setRefreshing(false);
+              }, 2000);
+            }, []);
+    
 
     useEffect(() => {
       const checkLoginStatus = async () => {
@@ -98,7 +107,7 @@ export default function Kabien(){
     ]
   
   return (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.container}>
         <View style={styles.titleContainer}>
             <Text style={styles.text}>Het wordt dus Kajuit!</Text>

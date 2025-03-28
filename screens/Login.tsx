@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,7 +11,15 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);  // Voeg een loading state toe
-
+  const [refreshing, setRefreshing] = useState(false);
+    
+      const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
+  
   const handleLogin = async () => {
     if (!name || !birthdate || !work || !password || !confirmPassword) {
       Alert.alert('Fout', 'Vul alle velden in.');
@@ -48,6 +56,9 @@ export default function Login() {
     // Zet de loading state op true wanneer de login wordt gestart
     setLoading(true);
 
+    // 192.168.156.29 IPv4 (gebruik op gsm)
+    // localhost (gebruik op emulator)
+
     try {
       const response = await fetch('http://192.168.156.29:3000/login', {
         method: 'POST',
@@ -71,6 +82,7 @@ export default function Login() {
   };
 
   return (
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
@@ -104,6 +116,7 @@ export default function Login() {
         </Pressable>
       )}
     </View>
+    </ScrollView>
   );
 }
 

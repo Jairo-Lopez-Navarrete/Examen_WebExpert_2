@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform, ScrollView, RefreshControl } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { Calendar } from 'react-native-calendars';
 
@@ -7,6 +7,15 @@ export default function CalendarPage({ navigation }) {
   const [location, setLocation] = useState(null);
   const [selected, setSelected] = useState('');
   const [selectedTimes, setSelectedTimes] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+    
+
+      const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
 
   useEffect(() => {
     requestLocationPermission();
@@ -82,7 +91,7 @@ export default function CalendarPage({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
         <View style={styles.viewChange}>
           <Text style={styles.textChange}>Locatiegegevens:</Text>

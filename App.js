@@ -43,12 +43,12 @@ const App = () => {
         <SafeAreaView style={styles.container}>
 
           {/* de pull-to-refresh wilt niet werken a.t.m */}
-        <ScrollView
+        {/* <ScrollView
             style={styles.hiddenScrollView}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           >
             <View style={{ height: 1 }}></View>
-          </ScrollView>
+          </ScrollView> */}
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
           {/* <Header /> */}
@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FDF5EC',
   },
-  hiddenScrollView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 0,
-  },
+  // hiddenScrollView: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   left: 0,
+  //   right: 0,
+  //   height: 0,
+  // },
 });

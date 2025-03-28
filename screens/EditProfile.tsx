@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image, ScrollView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image, ScrollView, RefreshControl } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'react-native-image-picker';
@@ -16,6 +16,31 @@ export default function EditProfile() {
   const [profilePic, setProfilePic] = useState(user.profilePic);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(''); 
+  const [refreshing, setRefreshing] = useState(false);
+
+
+    
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Ververs de gebruiker door opnieuw AsyncStorage te lezen
+    const getUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          setUser(JSON.parse(userData));
+        } else {
+          console.log('Geen gebruikersgegevens gevonden.');
+        }
+      } catch (error) {
+        console.error('Fout bij het ophalen van de gebruiker:', error);
+      } finally {
+        setRefreshing(false);  // Stop de refresh animatie
+      }
+    };
+  
+    getUser();  // Roep de functie aan om de gebruiker te verversen
+  
+  }, []);
 
   
   const pickImage = () => {
@@ -126,7 +151,7 @@ export default function EditProfile() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Text style={styles.title}>Bewerk je profiel</Text>
 

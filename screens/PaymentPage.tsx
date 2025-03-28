@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, StyleSheet, Pressable, FlatList, RefreshControl, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PaymentPage({ route }) {
   const { selectedTimes } = route.params;
-
   const [paymentMethod, setPaymentMethod] = useState('');
   const [reservations, setReservations] = useState(selectedTimes);
-
   const pricePerReservation = 20;
-  
   const totalReservations = Object.keys(reservations).length;
   const totalPrice = totalReservations * pricePerReservation;
+  const [refreshing, setRefreshing] = useState(false);
+      
+        const onRefresh = useCallback(() => {
+          setRefreshing(true);
+          setTimeout(() => {
+            setRefreshing(false);
+          }, 2000);
+        }, []);
 
   useEffect(() => {
     const saveReservations = async () => {
@@ -42,7 +47,8 @@ export default function PaymentPage({ route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <View style={styles.container}>
       <Text style={styles.header}>Betalingspagina</Text>
       <Text style={styles.info}>Je hebt de volgende dagen geselecteerd:</Text>
 
@@ -81,6 +87,7 @@ export default function PaymentPage({ route }) {
         <Text style={styles.payButtonText}>Betalen</Text>
       </Pressable>
     </View>
+    </ScrollView>
   );
 }
 

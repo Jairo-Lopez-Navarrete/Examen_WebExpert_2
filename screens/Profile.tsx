@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -7,19 +7,28 @@ import { useNavigation } from '@react-navigation/native';
 export default function Profile() {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ Voegt een laadstatus toe
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+    
+      const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
+  
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const userData = await AsyncStorage.getItem('user');
         if (userData) {
-          setUser(JSON.parse(userData)); // ✅ Gebruikersdata opslaan
+          setUser(JSON.parse(userData));
         }
       } catch (error) {
         console.error('Fout bij het ophalen van de gebruiker:', error);
       } finally {
-        setLoading(false); // 🔄 Stop met laden, ongeacht of er data is
+        setLoading(false);
       }
     };
     getUser();
@@ -27,7 +36,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigation.replace('Login'); // ✅ Voorkomt navigatiefout door dit pas na de renderfase te doen
+      navigation.replace('Login');
     }
   }, [loading, user]);
 
@@ -40,15 +49,15 @@ export default function Profile() {
     );
   }
 
-  if (!user) return null; // 🛑 Zorgt ervoor dat de component geen fout veroorzaakt tijdens navigatie
+  if (!user) return null;
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('user'); // ✅ Verwijdert gebruikersgegevens
+    await AsyncStorage.removeItem('user');
     navigation.replace('Login');
   };
 
   return (
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Image source={user.profilePic ? { uri: user.profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
       <Text style={styles.text}>{user.name}</Text>

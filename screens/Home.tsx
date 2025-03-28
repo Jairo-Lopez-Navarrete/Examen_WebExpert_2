@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Pressable, ImageBackground, useWindowDimensions } from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import { View, Text, StyleSheet, Pressable, ImageBackground, useWindowDimensions, ScrollView, RefreshControl } from 'react-native';
 import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,10 +9,20 @@ import Header from '../components/Header';
 export default function Home(){
   // const {width, height} = useWindowDimensions();
   // const isLandscape = width > height;
+  const [refreshing, setRefreshing] = useState(false);
+    
+      const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
+  
 
   
   return (
-    <View style={styles.container}>
+    <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <View style={styles.container}>
       <Header />
       {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
         Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
@@ -37,6 +47,7 @@ export default function Home(){
             </Pressable>
         </View>
     </View>
+    </ScrollView>
   );
 };
 
