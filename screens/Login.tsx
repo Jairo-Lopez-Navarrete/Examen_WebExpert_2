@@ -40,27 +40,28 @@ export default function Login() {
     setLoading(true);
   
     try {
-      // Ophalen van gebruikerslijst uit backend (vervang het pad naar je JSON-server)
-      const response = await fetch('http://192.168.156.29:3000/users');
-      if (!response.ok) throw new Error('Kon gebruikersgegevens niet ophalen');
+      // Stuur een POST-verzoek naar de backend voor verificatie
+      const response = await fetch('http://192.168.156.29:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, password }),
+      });
   
-      const users = await response.json();
-      
-      // Controleer of de ingevoerde naam en wachtwoord overeenkomen met een bestaande gebruiker
-      const matchedUser = users.find(user => user.name === name && user.password === password);
+      const result = await response.json();
   
-      if (!matchedUser) {
-        Alert.alert('Fout', 'Onjuiste naam of wachtwoord.');
-        return;
+      if (!response.ok) {
+        throw new Error(result.error || 'Inloggen mislukt, controleer je gegevens.');
       }
   
       // Sla de ingelogde gebruiker op in AsyncStorage
-      await AsyncStorage.setItem('user', JSON.stringify(matchedUser));
+      await AsyncStorage.setItem('user', JSON.stringify(result));
   
       // Navigeer naar het profiel en stuur de gebruiker mee
-      navigation.replace('Profile', { user: matchedUser });
+      navigation.replace('Profile', { user: result });
     } catch (error) {
-      Alert.alert('Fout', 'Inloggen mislukt, controleer je gegevens.');
+      Alert.alert('Fout', error.message);
       console.error(error);
     } finally {
       setLoading(false);

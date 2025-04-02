@@ -23,9 +23,11 @@ export default function Profile() {
           try {
             const userData = await AsyncStorage.getItem('user');
             if (userData) {
-              setUser(JSON.parse(userData));
+              const parsedUser = JSON.parse(userData);
+              console.log('Gebruiker ingelogd:', parsedUser); // Debugging
+              setUser(parsedUser);
             } else {
-              navigation.replace('Login'); // Terug naar login als er geen user is opgeslagen
+              navigation.replace('Login');
             }
           } catch (error) {
             console.error('Fout bij het ophalen van de gebruiker:', error);

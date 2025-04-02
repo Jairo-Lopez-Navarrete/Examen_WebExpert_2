@@ -20,66 +20,63 @@ export default function Register() {
         }, 2000);
       }, []);
   
-  const handleLogin = async () => {
-    if (!name || !birthdate || !work || !password || !confirmPassword) {
-      Alert.alert('Fout', 'Vul alle velden in.');
-      return;
-    }
-
-    // Controleer of de geboortedatum geldig is
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!dateRegex.test(birthdate)) {
-      Alert.alert('Fout', 'Voer een geldige geboortedatum in (Dag-Maand-Jaar).');
-      return;
-    }
-
-    const [day, month, year] = birthdate.split('-').map(Number);
-    const birthDateObj = new Date(year, month - 1, day);
-    const today = new Date();
-    const age = today.getFullYear() - birthDateObj.getFullYear();
-
-    if (birthDateObj > today || age < 16) {
-      Alert.alert('Fout', 'Je moet boven de 16 zijn!');
-      return;
-    }
-
-    if (password.length < 6) {
-      Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
-      return;
-    }
-
-    // Zet de loading state op true wanneer de login wordt gestart
-    setLoading(true);
-
-    // 192.168.156.29 IPv4 (gebruik op gsm)
-    // localhost (gebruik op emulator)
-
-    try {
-      const response = await fetch('http://192.168.156.29:3000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, birthdate, work, password }),  // Wachtwoord toevoegen aan de payload
-      });
-
-      if (!response.ok) throw new Error('Registreren mislukt');
-
-      const data = await response.json();
-      //slaat gegevens op bij AsyncStorage voor offline gebruik
-      await AsyncStorage.setItem('user', JSON.stringify(data));
-
-      navigation.replace('Profile', { user: data });
-    } catch (error) {
-      Alert.alert('Fout', 'Registreren mislukt, probeer opnieuw.');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      const handleRegister = async () => {
+        if (!name || !birthdate || !work || !password || !confirmPassword) {
+          Alert.alert('Fout', 'Vul alle velden in.');
+          return;
+        }
+      
+        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!dateRegex.test(birthdate)) {
+          Alert.alert('Fout', 'Voer een geldige geboortedatum in (DD-MM-YYYY).');
+          return;
+        }
+      
+        const [day, month, year] = birthdate.split('-').map(Number);
+        const birthDateObj = new Date(year, month - 1, day);
+        const today = new Date();
+        const age = today.getFullYear() - birthDateObj.getFullYear();
+      
+        if (birthDateObj > today || age < 16) {
+          Alert.alert('Fout', 'Je moet boven de 16 zijn!');
+          return;
+        }
+      
+        if (password.length < 6) {
+          Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
+          return;
+        }
+      
+        if (password !== confirmPassword) {
+          Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
+          return;
+        }
+      
+        setLoading(true);
+      
+        try {
+          const response = await fetch('http://192.168.156.29:3000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, birthdate, work, password }),
+          });
+      
+          const data = await response.json();
+      
+          if (!response.ok) {
+            throw new Error(data.error || 'Registreren mislukt');
+          }
+      
+          await AsyncStorage.setItem('user', JSON.stringify(data));
+      
+          navigation.replace('Profile', { user: data });
+        } catch (error) {
+          Alert.alert('Fout', error.message || 'Registreren mislukt, probeer opnieuw.');
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
@@ -111,7 +108,7 @@ export default function Register() {
       {loading ? (
         <ActivityIndicator size="large" color="#007AFF" />  // Laadindicator wanneer aanroep bezig is
       ) : (
-        <Pressable style={styles.button} onPress={handleLogin} disabled={loading}>
+        <Pressable style={styles.button} onPress={handleRegister} disabled={loading}>
           <Text style={styles.buttonText}>Registreer</Text>
         </Pressable>
       )}
