@@ -40,5 +40,12 @@
     "work": "Kapon",
     "password": "kakaka",
     "profilePic": ""
+  },
+  {
+    "name": "james",
+    "birthdate": "12-12-2000",
+    "work": "koning van ter dolen",
+    "password": "terdolen",
+    "profilePic": ""
   }
 ]
