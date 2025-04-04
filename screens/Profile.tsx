@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator, ScrollView, RefreshControl, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -9,40 +9,41 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-    
-      const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 2000);
-      }, []);
-  
+  const [reservations, setReservations] = useState({});
 
-      useEffect(() => {
-        const getUser = async () => {
-          try {
-            const userData = await AsyncStorage.getItem('user');
-            if (userData) {
-              const parsedUser = JSON.parse(userData);
-              console.log('Gebruiker ingelogd:', parsedUser); // Debugging
-              setUser(parsedUser);
-            } else {
-              navigation.replace('Login');
-            }
-          } catch (error) {
-            console.error('Fout bij het ophalen van de gebruiker:', error);
-          } finally {
-            setLoading(false);
-          }
-        };
-        getUser();
-      }, []);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    loadUserData();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('user');
+      const savedReservations = await AsyncStorage.getItem('reservations');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+      if (savedReservations) {
+        setReservations(JSON.parse(savedReservations));
+      }
+    } catch (error) {
+      console.error('Fout bij ophalen gegevens:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigation.replace('Login');
-    }
-  }, [loading, user]);
+    loadUserData();
+  }, []);
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('user');
+    navigation.replace('Login');
+  };
 
   if (loading) {
     return (
@@ -55,87 +56,137 @@ export default function Profile() {
 
   if (!user) return null;
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('user');
-    navigation.replace('Login');
-  };
-
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      <View style={styles.container}>
-      <Image source={user.profilePic ? { uri: user.profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-      <Text style={styles.text}>{user.name}</Text>
-      <Text style={styles.text}>{user.birthdate}</Text>
-      <Text style={styles.text}>{user.work}</Text>
+<ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+  <View style={styles.container}>
 
-      <Pressable style={styles.changeButton} onPress={() => navigation.navigate('EditProfile', { user, setUser })}>
-        <Ionicons name="open" style={styles.icons} color="white" />
-        <Text style={styles.changeButtonText}>Verander je profiel</Text>
-      </Pressable>
+    {/* PROFIELGEDEELTE */}
+    <View style={styles.profileSection}>
+      <View style={styles.rowContainer}>
+        <Image
+          source={user.profilePic ? { uri: user.profilePic } : require('../assets/avatarProfile.png')}
+          style={styles.profileImage}
+        />
 
-      <Pressable style={styles.logoutButton} onPress={handleLogout}>
-        <Ionicons name="log-out-outline" style={styles.icons} color="black" />
-        <Text style={styles.buttonTextLogout}>Uitloggen</Text>
-      </Pressable>
+        <Pressable
+          style={styles.settingsButton}
+          onPress={() => navigation.navigate('EditProfile', { user, setUser })}
+        >
+          <Ionicons name="settings-outline" size={24} color="white" />
+        </Pressable>
+      </View>
+
+      <View style={styles.userInfo}>
+        <Text style={styles.text}>{user.name}</Text>
+        <Text style={styles.text}>{user.birthdate}</Text>
+        <Text style={styles.text}>{user.work}</Text>
+      </View>
     </View>
-    </ScrollView>
+
+    {/* UITLOG KNOP */}
+    <Pressable style={styles.logoutButton} onPress={handleLogout}>
+      <Ionicons name="log-out-outline" style={styles.icons} color="black" />
+      <Text style={styles.buttonTextLogout}>Uitloggen</Text>
+    </Pressable>
+
+    {/* GEBOEKTE AFSPRAKEN */}
+    <Text style={styles.sectionTitle}>Geboekte afspraken</Text>
+
+    {Object.keys(reservations).length === 0 ? (
+      <Text style={{ color: '#777' }}>Geen geboekte afspraken.</Text>
+    ) : (
+      Object.keys(reservations).map((date) => (
+        <View key={date} style={styles.appointmentItem}>
+          <Text style={styles.appointmentText}>
+            {date}: {reservations[date]}
+          </Text>
+        </View>
+      ))
+    )}
+
+  </View>
+</ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  icons: {
-    fontSize: 24,
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
     backgroundColor: '#f5f5f5',
   },
+  textInfo: {
+    alignItems: 'center'
+  },
+  imageAndButton: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  profileSection: {
+    marginBottom: 20,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   profileImage: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     borderRadius: 60,
-    marginBottom: 5,
+  },
+  userInfo: {
+    flex: 1,
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 5,
-    color: '#232323',
+  },
+  settingsButton: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 10,
+    marginLeft: 10,
   },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: 12,
     borderRadius: 10,
-    marginTop: 10,
+    backgroundColor: '#e0e0e0',
+    marginBottom: 20,
     justifyContent: 'center',
-    width: 200,
+  },
+  icons: {
+    fontSize: 24,
   },
   buttonTextLogout: {
-    textDecorationLine: "underline",
     fontSize: 18,
-    color: '#000',
     marginLeft: 10,
+    textDecorationLine: 'underline',
   },
-  changeButton: {
-    backgroundColor: '#be5746',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
-    justifyContent: 'center',
-    width: 200,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
   },
-  changeButtonText: {
-    fontSize: 18,
-    color: '#fff',
-    marginLeft: 10,
+  appointmentItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  appointmentText: {
+    fontSize: 16,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  userInfo: {
+    marginTop: 15,
+    alignItems: 'flex-start',
+  }
 });

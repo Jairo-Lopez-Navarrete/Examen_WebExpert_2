@@ -13,6 +13,7 @@ type Routes = {
     'PaymentPage': string;
     'Login': string;
     'Register': string;
+    'ForgotPassword': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();

@@ -1,83 +1,5 @@
 [
   {
-    "name": "Jairo",
-    "birthdate": "26-12-2000",
-    "work": "Kapitan",
-    "password": "Testing2000",
-    "profilePic": ""
-  },
-  {
-    "name": "Kevin",
-    "birthdate": "26-12-2000",
-    "work": "lopen",
-    "password": "Lopez2010",
-    "profilePic": ""
-  },
-  {
-    "name": "jair",
-    "birthdate": "26-12-2000",
-    "work": "lopen",
-    "password": "kkkkkk",
-    "profilePic": ""
-  },
-  {
-    "name": "kelbie",
-    "birthdate": "26-12-2000",
-    "work": "kapitan",
-    "password": "kapitan",
-    "profilePic": ""
-  },
-  {
-    "name": "jairo",
-    "birthdate": "26-12-2000",
-    "work": "Lalalal",
-    "password": "lalala",
-    "profilePic": ""
-  },
-  {
-    "name": "Ja",
-    "birthdate": "26-12-2000",
-    "work": "Kapon",
-    "password": "kakaka",
-    "profilePic": ""
-  },
-  {
-    "name": "james",
-    "birthdate": "12-12-2000",
-    "email": "jamesSmith@locomotief.com",
-    "work": "koning van ter dolen",
-    "password": "terdolen",
-    "profilePic": ""
-  },
-  {
-    "name": "danni",
-    "birthdate": "26-13-2000",
-    "work": "dansin",
-    "password": "Lopez2010",
-    "profilePic": ""
-  },
-  {
-    "name": "kevin",
-    "birthdate": "26-12-2000",
-    "work": "dancing",
-    "password": "kevin2",
-    "profilePic": ""
-  },
-  {
-    "name": "marco",
-    "birthdate": "26-12-2000",
-    "work": "lopen",
-    "password": "kevin1",
-    "profilePic": ""
-  },
-  {
-    "name": "belgique",
-    "birthdate": "26-12-2000",
-    "work": "Lopen",
-    "password": "belgique",
-    "profilePic": ""
-  },
-  {
     "name": "jairo",
     "birthdate": "12-12-2000",
     "email": "jairolopeznavarrete@outlook.com",
@@ -107,6 +29,22 @@
     "email": "maitemai@hotmail.com",
     "work": "maite",
     "password": "maitemaite",
+    "profilePic": ""
+  },
+  {
+    "name": "maite",
+    "birthdate": "12-12-2000",
+    "email": "maite@hotmail.com",
+    "work": "lop",
+    "password": "123456",
+    "profilePic": ""
+  },
+  {
+    "name": "k",
+    "birthdate": "01-01-2000",
+    "email": "k@hotmail.com",
+    "work": "ghlainklain model",
+    "password": "lopenya",
     "profilePic": ""
   }
 ]

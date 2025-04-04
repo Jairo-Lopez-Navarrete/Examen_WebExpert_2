@@ -93,6 +93,11 @@ export default function Login() {
           onChangeText={setConfirmPassword}
           secureTextEntry={true}
         />
+        <View style={styles.passwordButtonContainer}>
+          <Pressable onPress={() => navigate('ForgotPassword')}>
+            <Text style={styles.registerText}>Wachtwoord vergeten?</Text>
+          </Pressable>
+        </View>
 
         {loading ? (
           <ActivityIndicator size="large" color="#007AFF" />
@@ -135,11 +140,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
     backgroundColor: '#007AFF',
     padding: 15,
+    width: "100%",
+    alignItems: "center",
     borderRadius: 8,
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
+  },
+  passwordButtonContainer: {
+    alignItems: "flex-end",
+    width: "100%"
   },
   registerButton: {
     marginTop: 20,

@@ -21,6 +21,7 @@ import EditProfile from './screens/EditProfile';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import PaymentPage from './screens/PaymentPage';
+import ForgotPassword from './screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 
@@ -57,13 +58,14 @@ const App = () => {
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <Stack.Screen name="Kabien" component={Kabien} />
             <Stack.Screen name="Kajuit" component={Kajuit} />
             <Stack.Screen name="CalendarPage" component={CalendarPage} />
             <Stack.Screen name="PaymentPage" component={PaymentPage} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           </Stack.Navigator>
           <Footer />
           <StatusBar style="auto" />

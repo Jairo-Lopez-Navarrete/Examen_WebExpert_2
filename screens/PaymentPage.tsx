@@ -38,6 +38,7 @@ export default function PaymentPage({ route }) {
     }
 
     alert(`Je hebt €${totalPrice} betaald via ${paymentMethod}.`);
+    navigation.navigate('Profile');
   };
 
   const handleRemoveReservation = (date) => {
@@ -76,11 +77,11 @@ export default function PaymentPage({ route }) {
         onValueChange={(itemValue) => setPaymentMethod(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item label="Selecteer een betaalmethode..." value="" />
-        <Picker.Item label="iDEAL" value="iDEAL" />
-        <Picker.Item label="Creditcard" value="Creditcard" />
-        <Picker.Item label="PayPal" value="PayPal" />
-        <Picker.Item label="Bancontact" value="Bancontact" />
+        <Picker.Item label="Selecteer een betaalmethode..." value=""/>
+        <Picker.Item label="iDEAL" value="iDEAL"/>
+        <Picker.Item label="Creditcard" value="Creditcard"/>
+        <Picker.Item label="PayPal" value="PayPal"/>
+        <Picker.Item label="Bancontact" value="Bancontact"/>
       </Picker>
 
       <Pressable style={styles.payButton} onPress={handlePayment}>
