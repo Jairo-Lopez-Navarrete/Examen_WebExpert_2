@@ -92,5 +92,13 @@
     "work": "Kapitein",
     "password": "jairolopez",
     "profilePic": ""
+  },
+  {
+    "name": "test",
+    "birthdate": "10-10-2000",
+    "email": "10@10.com",
+    "work": "1010",
+    "password": "101010",
+    "profilePic": ""
   }
 ]

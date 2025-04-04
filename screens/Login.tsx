@@ -49,12 +49,16 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
   
-      const result = await response.json();
-  
+      // Controleer of de response niet ok is
       if (!response.ok) {
-       throw new Error(result.error || 'Inloggen mislukt, controleer je gegevens.');
+        const errorText = await response.text();  // Lees de fout als tekst
+        console.error('Serverfout:', errorText);
+        throw new Error('Inloggen mislukt, controleer je gegevens.');
       }
-
+  
+      // Als de response ok is, probeer dan de JSON te verwerken
+      const result = await response.json();
+      console.log('Login geslaagd, gebruiker:', result);
   
       // Sla de ingelogde gebruiker op in AsyncStorage
       await AsyncStorage.setItem('user', JSON.stringify(result));
@@ -62,6 +66,7 @@ export default function Login() {
       // Navigeer naar het profiel en stuur de gebruiker mee
       navigation.replace('Profile', { user: result });
     } catch (error) {
+      // Toon een foutmelding als er iets misgaat
       Alert.alert('Fout', error.message);
       console.error(error);
     } finally {
@@ -96,7 +101,6 @@ export default function Login() {
             <Text style={styles.buttonText}>Inloggen</Text>
           </Pressable>
         )}
-
         {/* Registreren knop */}
         <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
           <Text style={styles.registerText}>Heb je nog geen account? Registreer hier.</Text>

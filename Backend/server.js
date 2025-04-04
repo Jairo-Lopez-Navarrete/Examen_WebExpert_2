@@ -51,18 +51,21 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  
-  console.log('Email ontvangen:', email);
-  let users = loadUsers();
-  console.log('Gebruikers geladen:', users);
+  console.log('Aangekomen verzoek:', req.body);
 
+  console.log('Login poging:', {email, password});
+  
+  
+  let users = loadUsers();
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
+  console.log('Gebruiker gevonden', user);
+
   if (!user) {
+    console.log('Inloggen mislukt: Gebruiker niet gevonden');
     return res.status(400).json({ error: 'E-mailadres of wachtwoord onjuist' });
   }
 
-  console.log('Gebruiker gevonden:', user);
   res.json(user);
 });
 

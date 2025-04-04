@@ -69,7 +69,7 @@ export default function Kabien(){
     const images = [
         require('../assets/TestPic1.png'),
         require('../assets/TestPic2.png'),
-        require('../assets/TestPic3.jpg')
+        require('../assets/TestPic3.jpg'),
     ];
 
     const openModal = (index: number) => {
