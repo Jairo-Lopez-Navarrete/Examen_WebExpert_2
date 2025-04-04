@@ -22,22 +22,22 @@ const saveUsers = (users) => {
 };
 
 app.post('/register', (req, res) => {
-  const { name, birthdate, work, password } = req.body;
+  const { name, birthdate, email, work, password } = req.body;
 
-  if (!name || !birthdate || !work || !password) {
+  if (!name || !birthdate || !work || !password || !email) {
     return res.status(400).json({ error: 'Alle velden zijn verplicht!' });
   }
 
   let users = loadUsers();
 
   // Controleer of de gebruiker al bestaat
-  const existingUser = users.find(user => user.name === name);
+  const existingUser = users.find(user => user.email === email);
   if (existingUser) {
     return res.status(400).json({ error: 'Gebruiker bestaat al' });
   }
 
   // Maak een nieuw gebruikersobject
-  const newUser = { name, birthdate, work, password, profilePic: '' };
+  const newUser = { name, birthdate, email, work, password, profilePic: '' };
 
   // Voeg gebruiker toe aan de lijst en sla op in users.json
   users.push(newUser);
@@ -50,15 +50,19 @@ app.post('/register', (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
   
+  console.log('Email ontvangen:', email);
   let users = loadUsers();
-  const user = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.password === password);
+  console.log('Gebruikers geladen:', users);
+
+  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
   if (!user) {
-    return res.status(400).json({ error: 'Gebruiker of wachtwoord onjuist' });
+    return res.status(400).json({ error: 'E-mailadres of wachtwoord onjuist' });
   }
 
+  console.log('Gebruiker gevonden:', user);
   res.json(user);
 });
 

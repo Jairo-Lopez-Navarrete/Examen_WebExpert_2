@@ -27,7 +27,7 @@ export default function Home(){
       {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
         Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
       </Text> */}
-        <Text style={styles.text}>Selecteer de cabine die je wilt!</Text>
+        <Text style={styles.text}>Boek een vergaderruimte</Text>
         <View style={styles.imageContainer}>
             <Pressable onPress={() => navigate('Kabien')}>
                  <ImageBackground source={require('../assets/TestPic1.png')} style={styles.image} imageStyle={styles.imageBorder}>

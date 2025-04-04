@@ -7,6 +7,7 @@ export default function Register() {
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [birthdate, setBirthdate] = useState('');
+  const [email, setEmail] = useState('');
   const [work, setWork] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,7 +22,7 @@ export default function Register() {
       }, []);
   
       const handleRegister = async () => {
-        if (!name || !birthdate || !work || !password || !confirmPassword) {
+        if (!name || !birthdate || !email || !work || !password || !confirmPassword) {
           Alert.alert('Fout', 'Vul alle velden in.');
           return;
         }
@@ -58,7 +59,7 @@ export default function Register() {
           const response = await fetch('http://192.168.156.29:3000/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, birthdate, work, password }),
+            body: JSON.stringify({ name, birthdate, email, work, password }),
           });
       
           const data = await response.json();
@@ -89,6 +90,7 @@ export default function Register() {
         value={birthdate}
         onChangeText={setBirthdate}
       />
+      <TextInput style={styles.input} placeholder="E-mailadres" value={email} onChangeText={setEmail} keyboardType="email-address"/>
       <TextInput style={styles.input} placeholder="Werk" value={work} onChangeText={setWork} />
       <TextInput
         style={styles.input}

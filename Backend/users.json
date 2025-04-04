@@ -44,8 +44,53 @@
   {
     "name": "james",
     "birthdate": "12-12-2000",
+    "email": "jamesSmith@locomotief.com",
     "work": "koning van ter dolen",
     "password": "terdolen",
+    "profilePic": ""
+  },
+  {
+    "name": "danni",
+    "birthdate": "26-13-2000",
+    "work": "dansin",
+    "password": "Lopez2010",
+    "profilePic": ""
+  },
+  {
+    "name": "kevin",
+    "birthdate": "26-12-2000",
+    "work": "dancing",
+    "password": "kevin2",
+    "profilePic": ""
+  },
+  {
+    "name": "marco",
+    "birthdate": "26-12-2000",
+    "work": "lopen",
+    "password": "kevin1",
+    "profilePic": ""
+  },
+  {
+    "name": "belgique",
+    "birthdate": "26-12-2000",
+    "work": "Lopen",
+    "password": "belgique",
+    "profilePic": ""
+  },
+  {
+    "name": "jairo",
+    "birthdate": "12-12-2000",
+    "email": "jairolopeznavarrete@outlook.com",
+    "work": "Student",
+    "password": "jairolopez",
+    "profilePic": ""
+  },
+  {
+    "name": "jairo",
+    "birthdate": "10-12-2000",
+    "email": "jairolopez@gmail.com",
+    "work": "Kapitein",
+    "password": "jairolopez",
     "profilePic": ""
   }
 ]

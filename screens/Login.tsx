@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
   const navigation = useNavigation();
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ export default function Login() {
   }, []);
 
   const handleLogin = async () => {
-    if (!name || !password) {
+    if (!email || !password) {
       Alert.alert('Fout', 'Vul alle velden in.');
       return;
     }
@@ -46,14 +46,15 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ email, password }),
       });
   
       const result = await response.json();
   
       if (!response.ok) {
-        throw new Error(result.error || 'Inloggen mislukt, controleer je gegevens.');
+       throw new Error(result.error || 'Inloggen mislukt, controleer je gegevens.');
       }
+
   
       // Sla de ingelogde gebruiker op in AsyncStorage
       await AsyncStorage.setItem('user', JSON.stringify(result));
@@ -72,7 +73,7 @@ export default function Login() {
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
+        <TextInput style={styles.input} placeholder="E-mailadres" value={email} onChangeText={setEmail} keyboardType="email-address"/>
         <TextInput
           style={styles.input}
           placeholder="Wachtwoord"
