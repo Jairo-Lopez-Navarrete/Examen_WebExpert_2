@@ -60,7 +60,6 @@ export default function Profile() {
 <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
   <View style={styles.container}>
 
-    {/* PROFIELGEDEELTE */}
     <View style={styles.profileSection}>
       <View style={styles.rowContainer}>
         <Image
@@ -83,13 +82,11 @@ export default function Profile() {
       </View>
     </View>
 
-    {/* UITLOG KNOP */}
     <Pressable style={styles.logoutButton} onPress={handleLogout}>
       <Ionicons name="log-out-outline" style={styles.icons} color="black" />
       <Text style={styles.buttonTextLogout}>Uitloggen</Text>
     </Pressable>
 
-    {/* GEBOEKTE AFSPRAKEN */}
     <Text style={styles.sectionTitle}>Geboekte afspraken</Text>
 
     {Object.keys(reservations).length === 0 ? (

@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Pressable, FlatList, RefreshControl, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PaymentPage({ route }) {
+  const navigation = useNavigation();
   const { selectedTimes } = route.params;
   const [paymentMethod, setPaymentMethod] = useState('');
   const [reservations, setReservations] = useState(selectedTimes);

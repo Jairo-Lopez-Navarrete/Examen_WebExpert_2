@@ -30,16 +30,13 @@ app.post('/register', (req, res) => {
 
   let users = loadUsers();
 
-  // Controleer of de gebruiker al bestaat
   const existingUser = users.find(user => user.email === email);
   if (existingUser) {
     return res.status(400).json({ error: 'Gebruiker bestaat al' });
   }
 
-  // Maak een nieuw gebruikersobject
   const newUser = { name, birthdate, email, work, password, profilePic: '' };
 
-  // Voeg gebruiker toe aan de lijst en sla op in users.json
   users.push(newUser);
   saveUsers(users);
 
@@ -67,6 +64,40 @@ app.post('/login', (req, res) => {
   }
 
   res.json(user);
+});
+
+
+
+app.put('/EditProfile', (req, res) => {
+  const { email, name, birthdate, work, profilePic, password } = req.body;
+
+  if (!email || (!name && !birthdate && !work && !profilePic && !password)) {
+    return res.status(400).json({ error: 'Vereiste gegevens ontbreken' });
+  }
+
+  let users = loadUsers();
+  
+  const userIndex = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+
+  if (userIndex === -1) {
+    return res.status(400).json({ error: 'Gebruiker niet gevonden' });
+  }
+
+  const updatedUser = users[userIndex];
+  
+  if (name) updatedUser.name = name;
+  if (birthdate) updatedUser.birthdate = birthdate;
+  if (email) updatedUser.email = email;
+  if (work) updatedUser.work = work;
+  if (profilePic) updatedUser.profilePic = profilePic;
+  if (password) updatedUser.password = password;
+
+  users[userIndex] = updatedUser;
+  saveUsers(users);
+
+  console.log('Gebruiker bijgewerkt:', updatedUser);
+
+  res.json(updatedUser);
 });
 
 app.listen(3000, '0.0.0.0', () => {

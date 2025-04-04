@@ -15,19 +15,17 @@ export default function EditProfile() {
   const [work, setWork] = useState(user.work);
   const [profilePic, setProfilePic] = useState(user.profilePic);
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); 
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState(user.email);
   const [refreshing, setRefreshing] = useState(false);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
-    
-      const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 2000);
-      }, []);
-
-  
   const pickImage = () => {
     Alert.alert(
       "Kies een optie",
@@ -102,84 +100,111 @@ export default function EditProfile() {
       Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");
       return;
     }
-  
+
     const [day, month, year] = birthdate.split('-').map(Number);
     const birthDateObj = new Date(year, month - 1, day);
     const today = new Date();
     const age = today.getFullYear() - birthDateObj.getFullYear();
-  
+
     if (birthDateObj > today || age < 16) {
       Alert.alert("Fout", "Je moet ouder als 16 zijn!");
       return;
     }
-  
-   
+
     if (password && password.length < 6) {
       Alert.alert('Fout', 'Het wachtwoord moet minimaal 6 tekens bevatten.');
       return;
     }
-  
+
     if (password && password !== confirmPassword) {
       Alert.alert('Fout', 'De wachtwoorden komen niet overeen.');
       return;
     }
-  
-    const updatedUser = { name, birthdate, work, profilePic };
-  
+
+    const updatedUser = { name, birthdate, work, profilePic, email, password };
+
     if (password) {
       updatedUser.password = password;
     }
-  
-    await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    navigation.goBack();
+
+    try {
+      const response = await fetch('http://192.168.156.29:3000/EditProfile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: updatedUser.email, 
+          name: updatedUser.name,
+          birthdate: updatedUser.birthdate,
+          work: updatedUser.work,
+          profilePic: updatedUser.profilePic,
+          password: updatedUser.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Fout bij het bijwerken van gebruiker');
+      }
+
+      const savedUser = await response.json();
+      await AsyncStorage.setItem('user', JSON.stringify(savedUser));
+      setUser(savedUser);
+      navigation.goBack();
+    } catch (err) {
+      Alert.alert('Fout', `Kon gegevens niet opslaan: ${err.message}`);
+      console.error(err);
+    }
   };
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
-      <Text style={styles.title}>Bewerk je profiel</Text>
+        <Text style={styles.title}>Bewerk je profiel</Text>
 
-      <Pressable onPress={pickImage}>
-        <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
-        <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
-      </Pressable>
+        <Pressable onPress={pickImage}>
+          <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
+          <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
+        </Pressable>
 
-      <Text style={styles.label}>Naam</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
+        <Text style={styles.label}>Naam</Text>
+        <TextInput style={styles.input} value={name} onChangeText={setName} />
 
-      <Text style={styles.label}>Geboortedatum</Text>
-      <TextInput style={styles.input} value={birthdate} onChangeText={setBirthdate} />
+        <Text style={styles.label}>Geboortedatum</Text>
+        <TextInput style={styles.input} value={birthdate} onChangeText={setBirthdate} />
 
-      <Text style={styles.label}>Werk</Text>
-      <TextInput style={styles.input} value={work} onChangeText={setWork} />
+        <Text style={styles.label}>Werk</Text>
+        <TextInput style={styles.input} value={work} onChangeText={setWork} />
 
-      <Text style={styles.label}>Nieuw Wachtwoord (optioneel)</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <Text style={styles.label}>E-mail</Text>
+        <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" />
 
-      <Text style={styles.label}>Bevestig Wachtwoord</Text>
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
+        <Text style={styles.label}>Nieuw Wachtwoord (optioneel)</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <Pressable style={styles.saveButton} onPress={handleSave}>
-        <Ionicons name="checkmark-circle-outline" size={24} color="white" />
-        <Text style={styles.buttonText}>Opslaan</Text>
-      </Pressable>
+        <Text style={styles.label}>Bevestig Wachtwoord</Text>
+        <TextInput
+          style={styles.input}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+        />
 
-      <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="close-circle-outline" size={24} color="black" />
-        <Text style={styles.cancelButtonText}>Annuleren</Text>
-      </Pressable>
-    </View>
+        <Pressable style={styles.saveButton} onPress={handleSave}>
+          <Ionicons name="checkmark-circle-outline" size={24} color="white" />
+          <Text style={styles.buttonText}>Opslaan</Text>
+        </Pressable>
+
+        <Pressable style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="close-circle-outline" size={24} color="black" />
+          <Text style={styles.cancelButtonText}>Annuleren</Text>
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }
