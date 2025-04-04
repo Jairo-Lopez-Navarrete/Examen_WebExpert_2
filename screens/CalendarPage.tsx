@@ -8,14 +8,14 @@ export default function CalendarPage({ navigation }) {
   const [selected, setSelected] = useState('');
   const [selectedTimes, setSelectedTimes] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-    
-
-      const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 2000);
-      }, []);
+  const [activeTimes, setActiveTimes] = useState({});
+  
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     requestLocationPermission();
@@ -55,18 +55,27 @@ export default function CalendarPage({ navigation }) {
   };
 
   const handleTimeSelection = (time) => {
-    if (selectedTimes[selected] === time) {
-      setSelectedTimes((prevTimes) => {
-        const newTimes = { ...prevTimes };
-        delete newTimes[selected];
-        return newTimes;
-      });
+    const updatedActiveTimes = { ...activeTimes };
+
+    // Als de tijd al geselecteerd is, deactiveer deze
+    if (updatedActiveTimes[time]) {
+      updatedActiveTimes[time] = false;
+      delete selectedTimes[selected];  // Verwijder de geselecteerde tijd voor deze dag
     } else {
+      // Deactiveer alle andere dagdelen en activeer alleen het geselecteerde dagdeel
+      updatedActiveTimes['s morgens'] = false;
+      updatedActiveTimes['s middags'] = false;
+      updatedActiveTimes['s avonds'] = false;
+      updatedActiveTimes[time] = true;
+      
+      // Update de geselecteerde tijden per dag
       setSelectedTimes((prevTimes) => ({
         ...prevTimes,
-        [selected]: time,
+        [selected]: time
       }));
     }
+
+    setActiveTimes(updatedActiveTimes);
   };
 
   const getMarkedDates = () => {
@@ -90,6 +99,24 @@ export default function CalendarPage({ navigation }) {
     }
   };
 
+  const handleDaySelect = (day) => {
+    setSelected(day.dateString);
+    // Reset actieve tijden voor nieuwe dagselectie
+    setActiveTimes({
+      's morgens': false,
+      's middags': false,
+      's avonds': false,
+    });
+
+    // Als deze dag al eerder is geselecteerd, stel de actieve tijden in
+    if (selectedTimes[day.dateString]) {
+      const selectedDayTime = selectedTimes[day.dateString];
+      const updatedActiveTimes = { ...activeTimes };
+      updatedActiveTimes[selectedDayTime] = true;
+      setActiveTimes(updatedActiveTimes);
+    }
+  };
+
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
@@ -107,9 +134,7 @@ export default function CalendarPage({ navigation }) {
 
         <Calendar
           style={styles.calendarStyle}
-          onDayPress={(day) => {
-            setSelected(day.dateString);
-          }}
+          onDayPress={(day) => handleDaySelect(day)}
           markedDates={getMarkedDates()}
           theme={{
             todayTextColor: 'red',
@@ -117,26 +142,27 @@ export default function CalendarPage({ navigation }) {
           }}
         />
 
-        {selected && !selectedTimes[selected] && (
+        {selected && (
           <View style={styles.timeSelectionContainer}>
             <Text style={styles.timeSelectionText}>Kies een dagdeel voor {selected}:</Text>
-            <Pressable onPress={() => handleTimeSelection('s morgens')} style={styles.timeButton}>
+            <Pressable
+              onPress={() => handleTimeSelection('s morgens')}
+              style={[styles.timeButton, activeTimes['s morgens'] && styles.timeButtonActive]}
+            >
               <Text style={styles.timeButtonText}>Ochtend</Text>
             </Pressable>
-            <Pressable onPress={() => handleTimeSelection('s middags')} style={styles.timeButton}>
+            <Pressable
+              onPress={() => handleTimeSelection('s middags')}
+              style={[styles.timeButton, activeTimes['s middags'] && styles.timeButtonActive]}
+            >
               <Text style={styles.timeButtonText}>Middag</Text>
             </Pressable>
-            <Pressable onPress={() => handleTimeSelection('s avonds')} style={styles.timeButton}>
+            <Pressable
+              onPress={() => handleTimeSelection('s avonds')}
+              style={[styles.timeButton, activeTimes['s avonds'] && styles.timeButtonActive]}
+            >
               <Text style={styles.timeButtonText}>Avond</Text>
             </Pressable>
-          </View>
-        )}
-
-        {selectedTimes[selected] && (
-          <View style={styles.selectionConfirmation}>
-            <Text style={styles.confirmationText}>
-              Je hebt {selected} geselecteerd en gekozen voor {selectedTimes[selected]}.
-            </Text>
           </View>
         )}
 
@@ -149,67 +175,69 @@ export default function CalendarPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-      backgroundColor: '#f5f5f5',
-    },
-    viewChange: {
-      padding: 20,
-    },
-    textChange: {
-      fontSize: 18,
-      marginBottom: 10,
-    },
-    calendarStyle: {
-      // height: '50%',
-      width: '100%',
-      marginTop: '5%',
-      marginBottom: '5%'
-    },
-    timeSelectionContainer: {
-      marginBottom: '5%',
-      padding: 10,
-      backgroundColor: '#e1e1e1',
-      borderRadius: 8,
-      width: '100%',
-      alignItems: 'center',
-    },
-    timeSelectionText: {
-      fontSize: 18,
-      marginBottom: 10,
-    },
-    timeButton: {
-      backgroundColor: '#007AFF',
-      padding: 10,
-      borderRadius: 8,
-      marginBottom: 10,
-      width: '80%',
-      alignItems: 'center',
-    },
-    timeButtonText: {
-      color: 'white',
-      fontSize: 16,
-    },
-    selectionConfirmation: {
-      marginTop: 20,
-      padding: 10,
-      backgroundColor: '#d1ffd6',
-      borderRadius: 8,
-      alignItems: 'center',
-    },
-    confirmationText: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    paymentButton: {
-      backgroundColor: '#be5845',
-      padding: 15,
-      borderRadius: 8,
-      alignItems: 'center',
-    },
-    paymentButtonText: {
-      color: 'white',
-      fontSize: 18,
-    },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  viewChange: {
+    padding: 20,
+  },
+  textChange: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  calendarStyle: {
+    width: '100%',
+    marginTop: '5%',
+    marginBottom: '5%',
+  },
+  timeSelectionContainer: {
+    marginBottom: '5%',
+    padding: 10,
+    backgroundColor: '#e1e1e1',
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+  timeSelectionText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  timeButton: {
+    backgroundColor: '#486cce',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  timeButtonActive: {
+    backgroundColor: '#ccc587',
+  },
+  timeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  selectionConfirmation: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#d1ffd6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  confirmationText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  paymentButton: {
+    backgroundColor: '#be5845',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  paymentButtonText: {
+    color: 'white',
+    fontSize: 18,
+  },
 });

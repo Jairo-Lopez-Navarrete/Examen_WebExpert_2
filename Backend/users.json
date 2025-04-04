@@ -100,5 +100,13 @@
     "work": "1010",
     "password": "101010",
     "profilePic": ""
+  },
+  {
+    "name": "maite",
+    "birthdate": "01-01-2001",
+    "email": "maitemai@hotmail.com",
+    "work": "maite",
+    "password": "maitemaite",
+    "profilePic": ""
   }
 ]
