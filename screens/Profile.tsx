@@ -73,6 +73,12 @@ export default function Profile() {
         >
           <Ionicons name="settings-outline" size={24} color="white" />
         </Pressable>
+        <Pressable
+          style={styles.userPolicyButton}
+          onPress={() => navigation.navigate('UserPolicy')}
+        >
+          <Ionicons name="help" size={24} color="white" />
+        </Pressable>
       </View>
 
       <View style={styles.userInfo}>
@@ -115,11 +121,7 @@ const styles = StyleSheet.create({
   textInfo: {
     alignItems: 'center'
   },
-  imageAndButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
+  
   profileSection: {
     marginBottom: 20,
   },
@@ -144,7 +146,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#007AFF',
     padding: 10,
     borderRadius: 10,
-    marginLeft: 10,
+    marginLeft: 25,
+  },
+  userPolicyButton: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 10,
+    //marginLeft: 10,
   },
   logoutButton: {
     flexDirection: 'row',

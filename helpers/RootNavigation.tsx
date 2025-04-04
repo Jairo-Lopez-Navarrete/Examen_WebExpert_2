@@ -14,6 +14,7 @@ type Routes = {
     'Login': string;
     'Register': string;
     'ForgotPassword': string;
+    'UserPolicy': string;
 };
 
 export const navigationRef = React.createRef<NavigationContainerRef<Routes>>();
