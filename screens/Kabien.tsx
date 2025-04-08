@@ -176,18 +176,19 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'center',
     padding: 20,
-    alignItems: 'center',
+    //alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
   },
   iconShare: {
     fontSize: 25,
     marginLeft: 10,
+    marginRight: 10,
     color: '#827B78'
   },
   text: {
@@ -199,12 +200,13 @@ const styles = StyleSheet.create({
   textContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     flexWrap: 'wrap',
     padding: 10,
   },
   image: {
-    width: '95%',
+    width: '100%',
     height: 200,
     borderRadius: 15,
     margin: 5,

@@ -117,7 +117,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     backgroundColor: '#f5f5f5',
   },
   textInfo: {
@@ -133,9 +133,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 60,
+    width: 100,
+    height: 100,
+    borderRadius: 100,
   },
   userInfo: {
     flex: 1,

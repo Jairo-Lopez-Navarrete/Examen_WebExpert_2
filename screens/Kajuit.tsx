@@ -174,19 +174,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //justifyContent: 'center',
-    padding: 20,
-    alignItems: 'center',
+    padding: 30,
+    // alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
   iconShare: {
     fontSize: 25,
     marginLeft: 10,
+    marginRight: 10,
     color: '#827B78'
   },
   text: {
@@ -198,13 +198,13 @@ const styles = StyleSheet.create({
   textContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     width: 350,
     flexWrap: 'wrap',
     padding: 10,
   },
   image: {
-    width: '95%',
+    width: '100%',
     height: 200,
     borderRadius: 15,
     margin: 5,

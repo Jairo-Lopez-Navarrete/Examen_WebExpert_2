@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable, Alert, Image, ScrollView, RefreshControl } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EditProfile() {
@@ -26,72 +26,88 @@ export default function EditProfile() {
     }, 2000);
   }, []);
 
-  const pickImage = () => {
-    Alert.alert(
-      "Kies een optie",
-      "Wil je een foto maken of een foto kiezen uit je galerij?",
-      [
-        {
-          text: "Camera",
-          onPress: () => launchCamera(),
-        },
-        {
-          text: "Galerij",
-          onPress: () => launchImageLibrary(),
-        },
-        {
-          text: "Annuleren",
-          style: "cancel",
-        },
-      ]
-    );
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Geen toegang', 'We hebben toegang tot je galerij nodig.');
+      return;
+    }
+  
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      setProfilePic(result.assets[0].uri);
+    }
   };
 
-  const launchCamera = () => {
-    ImagePicker.launchCamera(
-      {
-        mediaType: 'photo',
-        cameraType: 'back', 
-        saveToPhotos: true, 
-        includeBase64: false,
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('Gebruiker annuleerde het maken van een foto.');
-          return;
-        }
-        if (response.errorCode) {
-          console.log('Fout bij het nemen van een foto:', response.errorMessage);
-          return;
-        }
-        if (response.assets && response.assets.length > 0) {
-          setProfilePic(response.assets[0].uri);
-        }
-      }
-    );
+  const openCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Geen toegang', 'We hebben toegang tot je camera nodig.');
+      return;
+    }
+  
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      setProfilePic(result.assets[0].uri);
+    }
   };
 
-  const launchImageLibrary = () => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: 'photo',
-        selectionLimit: 1,
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('Gebruiker annuleerde het kiezen van een afbeelding.');
-          return;
-        }
-        if (response.errorMessage) {
-          console.log('Fout bij het selecteren van afbeelding:', response.errorMessage);
-          return;
-        }
-        if (response.assets && response.assets.length > 0) {
-          setProfilePic(response.assets[0].uri);
-        }
-      }
-    );
-  };
+  // const launchCamera = () => {
+  //   ImagePicker.launchCamera(
+  //     {
+  //       mediaType: 'photo',
+  //       cameraType: 'back', 
+  //       saveToPhotos: true, 
+  //       includeBase64: false,
+  //     },
+  //     (response) => {
+  //       if (response.didCancel) {
+  //         console.log('Gebruiker annuleerde het maken van een foto.');
+  //         return;
+  //       }
+  //       if (response.errorCode) {
+  //         console.log('Fout bij het nemen van een foto:', response.errorMessage);
+  //         return;
+  //       }
+  //       if (response.assets && response.assets.length > 0) {
+  //         setProfilePic(response.assets[0].uri);
+  //       }
+  //     }
+  //   );
+  // };
+
+  // const launchImageLibrary = () => {
+  //   ImagePicker.launchImageLibrary(
+  //     {
+  //       mediaType: 'photo',
+  //       selectionLimit: 1,
+  //     },
+  //     (response) => {
+  //       if (response.didCancel) {
+  //         console.log('Gebruiker annuleerde het kiezen van een afbeelding.');
+  //         return;
+  //       }
+  //       if (response.errorMessage) {
+  //         console.log('Fout bij het selecteren van afbeelding:', response.errorMessage);
+  //         return;
+  //       }
+  //       if (response.assets && response.assets.length > 0) {
+  //         setProfilePic(response.assets[0].uri);
+  //       }
+  //     }
+  //   );
+  // };
 
   // Opslaan van de wijzigingen in AsyncStorage
   const handleSave = async () => {
@@ -164,7 +180,7 @@ export default function EditProfile() {
 
         <Pressable onPress={pickImage}>
           <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
-          <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} />
+          <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} resizeMode="cover"/>
         </Pressable>
 
         <Text style={styles.label}>Naam</Text>
@@ -224,9 +240,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   profileImage: {
-    width: 140,
-    height: 140,
-    borderRadius: 60,
+    width: 100,
+    height: 100,
+    borderRadius: 100,
     alignSelf: 'center',
     marginBottom: 10,
   },
