@@ -126,9 +126,9 @@ export default function EditProfile() {
     if (password) {
       updatedUser.password = password;
     }
-
+    
     try {
-      const response = await fetch('http://192.168.156.29:3000/EditProfile', {
+      const response = await fetch('http://192.168.0.15:3000/EditProfile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

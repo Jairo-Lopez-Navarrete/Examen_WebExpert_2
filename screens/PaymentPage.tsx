@@ -21,17 +21,21 @@ export default function PaymentPage({ route }) {
           }, 2000);
         }, []);
 
-  useEffect(() => {
-    const saveReservations = async () => {
-      try {
-        await AsyncStorage.setItem('reservations', JSON.stringify(reservations));
-      } catch (error) {
-        console.error('Error saving reservations', error);
-      }
-    };
-
-    saveReservations();
-  }, [reservations]);
+        useEffect(() => {
+          const saveReservations = async () => {
+            try {
+              const userData = await AsyncStorage.getItem('user');
+              if (userData) {
+                const parsedUser = JSON.parse(userData);
+                await AsyncStorage.setItem(`reservations_${parsedUser.email}`, JSON.stringify(reservations));
+              }
+            } catch (error) {
+              console.error('Error saving reservations', error);
+            }
+          };
+        
+          saveReservations();
+        }, [reservations]);
 
   const handlePayment = () => {
     if (!paymentMethod) {

@@ -40,8 +40,7 @@ export default function Login() {
     setLoading(true);
   
     try {
-      // Stuur een POST-verzoek naar de backend voor verificatie
-      const response = await fetch('http://192.168.156.29:3000/login', {
+      const response = await fetch('http://192.168.0.15:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,24 +48,20 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
   
-      // Controleer of de response niet ok is
       if (!response.ok) {
-        const errorText = await response.text();  // Lees de fout als tekst
+        const errorText = await response.text();
         console.error('Serverfout:', errorText);
         throw new Error('Inloggen mislukt, controleer je gegevens.');
       }
   
-      // Als de response ok is, probeer dan de JSON te verwerken
       const result = await response.json();
       console.log('Login geslaagd, gebruiker:', result);
   
       // Sla de ingelogde gebruiker op in AsyncStorage
       await AsyncStorage.setItem('user', JSON.stringify(result));
   
-      // Navigeer naar het profiel en stuur de gebruiker mee
       navigation.replace('Profile', { user: result });
     } catch (error) {
-      // Toon een foutmelding als er iets misgaat
       Alert.alert('Fout', error.message);
       console.error(error);
     } finally {

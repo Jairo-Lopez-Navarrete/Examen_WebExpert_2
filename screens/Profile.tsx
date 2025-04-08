@@ -22,12 +22,14 @@ export default function Profile() {
   const loadUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('user');
-      const savedReservations = await AsyncStorage.getItem('reservations');
       if (userData) {
-        setUser(JSON.parse(userData));
-      }
-      if (savedReservations) {
-        setReservations(JSON.parse(savedReservations));
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+  
+        const savedReservations = await AsyncStorage.getItem(`reservations_${parsedUser.email}`);
+        if (savedReservations) {
+          setReservations(JSON.parse(savedReservations));
+        }
       }
     } catch (error) {
       console.error('Fout bij ophalen gegevens:', error);
