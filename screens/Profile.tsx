@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   settingsButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#628395',
     padding: 10,
     position: "absolute",
     top: 5,

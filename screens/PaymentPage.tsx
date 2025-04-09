@@ -37,21 +37,35 @@ export default function PaymentPage({ route }) {
           saveReservations();
         }, [reservations]);
 
-  const handlePayment = () => {
-    if (!paymentMethod) {
-      alert('Kies eerst een betaalmethode!');
-      return;
-    }
-
-    alert(`Je hebt €${totalPrice} betaald via ${paymentMethod}.`);
-    navigation.navigate('Profile');
-  };
-
-  const handleRemoveReservation = (date) => {
-    const updatedReservations = { ...reservations };
-    delete updatedReservations[date];
-    setReservations(updatedReservations);
-  };
+        const handlePayment = async () => {
+          if (!paymentMethod) {
+            alert('Kies eerst een betaalmethode!');
+            return;
+          }
+        
+          try {
+            const userData = await AsyncStorage.getItem('user');
+            const parsedUser = userData ? JSON.parse(userData) : {};
+        
+            await fetch('http://192.168.0.15:3000/send-confirmation-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: parsedUser.email,
+                name: parsedUser.name,
+                reservations: reservations,
+                totalPrice: totalPrice,
+                method: paymentMethod,
+              }),
+            });
+        
+            alert(`Je hebt €${totalPrice} betaald via ${paymentMethod}.`);
+            navigation.navigate('Profile');
+          } catch (error) {
+            console.error('Fout bij verzenden bevestiging:', error);
+            alert('Er ging iets mis bij het verzenden van de bevestiging.');
+          }
+        };
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>

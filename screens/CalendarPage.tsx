@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeButtonActive: {
-    backgroundColor: '#2b4570',
+    backgroundColor: '#628395',
   },
   timeButtonText: {
     color: '#fff',
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   selectionConfirmation: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#2b4570',
+    backgroundColor: '#caf0f8',
     borderRadius: 8,
     alignItems: 'center',
   },

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer'); // ✅ toegevoegd
+
 const app = express();
 
 app.use(cors());
@@ -45,18 +47,12 @@ app.post('/register', (req, res) => {
   res.json(newUser);
 });
 
-
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   console.log('Aangekomen verzoek:', req.body);
 
-  console.log('Login poging:', {email, password});
-  
-  
   let users = loadUsers();
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-
-  console.log('Gebruiker gevonden', user);
 
   if (!user) {
     console.log('Inloggen mislukt: Gebruiker niet gevonden');
@@ -65,8 +61,6 @@ app.post('/login', (req, res) => {
 
   res.json(user);
 });
-
-
 
 app.put('/EditProfile', (req, res) => {
   const { email, name, birthdate, work, profilePic, password } = req.body;
@@ -99,6 +93,46 @@ app.put('/EditProfile', (req, res) => {
 
   res.json(updatedUser);
 });
+
+
+// ✅ NIEUW: Endpoint om bevestigingsemail te versturen
+app.post('/send-confirmation-email', async (req, res) => {
+  const { email, name, reservations, totalPrice, method } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail', 'hotmail'
+    auth: {
+      user: 'jouwgmail@gmail.com',         // <-- vervang door jouw Gmail
+      pass: 'jouw_app_wachtwoord'          // <-- app-wachtwoord, geen gewoon wachtwoord!
+    }
+  });
+
+  const mailOptions = {
+    from: 'jouwgmail@gmail.com',
+    to: '12002138@student.pxl.be',
+    subject: 'Nieuwe betaling ontvangen',
+    html: `
+      <h2>Nieuwe reservering ontvangen</h2>
+      <p><strong>Naam:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Betaalmethode:</strong> ${method}</p>
+      <p><strong>Totaalprijs:</strong> €${totalPrice}</p>
+      <h3>Geselecteerde dagen:</h3>
+      <ul>
+        ${Object.entries(reservations).map(([dag, tijd]) => `<li>${dag}: ${tijd}</li>`).join('')}
+      </ul>
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).send({ message: 'Bevestigingsmail verzonden' });
+  } catch (error) {
+    console.error('Fout bij verzenden e-mail:', error);
+    res.status(500).send({ error: 'E-mail verzenden mislukt' });
+  }
+});
+
 
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server draait op poort 3000');
