@@ -48,7 +48,7 @@ export default function Kabien(){
     const shareInfo = async () => {
           try {
             const result = await Share.share({
-              message: 'Check deze geweldige werkplek: Kajuit! Ruime werkplekken, Wifi, Keukenfaciliteiten en meer. Perfect voor freelancers en bedrijven!\n\n Bekijk de details hier: https://jouwwebsite.com/kajuit',
+              message: 'Check deze geweldige werkplek: Kajuit! Ruime werkplek, Wifi, Keukenfaciliteiten en meer. Perfect voor freelancers en bedrijven!\n\n Bekijk de details hier: https://jouwwebsite.com/kajuit',
             });
         
             if (result.action === Share.sharedAction) {
