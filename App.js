@@ -23,6 +23,7 @@ import Register from './screens/Register';
 import PaymentPage from './screens/PaymentPage';
 import ForgotPassword from './screens/ForgotPassword';
 import UserPolicy from './screens/UserPolicy';
+import ContactPage from './screens/ContactPage';
 
 const Stack = createStackNavigator();
 
@@ -68,6 +69,7 @@ const App = () => {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="UserPolicy" component={UserPolicy} />
+            <Stack.Screen name="ContactPage" component={ContactPage} />
           </Stack.Navigator>
           <Footer />
           <StatusBar style="auto" />

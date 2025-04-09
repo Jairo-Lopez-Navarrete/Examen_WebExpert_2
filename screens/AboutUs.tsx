@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, RefreshControl  } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, RefreshControl, Pressable  } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AboutUs() {
-
+  const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
   
     const onRefresh = useCallback(() => {
@@ -30,7 +31,8 @@ export default function AboutUs() {
       <Text style={styles.subtitle}>Onze Missie</Text>
       <Text style={styles.paragraph}>Onze missie is om [specifieke missie van het bedrijf of de app]. We streven ernaar om gebruikers te helpen hun doelen te bereiken door...</Text>
       <Text style={styles.subtitle}>Neem contact met ons op</Text>
-      <Text style={styles.paragraph}>Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen via [e-mail, telefoonnummer, etc.].</Text>
+      <Text style={styles.paragraph}>Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen.</Text>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('ContactPage')}><Text style={styles.buttonText}>Contacteer ons</Text></Pressable>
       </View>
     </ScrollView>
   );
@@ -68,4 +70,24 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 15,
   },
+  button: {
+    backgroundColor: '#E74040',
+        padding: 15,
+        marginTop: 0,
+        margin: 15,
+        borderRadius: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    marginLeft: 10
+  }
 });

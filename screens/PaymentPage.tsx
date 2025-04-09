@@ -66,6 +66,12 @@ export default function PaymentPage({ route }) {
             alert('Er ging iets mis bij het verzenden van de bevestiging.');
           }
         };
+        
+        const handleRemoveReservation = (date) => {
+          const updatedReservations = { ...reservations };
+          delete updatedReservations[date];
+          setReservations(updatedReservations);
+        };
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>

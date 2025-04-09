@@ -100,16 +100,16 @@ app.post('/send-confirmation-email', async (req, res) => {
   const { email, name, reservations, totalPrice, method } = req.body;
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail', 'hotmail'
+    service: 'hotmail',
     auth: {
-      user: 'jouwgmail@gmail.com',         // <-- vervang door jouw Gmail
+      user: 'jouwhotmail@hotmail.com',         // <-- vervang door jouw Gmail
       pass: 'jouw_app_wachtwoord'          // <-- app-wachtwoord, geen gewoon wachtwoord!
     }
   });
 
   const mailOptions = {
-    from: 'jouwgmail@gmail.com',
-    to: '12002138@student.pxl.be',
+    from: 'jouwhotmail@hotmail.com',
+    to: 'jairoln@hotmail.com',
     subject: 'Nieuwe betaling ontvangen',
     html: `
       <h2>Nieuwe reservering ontvangen</h2>
@@ -130,6 +130,42 @@ app.post('/send-confirmation-email', async (req, res) => {
   } catch (error) {
     console.error('Fout bij verzenden e-mail:', error);
     res.status(500).send({ error: 'E-mail verzenden mislukt' });
+  }
+});
+
+
+app.post('/send-contact-message', async (req, res) => {
+  const { name, birthdate, email, work, message } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'hotmail',
+    auth: {
+      user: 'jouwhotmail@hotmail.com',
+      pass: 'jouw_app_wachtwoord'
+    }
+  });
+
+  const mailOptions = {
+    from: email,
+    to: 'jairoln@hotmail.com',
+    subject: 'Nieuw contactbericht ontvangen',
+    html: `
+      <h2>Contactformulier</h2>
+      <p><strong>Naam:</strong> ${name}</p>
+      <p><strong>Geboortedatum:</strong> ${birthdate}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Beroep:</strong> ${work}</p>
+      <h3>Bericht:</h3>
+      <p>${message}</p>
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Bericht verzonden' });
+  } catch (error) {
+    console.error('Fout bij verzenden contactbericht:', error);
+    res.status(500).json({ error: 'Verzenden mislukt' });
   }
 });
 
