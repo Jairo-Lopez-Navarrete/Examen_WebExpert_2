@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
@@ -124,12 +124,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   removeButton: {
-    backgroundColor: '#FF3B30',
-    padding: 5,
-    borderRadius: 5,
+    backgroundColor: '#e74040',
+    padding: 8,
+    borderRadius: 100,
   },
   removeButtonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 14,
   },
   summary: {
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   picker: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 5,
   },
   payButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#e74040',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 100,
     marginTop: 20,
     alignItems: 'center',
   },

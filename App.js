@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { RefreshControl, StyleSheet, ScrollView, View } from 'react-native';
+import {StyleSheet} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -55,7 +55,7 @@ const App = () => {
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
           {/* <Header /> */}
-          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#987653', height: 66,}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20}, }}  >
+          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#2b4570', height: 66}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20}, }}  >
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />

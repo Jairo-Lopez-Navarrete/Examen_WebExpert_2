@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginLeft: 10,
     marginRight: 10,
-    color: '#827B78'
+    color: '#628395'
   },
   text: {
     fontSize: 20,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   calenderButton: {
-        backgroundColor: '#156484',
+        backgroundColor: '#E74040',
         padding: 15,
         marginTop: 0,
         margin: 15,

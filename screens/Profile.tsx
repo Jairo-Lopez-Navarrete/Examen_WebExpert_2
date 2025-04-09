@@ -73,7 +73,7 @@ export default function Profile() {
           style={styles.settingsButton}
           onPress={() => navigation.navigate('EditProfile', { user, setUser })}
         >
-          <Ionicons name="settings-outline" size={24} color="white" />
+          <Ionicons name="pencil" size={24} color="white" />
         </Pressable>
         <Pressable
           style={styles.userPolicyButton}
@@ -91,7 +91,7 @@ export default function Profile() {
     </View>
 
     <Pressable style={styles.logoutButton} onPress={handleLogout}>
-      <Ionicons name="log-out-outline" style={styles.icons} color="black" />
+      <Ionicons name="log-out-outline" style={styles.icons} color="#628395" />
       <Text style={styles.buttonTextLogout}>Uitloggen</Text>
     </Pressable>
 
@@ -147,23 +147,27 @@ const styles = StyleSheet.create({
   settingsButton: {
     backgroundColor: '#007AFF',
     padding: 10,
-    borderRadius: 10,
+    position: "absolute",
+    top: 5,
+    left: 60,
+    borderRadius: 100,
     marginLeft: 25,
   },
   userPolicyButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#628395',
     padding: 10,
-    borderRadius: 10,
+    position: "absolute",
+    top: 5,
+    right: 20,
+    borderRadius: 100,
     //marginLeft: 10,
   },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
-    borderRadius: 10,
-    backgroundColor: '#e0e0e0',
+    borderRadius: 100,
     marginBottom: 20,
-    justifyContent: 'center',
   },
   icons: {
     fontSize: 24,
@@ -171,7 +175,8 @@ const styles = StyleSheet.create({
   buttonTextLogout: {
     fontSize: 18,
     marginLeft: 10,
-    textDecorationLine: 'underline',
+    color: '#628395'
+    //textDecorationLine: 'underline',
   },
   sectionTitle: {
     fontSize: 20,

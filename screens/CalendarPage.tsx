@@ -137,8 +137,8 @@ export default function CalendarPage({ navigation }) {
           onDayPress={(day) => handleDaySelect(day)}
           markedDates={getMarkedDates()}
           theme={{
-            todayTextColor: 'red',
-            arrowColor: 'blue',
+            todayTextColor: '#000',
+            arrowColor: '#2b4570',
           }}
         />
 
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
   viewChange: {
     padding: 20,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   timeButton: {
-    backgroundColor: '#486cce',
+    backgroundColor: '#2B4570',
     padding: 10,
     borderRadius: 8,
     marginBottom: 10,
@@ -213,16 +213,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeButtonActive: {
-    backgroundColor: '#ccc587',
+    backgroundColor: '#2b4570',
   },
   timeButtonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 16,
   },
   selectionConfirmation: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#d1ffd6',
+    backgroundColor: '#2b4570',
     borderRadius: 8,
     alignItems: 'center',
   },
@@ -231,13 +231,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   paymentButton: {
-    backgroundColor: '#be5845',
+    backgroundColor: '#e74040',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
   },
   paymentButtonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 18,
   },
 });

@@ -73,6 +73,7 @@ textContainer: {
     fontSize: 20,
     // height: 70,
     marginTop: '20%',
+    marginBottom: '20%',
     justifyContent: 'center',
     fontWeight: 'bold',
     color: '#232323',
