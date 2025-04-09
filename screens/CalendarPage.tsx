@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform, ScrollView, RefreshControl } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
 import { Calendar } from 'react-native-calendars';
 
 export default function CalendarPage({ navigation }) {
@@ -18,40 +18,66 @@ export default function CalendarPage({ navigation }) {
   }, []);
 
   useEffect(() => {
-    requestLocationPermission();
+    requestLocationPermissionAndFetchLocation();
   }, []);
-
-  const requestLocationPermission = async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Locatietoegang nodig',
-          message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
-          buttonNeutral: 'Vraag later',
-          buttonNegative: 'Annuleren',
-          buttonPositive: 'OK',
+  
+  const requestLocationPermissionAndFetchLocation = async () => {
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Locatietoegang nodig',
+            message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
+            buttonNeutral: 'Vraag later',
+            buttonNegative: 'Annuleren',
+            buttonPositive: 'OK',
+          }
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Locatietoegang geweigerd');
+          return;
         }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Locatietoegang verleend');
-      } else {
-        console.log('Locatietoegang geweigerd');
       }
+  
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Toestemming geweigerd voor foreground');
+        return;
+      }
+  
+      const location = await Location.getCurrentPositionAsync({});
+      console.log('Opgehaalde locatie:', location);
+      
+      if (location?.coords) {
+        setLocation(location.coords);
+      } else {
+        console.warn('Geen coordinaten gevonden in locatie object');
+      }
+    } catch (error) {
+      console.error('Fout bij ophalen locatie:', error);
     }
   };
-
-  const getLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
-        setLocation(position.coords);
-      },
-      (error) => {
-        console.error('Error getting location: ', error);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+  
+  const getLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Geen toestemming', 'Locatietoegang is vereist om je locatie te tonen.');
+        return;
+      }
+  
+      const location = await Location.getCurrentPositionAsync({});
+      console.log('Handmatig opgehaalde locatie:', location);
+  
+      if (location?.coords) {
+        setLocation(location.coords);
+      } else {
+        console.warn('Geen coordinaten gevonden bij handmatige opvraag');
+      }
+    } catch (error) {
+      console.error('Fout bij handmatig ophalen locatie:', error);
+    }
   };
 
   const handleTimeSelection = (time) => {
@@ -120,17 +146,13 @@ export default function CalendarPage({ navigation }) {
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
-        <View style={styles.viewChange}>
+        {/* <View style={styles.viewChange}>
           <Text style={styles.textChange}>Locatiegegevens:</Text>
-          {location ? (
-            <Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>
-          ) : (
-            <Text>Nog geen locatie opgehaald.</Text>
-          )}
+          {location ? (<Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>) : (<Text>Locatie wordt opgehaald of nog niet beschikbaar.</Text>)}
           <Pressable onPress={getLocation}>
             <Text>Haal locatie op</Text>
           </Pressable>
-        </View>
+        </View> */}
 
         <Calendar
           style={styles.calendarStyle}
