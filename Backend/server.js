@@ -140,8 +140,8 @@ app.post('/send-contact-message', async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
-      user: 'jouwhotmail@hotmail.com',
-      pass: 'jouw_app_wachtwoord'
+      user: 'jairoln@hotmail.com',
+      pass: 'lopez2010'
     }
   });
 

@@ -56,7 +56,7 @@ export default function Register() {
         setLoading(true);
       
         try {
-          const response = await fetch('http://192.168.156.29:3000/register', {
+          const response = await fetch('http://192.168.0.15:3000/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, birthdate, email, work, password }),

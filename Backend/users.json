@@ -16,12 +16,12 @@
     "profilePic": ""
   },
   {
-    "name": "test",
+    "name": "testing",
     "birthdate": "10-10-2000",
     "email": "10@10.com",
     "work": "1010",
     "password": "101010",
-    "profilePic": ""
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/9e4c8113-0e37-4104-be48-91cfe6c42cf6.jpeg"
   },
   {
     "name": "maite",
@@ -46,5 +46,13 @@
     "work": "ghlainklain model",
     "password": "lopenya",
     "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/9acd15be-9e41-425c-a785-8e77c3b7f4fd.jpeg"
+  },
+  {
+    "name": "Maribel",
+    "birthdate": "12-08-1973",
+    "email": "maribel-navarrete@hotmail.com",
+    "work": "Huisvrouw",
+    "password": "lopez0000",
+    "profilePic": ""
   }
 ]

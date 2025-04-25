@@ -47,7 +47,7 @@ export default function PaymentPage({ route }) {
             const userData = await AsyncStorage.getItem('user');
             const parsedUser = userData ? JSON.parse(userData) : {};
         
-            await fetch('http://192.168.0.15:3000/send-confirmation-email', {
+            const response = await fetch('http://192.168.0.15:3000/send-confirmation-email', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -59,14 +59,20 @@ export default function PaymentPage({ route }) {
               }),
             });
         
-            alert(`Je hebt €${totalPrice} betaald via ${paymentMethod}.`);
-            navigation.navigate('Profile');
+            const data = await response.json();
+        
+            if (response.ok) {
+              alert('✅ Betaling gelukt! Je ontvangt spoedig een bevestiging.');
+              navigation.navigate('Profile');
+            } else {
+              alert(`❌ Er ging iets mis: ${data.error || 'Onbekende fout'}`);
+            }
           } catch (error) {
             console.error('Fout bij verzenden bevestiging:', error);
-            alert('Er ging iets mis bij het verzenden van de bevestiging.');
+            alert('❌ Er ging iets mis bij het verzenden van de bevestiging.');
           }
         };
-        
+
         const handleRemoveReservation = (date) => {
           const updatedReservations = { ...reservations };
           delete updatedReservations[date];
