@@ -12,6 +12,11 @@ export default function CalendarPage({ navigation }) {
   
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+
+    setSelected('');
+    setSelectedTimes('');
+    setActiveTimes('');
+
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);

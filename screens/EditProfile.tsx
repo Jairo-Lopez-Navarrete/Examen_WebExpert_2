@@ -21,6 +21,16 @@ export default function EditProfile() {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+
+    // setName('');
+    // setBirthdate('');
+    // setWork('');
+    // setProfilePic('');
+    // setPassword('');
+    // setConfirmPassword('');
+    // setEmail('');
+    
+
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -144,7 +154,7 @@ export default function EditProfile() {
     }
     
     try {
-      const response = await fetch('http://192.168.0.15:3000/EditProfile', {
+      const response = await fetch('http://192.168.156.35:3000/EditProfile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

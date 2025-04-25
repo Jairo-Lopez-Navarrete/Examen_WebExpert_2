@@ -71,7 +71,7 @@ textContainer: {
     backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     // height: 70,
     marginTop: '20%',
     marginBottom: 2,

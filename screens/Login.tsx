@@ -26,9 +26,14 @@ export default function Login() {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
   const handleLogin = async () => {
@@ -40,7 +45,7 @@ export default function Login() {
     setLoading(true);
   
     try {
-      const response = await fetch('http://192.168.0.15:3000/login', {
+      const response = await fetch('http://192.168.156.35:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

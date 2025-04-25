@@ -110,7 +110,7 @@ export default function Kabien(){
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.container}>
         <View style={styles.titleContainer}>
-            <Text style={styles.text}>Het wordt dus Kajuit!</Text>
+            <Text style={styles.mainTitle}>Het wordt dus Kajuit!</Text>
             <TouchableOpacity onPress={shareInfo}>
                 <Ionicons name="arrow-redo" style={styles.iconShare}/>
             </TouchableOpacity>
@@ -141,7 +141,8 @@ export default function Kabien(){
                 </TouchableOpacity>
             </View>
         </Modal>
-        <Text style={styles.text}>Dit is wat je krijgt.</Text>
+        <Text style={styles.money}>€100 per dag</Text>
+        <Text style={styles.titles}>Dit is wat je krijgt.</Text>
         <View style={styles.textContainer}>
             <Text>{included[0]}</Text>
             <Text>{included[1]}</Text>
@@ -151,7 +152,7 @@ export default function Kabien(){
             <Text>{included[5]}</Text>
             <Text>{included[6]}</Text>
         </View>
-        <Text style={styles.text}>Niet inbegrepen</Text>
+        <Text style={styles.titles}>Niet inbegrepen</Text>
         <View style={styles.textContainer}>
             <Text>{notIncluded[0]}</Text>
             <Text>{notIncluded[1]}</Text>
@@ -180,8 +181,15 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 20,
+  },
+  money: {
+    marginTop: 3,
+    marginBottom: 20,
+    fontSize: 20,
+    fontWeight: 500,
   },
   iconShare: {
     fontSize: 25,
@@ -189,7 +197,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: '#628395'
   },
-  text: {
+  mainTitle: {
+    fontSize: 25,
+    fontWeight: 700,
+    //textAlign: 'center',
+    color: '#232323',
+    padding: 5,
+  },
+  titles: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#232323',
@@ -214,7 +229,7 @@ const styles = StyleSheet.create({
   imageSmallContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenlt'
   },
   imageSmall: {
     width: 100,
@@ -239,11 +254,13 @@ const styles = StyleSheet.create({
     right: 20,
   },
   prevButton: {
+    zIndex: 1,
     position: 'absolute',
     left: 20,
     top: '50%',
   },
   nextButton: {
+    zIndex: 1,
     position: 'absolute',
     right: 20,
     top: '50%',
