@@ -6,11 +6,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { navigationRef } from './helpers/RootNavigation';
 
-// components
-// import Header from './components/Header';
+
+//import Header from './components/Header';
 import Footer from './components/Footer';
 
-// screens
+
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import AboutUs from './screens/AboutUs';

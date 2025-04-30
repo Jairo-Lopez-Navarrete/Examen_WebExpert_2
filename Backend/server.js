@@ -1,8 +1,13 @@
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const nodemailer = require('nodemailer'); // ✅ toegevoegd
+//const nodemailer = require('nodemailer');
+
 
 const app = express();
 
@@ -49,13 +54,11 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  console.log('Aangekomen verzoek:', req.body);
 
   let users = loadUsers();
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
   if (!user) {
-    console.log('Inloggen mislukt: Gebruiker niet gevonden');
     return res.status(400).json({ error: 'E-mailadres of wachtwoord onjuist' });
   }
 
@@ -70,7 +73,6 @@ app.put('/EditProfile', (req, res) => {
   }
 
   let users = loadUsers();
-  
   const userIndex = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
 
   if (userIndex === -1) {
@@ -78,10 +80,9 @@ app.put('/EditProfile', (req, res) => {
   }
 
   const updatedUser = users[userIndex];
-  
+
   if (name) updatedUser.name = name;
   if (birthdate) updatedUser.birthdate = birthdate;
-  if (email) updatedUser.email = email;
   if (work) updatedUser.work = work;
   if (profilePic) updatedUser.profilePic = profilePic;
   if (password) updatedUser.password = password;
@@ -89,28 +90,37 @@ app.put('/EditProfile', (req, res) => {
   users[userIndex] = updatedUser;
   saveUsers(users);
 
-  console.log('Gebruiker bijgewerkt:', updatedUser);
-
   res.json(updatedUser);
 });
 
-
-// ✅ NIEUW: Endpoint om bevestigingsemail te versturen
+// Correcte afsluiting toegevoegd hier:
 app.post('/send-confirmation-email', async (req, res) => {
   const { email, name, reservations, totalPrice, method } = req.body;
 
-  const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-      user: 'jouwhotmail@hotmail.com',         // <-- vervang door jouw Gmail
-      pass: 'jouw_app_wachtwoord'          // <-- app-wachtwoord, geen gewoon wachtwoord!
-    }
-  });
+  const htmlList = Object.entries(reservations)
+    .map(([dag, tijd]) => `<li>${dag}: ${tijd}</li>`)
+    .join('');
 
-  const mailOptions = {
-    from: 'jouwhotmail@hotmail.com',
-    to: 'jairoln@hotmail.com',
+  const plainTextList = Object.entries(reservations)
+    .map(([dag, tijd]) => `- ${dag}: ${tijd}`)
+    .join('\n');
+
+  const msg = {
+    to: 'maitemj0112@gmail.com', // Ontvanger
+    from: {
+      email: 'jairoln@hotmail.com', // <-- Zorg dat dit domein geverifieerd is in SendGrid!
+      name: 'Reservatie Systeem'
+    },
+    replyTo: email,
     subject: 'Nieuwe betaling ontvangen',
+    text: `Nieuwe reservering ontvangen van ${name} (${email})
+
+Betaalmethode: ${method}
+Totaalprijs: €${totalPrice}
+
+Geselecteerde dagen:
+${plainTextList}
+    `,
     html: `
       <h2>Nieuwe reservering ontvangen</h2>
       <p><strong>Naam:</strong> ${name}</p>
@@ -118,37 +128,29 @@ app.post('/send-confirmation-email', async (req, res) => {
       <p><strong>Betaalmethode:</strong> ${method}</p>
       <p><strong>Totaalprijs:</strong> €${totalPrice}</p>
       <h3>Geselecteerde dagen:</h3>
-      <ul>
-        ${Object.entries(reservations).map(([dag, tijd]) => `<li>${dag}: ${tijd}</li>`).join('')}
-      </ul>
+      <ul>${htmlList}</ul>
     `
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).send({ message: 'Bevestigingsmail verzonden' });
+    await sgMail.send(msg);
+    console.log('Bevestigingsmail verzonden');
+    res.status(200).json({ message: 'Bevestigingsmail verzonden' });
   } catch (error) {
-    console.error('Fout bij verzenden e-mail:', error);
-    res.status(500).send({ error: 'E-mail verzenden mislukt' });
+    console.error('Fout bij verzenden bevestigingsmail:', error.response?.body || error.message || error);
+    res.status(500).json({ error: 'Bevestigingsmail mislukt' });
   }
 });
 
-
+// Nu wordt dit endpoint correct aangemaakt:
 app.post('/send-contact-message', async (req, res) => {
   const { name, birthdate, email, work, message } = req.body;
 
-  const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-      user: 'jairoln@hotmail.com',
-      pass: 'lopez2010'
-    }
-  });
-
-  const mailOptions = {
-    from: email,
-    to: 'jairoln@hotmail.com',
+  const msg = {
+    to: 'maitemj0112@gmail.com',
+    from: 'jairoln@hotmail.com', // Moet geverifieerd zijn
     subject: 'Nieuw contactbericht ontvangen',
+    replyTo: email,
     html: `
       <h2>Contactformulier</h2>
       <p><strong>Naam:</strong> ${name}</p>
@@ -161,14 +163,62 @@ app.post('/send-contact-message', async (req, res) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sgMail.send(msg);
+    console.log('Contactbericht verzonden');
     res.status(200).json({ message: 'Bericht verzonden' });
   } catch (error) {
-    console.error('Fout bij verzenden contactbericht:', error);
+    console.error('Fout bij verzenden contactbericht:', error.response?.body || error);
     res.status(500).json({ error: 'Verzenden mislukt' });
   }
 });
 
+// RESERVATIONS
+const reservationsFilePath = path.join(__dirname, 'reservations.json');
+
+const loadReservations = () => {
+  if (fs.existsSync(reservationsFilePath)) {
+    const data = fs.readFileSync(reservationsFilePath);
+    return JSON.parse(data);
+  }
+  return [];
+};
+
+const saveReservations = (reservations) => {
+  fs.writeFileSync(reservationsFilePath, JSON.stringify(reservations, null, 2));
+};
+
+app.post('/reserve', (req, res) => {
+  const { email, reservations } = req.body;
+
+  if (!reservations || !email) {
+    return res.status(400).json({ error: 'Email en reserveringen zijn verplicht' });
+  }
+
+  let existingReservations = loadReservations();
+
+  const conflicts = Object.entries(reservations).filter(([date, time]) =>
+    existingReservations.some(r => r.date === date && r.time === time)
+  );
+
+  if (conflicts.length > 0) {
+    return res.status(409).json({ error: 'Een of meer dagdelen zijn al gereserveerd', conflicts });
+  }
+
+  const newReservations = Object.entries(reservations).map(([date, time]) => ({
+    email,
+    date,
+    time
+  }));
+
+  saveReservations([...existingReservations, ...newReservations]);
+
+  res.status(200).json({ message: 'Reservering opgeslagen' });
+});
+
+app.get('/reservations', (req, res) => {
+  const reservations = loadReservations();
+  res.json(reservations);
+});
 
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server draait op poort 3000');

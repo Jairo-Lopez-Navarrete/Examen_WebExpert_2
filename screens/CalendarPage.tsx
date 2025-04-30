@@ -93,13 +93,12 @@ export default function CalendarPage({ navigation }) {
       updatedActiveTimes[time] = false;
       delete selectedTimes[selected];  // Verwijder de geselecteerde tijd voor deze dag
     } else {
-      // Deactiveer alle andere dagdelen en activeer alleen het geselecteerde dagdeel
-      updatedActiveTimes['s morgens'] = false;
-      updatedActiveTimes['s middags'] = false;
-      updatedActiveTimes['s avonds'] = false;
+      
+      updatedActiveTimes['Ochtend'] = false;
+      updatedActiveTimes['Middag'] = false;
+      updatedActiveTimes['Avond'] = false;
       updatedActiveTimes[time] = true;
       
-      // Update de geselecteerde tijden per dag
       setSelectedTimes((prevTimes) => ({
         ...prevTimes,
         [selected]: time
@@ -132,11 +131,11 @@ export default function CalendarPage({ navigation }) {
 
   const handleDaySelect = (day) => {
     setSelected(day.dateString);
-    // Reset actieve tijden voor nieuwe dagselectie
+
     setActiveTimes({
-      's morgens': false,
-      's middags': false,
-      's avonds': false,
+      'Ochtend': false,
+      'Middag': false,
+      'Avond': false,
     });
 
     // Als deze dag al eerder is geselecteerd, stel de actieve tijden in

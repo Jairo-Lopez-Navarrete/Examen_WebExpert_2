@@ -21,14 +21,6 @@ export default function EditProfile() {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-
-    // setName('');
-    // setBirthdate('');
-    // setWork('');
-    // setProfilePic('');
-    // setPassword('');
-    // setConfirmPassword('');
-    // setEmail('');
     
 
     setTimeout(() => {
@@ -73,53 +65,6 @@ export default function EditProfile() {
     }
   };
 
-  // const launchCamera = () => {
-  //   ImagePicker.launchCamera(
-  //     {
-  //       mediaType: 'photo',
-  //       cameraType: 'back', 
-  //       saveToPhotos: true, 
-  //       includeBase64: false,
-  //     },
-  //     (response) => {
-  //       if (response.didCancel) {
-  //         console.log('Gebruiker annuleerde het maken van een foto.');
-  //         return;
-  //       }
-  //       if (response.errorCode) {
-  //         console.log('Fout bij het nemen van een foto:', response.errorMessage);
-  //         return;
-  //       }
-  //       if (response.assets && response.assets.length > 0) {
-  //         setProfilePic(response.assets[0].uri);
-  //       }
-  //     }
-  //   );
-  // };
-
-  // const launchImageLibrary = () => {
-  //   ImagePicker.launchImageLibrary(
-  //     {
-  //       mediaType: 'photo',
-  //       selectionLimit: 1,
-  //     },
-  //     (response) => {
-  //       if (response.didCancel) {
-  //         console.log('Gebruiker annuleerde het kiezen van een afbeelding.');
-  //         return;
-  //       }
-  //       if (response.errorMessage) {
-  //         console.log('Fout bij het selecteren van afbeelding:', response.errorMessage);
-  //         return;
-  //       }
-  //       if (response.assets && response.assets.length > 0) {
-  //         setProfilePic(response.assets[0].uri);
-  //       }
-  //     }
-  //   );
-  // };
-
-  // Opslaan van de wijzigingen in AsyncStorage
   const handleSave = async () => {
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(birthdate)) {

@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Pressable,
-  Alert,
-  ScrollView,
-  RefreshControl
-} from 'react-native';
+import {View,Text,StyleSheet,TextInput,Pressable,Alert,ScrollView,RefreshControl} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -50,7 +41,7 @@ export default function ContactPage() {
     }
 
     try {
-      await fetch('http://192.168.0.15:3000/send-contact-message', {
+      await fetch('http://192.168.156.35:3000/send-contact-message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

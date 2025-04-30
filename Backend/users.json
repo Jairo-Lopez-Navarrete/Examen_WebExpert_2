@@ -54,5 +54,29 @@
     "work": "Huisvrouw",
     "password": "lopez0000",
     "profilePic": ""
+  },
+  {
+    "name": "vicente",
+    "birthdate": "12-09-1974",
+    "email": "vice120974",
+    "work": "smeltmeester",
+    "password": "vinsdeprins",
+    "profilePic": ""
+  },
+  {
+    "name": "student",
+    "birthdate": "26-12-2000",
+    "email": "12002138@student.pxl.be",
+    "work": "tudent",
+    "password": "39Yy?Yxu",
+    "profilePic": ""
+  },
+  {
+    "name": "jairo",
+    "birthdate": "26-12-2000",
+    "email": "jairoln@hotmail.com",
+    "work": "student",
+    "password": "acjtumlpkvzijynm",
+    "profilePic": ""
   }
 ]

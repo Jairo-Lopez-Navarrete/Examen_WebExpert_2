@@ -46,8 +46,13 @@ export default function PaymentPage({ route }) {
           try {
             const userData = await AsyncStorage.getItem('user');
             const parsedUser = userData ? JSON.parse(userData) : {};
+
+            await AsyncStorage.setItem(
+              `reservations_${parsedUser.email}`,
+              JSON.stringify(reservations)
+            );
         
-            const response = await fetch('http://192.168.0.15:3000/send-confirmation-email', {
+            const response = await fetch('http://192.168.156.35:3000/send-confirmation-email', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -62,14 +67,14 @@ export default function PaymentPage({ route }) {
             const data = await response.json();
         
             if (response.ok) {
-              alert('✅ Betaling gelukt! Je ontvangt spoedig een bevestiging.');
+              alert('Betaling gelukt! Je ontvangt spoedig een bevestiging.');
               navigation.navigate('Profile');
             } else {
-              alert(`❌ Er ging iets mis: ${data.error || 'Onbekende fout'}`);
+              alert(`Er ging iets mis: ${data.error || 'Onbekende fout'}`);
             }
           } catch (error) {
             console.error('Fout bij verzenden bevestiging:', error);
-            alert('❌ Er ging iets mis bij het verzenden van de bevestiging.');
+            alert('Er ging iets mis bij het verzenden van de bevestiging.');
           }
         };
 
