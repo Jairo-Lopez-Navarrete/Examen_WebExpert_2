@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   textInfo: {
-    alignItems: 'center'
+    alignItems: 'center',
+    fontFamily: 'Poppins_400Regular'
   },
   
   profileSection: {
@@ -139,10 +140,13 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flex: 1,
+    marginTop: 15,
+    alignItems: 'flex-start',
   },
   text: {
     fontSize: 18,
     marginBottom: 5,
+    fontFamily: 'Poppins_400Regular',
   },
   settingsButton: {
     backgroundColor: '#628395',
@@ -175,14 +179,15 @@ const styles = StyleSheet.create({
   buttonTextLogout: {
     fontSize: 18,
     marginLeft: 10,
-    color: '#628395'
+    color: '#628395',
+    fontFamily: 'Poppins_400Regular',
     //textDecorationLine: 'underline',
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
+    fontFamily: 'Poppins_500Medium',
   },
   appointmentItem: {
     paddingVertical: 8,
@@ -191,14 +196,11 @@ const styles = StyleSheet.create({
   },
   appointmentText: {
     fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
   },
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  userInfo: {
-    marginTop: 15,
-    alignItems: 'flex-start',
-  }
 });

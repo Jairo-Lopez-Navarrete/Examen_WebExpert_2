@@ -76,7 +76,7 @@ textContainer: {
     marginTop: '20%',
     marginBottom: 2,
     justifyContent: 'center',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_500Medium',
     color: '#232323',
     padding: 5,
   },
@@ -88,7 +88,7 @@ textContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    fontWeight: 'regular',
+    fontFamily: 'Poppins_400Regular',
     color: '#232323',
     padding: 5,
   },
@@ -111,7 +111,7 @@ textContainer: {
   imageText: {
     color: 'white',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_500Medium',
   },
   icon: {
     fontSize: 17,

@@ -93,7 +93,7 @@ app.put('/EditProfile', (req, res) => {
   res.json(updatedUser);
 });
 
-// Correcte afsluiting toegevoegd hier:
+//Contact-mail
 app.post('/send-confirmation-email', async (req, res) => {
   const { email, name, reservations, totalPrice, method } = req.body;
 
@@ -106,9 +106,9 @@ app.post('/send-confirmation-email', async (req, res) => {
     .join('\n');
 
   const msg = {
-    to: 'maitemj0112@gmail.com', // Ontvanger
+    to: 'maitemj0112@gmail.com', 
     from: {
-      email: 'jairoln@hotmail.com', // <-- Zorg dat dit domein geverifieerd is in SendGrid!
+      email: 'jairoln@hotmail.com',
       name: 'Reservatie Systeem'
     },
     replyTo: email,
@@ -142,13 +142,13 @@ ${plainTextList}
   }
 });
 
-// Nu wordt dit endpoint correct aangemaakt:
+
 app.post('/send-contact-message', async (req, res) => {
   const { name, birthdate, email, work, message } = req.body;
 
   const msg = {
     to: 'maitemj0112@gmail.com',
-    from: 'jairoln@hotmail.com', // Moet geverifieerd zijn
+    from: 'jairoln@hotmail.com',
     subject: 'Nieuw contactbericht ontvangen',
     replyTo: email,
     html: `
@@ -220,6 +220,7 @@ app.get('/reservations', (req, res) => {
   res.json(reservations);
 });
 
+//draait de backend op server 3000
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server draait op poort 3000');
 });

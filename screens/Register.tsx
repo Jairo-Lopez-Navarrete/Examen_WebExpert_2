@@ -11,7 +11,7 @@ export default function Register() {
   const [work, setWork] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);  // Voeg een loading state toe
+  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
     
       const onRefresh = useCallback(() => {
@@ -116,7 +116,7 @@ export default function Register() {
       />
 
       {loading ? (
-        <ActivityIndicator size="large" color="#007AFF" />  // Laadindicator wanneer aanroep bezig is
+        <ActivityIndicator size="large" color="#007AFF" />
       ) : (
         <Pressable style={styles.button} onPress={handleRegister} disabled={loading}>
           <Text style={styles.buttonText}>Registreer</Text>

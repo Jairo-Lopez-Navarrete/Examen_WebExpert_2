@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import {StyleSheet} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
+import {useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 import { createStackNavigator } from '@react-navigation/stack';
 import { navigationRef } from './helpers/RootNavigation';
 
@@ -28,6 +29,11 @@ import ContactPage from './screens/ContactPage';
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular, Poppins_500Medium
+  })
+
+  if (!fontsLoaded) return null;
   // const [refreshing, setRefreshing] = useState(false);
 
   // const onRefresh = useCallback(() => {
@@ -40,10 +46,9 @@ const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
 
-      {/* SafeAreaProvider is een contextprovider die wordt gebruikt om de veilige gebiedsinformatie van het apparaat beschikbaar te maken voor de rest van je componenten in je applicatie. Dit betekent dat andere componenten die binnen de SafeAreaProvider worden geplaatst, toegang hebben tot de veilige ruimte van het scherm. */}
       <SafeAreaProvider>
 
-      {/* SafeAreaView is een component dat wordt gebruikt om de inhoud van je app automatisch binnen de "veilige" gebieden van het apparaat te plaatsen. Dit zorgt ervoor dat je UI niet wordt bedekt door systeemcomponenten zoals de notch, statusbalk of navigatiebalk. */}
+      
         <SafeAreaView style={styles.container}>
 
           {/* de pull-to-refresh wilt niet werken a.t.m */}
@@ -56,7 +61,7 @@ const App = () => {
            {/* de pull-to-refresh wilt niet werken a.t.m */}
 
           {/* <Header /> */}
-          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#2b4570', height: 66}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20}, }}  >
+          <Stack.Navigator screenOptions={{ headerShown: true, headerStyle: { backgroundColor: '#2b4570', height: 66}, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'regular',fontSize: 20, fontFamily: 'Poppins_500Medium'}, }}  >
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="AboutUs" component={AboutUs} />
@@ -90,6 +95,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FDF5EC',
   },
+  text: {
+    fontFamily: 'Poppins_500Medium',
+    //fontWeight: 500,
+    fontSIze: 24
+  }
   // hiddenScrollView: {
   //   position: 'absolute',
   //   top: 0,

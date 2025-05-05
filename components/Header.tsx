@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
        fontWeight: 500,
        fontSize: 25,
        color: 'white',
+       fontFamily: 'Poppins_500Medium',
 
   },
     slogan: {

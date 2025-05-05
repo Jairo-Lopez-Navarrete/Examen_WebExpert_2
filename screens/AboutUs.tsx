@@ -5,74 +5,105 @@ import { Animated } from 'react-native';
 
 export default function AboutUs() {
   const navigation = useNavigation();
-    const [refreshing, setRefreshing] = useState(false);
-  
-    const onRefresh = useCallback(() => {
-      setRefreshing(true);
-      setTimeout(() => {
-        setRefreshing(false);
-      }, 2000);
-    }, []);
+  const [refreshing, setRefreshing] = useState(false);
 
-    const slideAnimation = useRef(new Animated.Value(-200)).current;
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
-    useEffect(() => {
-      Animated.timing(slideAnimation, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
-    }, []);
+  const slideAnimation = useRef(new Animated.Value(-200)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnimation, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
-      <Animated.Text style={[styles.title, {transform: [{translateX: slideAnimation}]}]}>Wij zijn Kapitan!</Animated.Text>
-      
-      <Text style={styles.paragraph}>We zijn geen reclamebureau en ook geen freelancers, maar iets daartussen.</Text>
-      
-      <Text style={styles.paragraph}>Kapitan ondersteunt marketeers in de uitvoering van hun merkplannen. Wij bouwen en verbouwen merken. Door professionals die bulken met ervaring. Je huisstijl is heilig en je deadline onze hartslag. Hyper-flexibel stroomlijnen we jouw marketingproces zodat je plannen snel realiteit worden.</Text>
-      <View style={styles.infoContainer}>
-        <Text style={styles.subtitle}>Ons Team</Text>
-        <Text style={styles.paragraph}>Bestaat uit een diverse groep professionals</Text>
+        
+        <Animated.Text style={[styles.title, { transform: [{ translateX: slideAnimation }] }]}>
+          Wij zijn Kapitan!
+        </Animated.Text>
 
+       
+        <View style={styles.section}>
+          <Text style={styles.paragraph}>
+            We zijn geen reclamebureau en ook geen freelancers, maar iets daartussen.
+          </Text>
+          <Text style={styles.paragraph}>
+            Kapitan ondersteunt marketeers in de uitvoering van hun merkplannen...
+          </Text>
+        </View>
 
+        
+        <View style={[styles.section, styles.highlightSection]}>
+          <Text style={styles.subtitle}>Maak kennis met El Kapitan</Text>
           <View style={styles.workerContainer}>
-            <Text style={styles.titleInformation}>El Kapitan</Text>
-            <Image
-               source={require('../assets/Guido.png')} style={styles.workerImage}/>
-            <Text style={styles.workerInformation}>Guido Evens</Text>
+            <Image source={require('../assets/Guido.png')} style={styles.workerImage} />
+            <Text style={styles.titleInformation}>Guido Evens</Text>
             <Text style={styles.workerInformation}>Chief Merkwerker</Text>
           </View>
+        </View>
 
-          <Text style={styles.subtitle}>Onze core merkwerkers</Text>
-          <View style={styles.workerContainer}>
-            <Image
-               source={require('../assets/David.png')} style={styles.workerImage}/>
-            <Text style={styles.workerInformation}>David Cruz-Martinez</Text>
-            <Text style={styles.workerInformation}>Technology Wizard</Text>
-          </View>
+        
+        <View style={[styles.section]}>
+          <Text style={styles.subtitle}>De core merkwerkers</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carouselContainer}
+          >
+            {[
+              {
+                image: require('../assets/David.png'),
+                name: 'David Cruz-Martinez',
+                role: 'Technology Wizard',
+              },
+              {
+                image: require('../assets/Ann_3D_Cartoon.png'),
+                name: 'Ann Winderickx',
+                role: 'Art Director',
+              },
+              {
+                image: require('../assets/Gunter.png'),
+                name: 'Gunter Flossie',
+                role: 'Studio Manager',
+              },
+            ].map((worker, index) => (
+              <View style={styles.workerCard} key={index}>
+                <Image source={worker.image} style={styles.workerImage} />
+                <Text style={styles.titleInformation}>{worker.name}</Text>
+                <Text style={styles.workerInformation}>{worker.role}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
 
-          <View style={styles.workerContainer}>
-            <Image
-               source={require('../assets/Ann_3D_Cartoon.png')} style={styles.workerImage}/>
-            <Text style={styles.workerInformation}>Ann Winderickx</Text>
-            <Text style={styles.workerInformation}>Art director</Text>
-          </View>
+        
+        <View style={[styles.section, styles.highlightSection2]}>
+          <Text style={styles.subtitle}>Onze Missie</Text>
+          <Text style={styles.paragraph}>
+            Onze missie is om ... te realiseren...
+          </Text>
+        </View>
 
-          <View style={styles.workerContainer}>
-            <Image
-               source={require('../assets/Gunter.png')} style={styles.workerImage}/>
-            <Text style={styles.workerInformation}>Gunter Flossie</Text>
-            <Text style={styles.workerInformation}>Studio Manager</Text>
-          </View>
-      </View>
-
-      <Text style={styles.subtitle}>Onze Missie</Text>
-      <Text style={styles.paragraph}>Onze missie is om [specifieke missie van het bedrijf of de app]. We streven ernaar om gebruikers te helpen hun doelen te bereiken door...</Text>
-      <Text style={styles.subtitle}>Neem contact met ons op</Text>
-      <Text style={styles.paragraph}>Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen.</Text>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('ContactPage')}><Text style={styles.buttonText}>Contacteer ons</Text></Pressable>
+        
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Neem contact met ons op</Text>
+          <Text style={styles.paragraph}>
+            Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen.
+          </Text>
+          <Pressable style={styles.button} onPress={() => navigation.navigate('ContactPage')}>
+            <Text style={styles.buttonText}>Contacteer ons</Text>
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
@@ -82,76 +113,102 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
     backgroundColor: '#f8f8f8',
   },
-  logo: {
-    width: 173,
-    height: 50,
-    alignSelf: 'center',
-    marginBottom: 20,
+  section: {
+    marginBottom: 30,
+  },
+  highlightSection: {
+    // backgroundColor: '#fff',
+    padding: 15,
+    // borderRadius: 10,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 2,
+    // elevation: 1,
+  },
+  highlightSection2: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    //textAlign: 'center',
+    fontSize: 30,
     marginBottom: 20,
     color: '#333',
+    fontFamily: 'Poppins_500Medium',
   },
   subtitle: {
     fontSize: 24,
     fontWeight: '600',
-    marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 15,
     color: '#555',
-  },
-  infoContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  workerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 1
-  },
-  titleInformation: {
-    fontSize: 20,
-  },
-  workerImage: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 150,
-    height: 200,
-    borderRadius: 15
-  },
-  workerInformation: {
-    fontSize: 16
+    fontFamily: 'Poppins_500Medium',
   },
   paragraph: {
     fontSize: 16,
     lineHeight: 24,
     color: '#666',
-    marginBottom: 15,
+    marginBottom: 10,
+    fontFamily: 'Poppins_400Regular',
+  },
+  workerContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  workerCard: {
+    width: 200,
+    alignItems: 'center',
+    marginRight: 15,
+    // backgroundColor: '#fff',
+    // borderRadius: 12,
+    padding: 10,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 4,
+    // elevation: 2,
+  },
+  workerImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 20,
+    marginBottom: 10,
+  },
+  titleInformation: {
+    fontSize: 18,
+    fontFamily: 'Poppins_500Medium',
+    textAlign: 'center',
+  },
+  workerInformation: {
+    fontSize: 14,
+    fontFamily: 'Poppins_400Regular',
+    color: '#555',
+    textAlign: 'center',
+  },
+  carouselContainer: {
+    paddingVertical: 10,
+    paddingLeft: 5,
   },
   button: {
-        backgroundColor: '#E74040',
-        padding: 15,
-        marginTop: 5,
-        margin: 15,
-        borderRadius: 50,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
+    backgroundColor: '#E74040',
+    padding: 15,
+    marginTop: 10,
+    borderRadius: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
   },
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    marginLeft: 10
-  }
+    fontFamily: 'Poppins_500Medium',
+  },
 });

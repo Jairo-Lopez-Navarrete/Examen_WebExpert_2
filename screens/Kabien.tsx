@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl} from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {navigate} from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -106,143 +106,118 @@ export default function Kabien(){
         ["Postadres & IT-support"],
         ["Ongevallenverzekering"],
     ]
-  
-  return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-           <Text style={styles.mainTitle}>Het wordt dus Kabien!</Text>
-          <TouchableOpacity onPress={shareInfo}>
-           <Ionicons name="arrow-redo" style={styles.iconShare}/>
-          </TouchableOpacity>
-          </View>
-        <Image source={require('../assets/TestPic4.png')} style={styles.image}/>
-        <View style={styles.imageSmallContainer}>
-            {images.map((image, index) =>(
-                 <Pressable key={index} onPress={() => openModal(index)}>
-                 <Image source={image} style={styles.imageSmall}/>
-             </Pressable>
-            ))}
-        </View>
 
-        <Modal visible={modalVisible} transparent={true} animationType="fade">
-            <View style={styles.modalContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                    <Ionicons name="close-circle" size={40} color="white"/>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.prevButton} onPress={prevImage}>
-                    <Ionicons name="chevron-back-circle" size={50} color="white" />
-                </TouchableOpacity>
-
-                <Image source={images[currentImageIndex]} style={styles.fullImage}/>
-
-                <TouchableOpacity style={styles.nextButton} onPress={nextImage}>
-                    <Ionicons name="chevron-forward-circle" size={50} color="white" />
-                </TouchableOpacity>
+    return (
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <View style={styles.container}>
+            {/* Titel + Share */}
+            <View style={styles.titleContainer}>
+              <Text style={styles.mainTitle}>Het wordt dus Kajuit!</Text>
+              <TouchableOpacity onPress={shareInfo}>
+                <Ionicons name="arrow-redo" style={styles.iconShare} />
+              </TouchableOpacity>
             </View>
-        </Modal>
-        <Text style={styles.money}>€200 per dagdeel</Text>
-
-        <Text style={styles.titles}>Dit is wat je krijgt.</Text>
-        <View style={styles.textContainer}>
-            <Text>{included[0]}</Text>
-            <Text>{included[1]}</Text>
-            <Text>{included[2]}</Text>
-            <Text>{included[3]}</Text>
-            <Text>{included[4]}</Text>
-            <Text>{included[5]}</Text>
-            <Text>{included[6]}</Text>
-        </View>
-        <Text style={styles.titles}>Niet inbegrepen</Text>
-        <View style={styles.textContainer}>
-            <Text>{notIncluded[0]}</Text>
-            <Text>{notIncluded[1]}</Text>
-            <Text>{notIncluded[2]}</Text>
-            <Text>{notIncluded[3]}</Text>
-            <Text>{notIncluded[4]}</Text>
-        </View>
-   </View>
-   <View>
-   <TouchableOpacity style={styles.calenderButton} onPress={handleCalendarPress}>
-                <Ionicons name="calendar-outline" size={30} color="white" />
-                <Text style={styles.buttonText}>Dit is wat ik wil</Text>
-   </TouchableOpacity>
-   </View>
-    </ScrollView>
-  );
-};
+    
+            {/* Hoofdafbeelding */}
+            <Image source={require('../assets/TestPic4.png')} style={styles.image} />
+    
+            {/* Kleine afbeeldingen */}
+            <View style={styles.imageSmallContainer}>
+              {images.map((image, index) => (
+                <Pressable key={index} onPress={() => openModal(index)}>
+                  <Image source={image} style={styles.imageSmall} />
+                </Pressable>
+              ))}
+            </View>
+    
+            {/* Afbeelding Modal */}
+            <Modal visible={modalVisible} transparent animationType="fade">
+              <View style={styles.modalContainer}>
+                <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                  <Ionicons name="close-circle" size={40} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.prevButton} onPress={() =>
+                  setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)}>
+                  <Ionicons name="chevron-back-circle" size={50} color="white" />
+                </TouchableOpacity>
+                <Image source={images[currentImageIndex]} style={styles.fullImage} />
+                <TouchableOpacity style={styles.nextButton} onPress={() =>
+                  setCurrentImageIndex((prev) => (prev + 1) % images.length)}>
+                  <Ionicons name="chevron-forward-circle" size={50} color="white" />
+                </TouchableOpacity>
+              </View>
+            </Modal>
+    
+            {/* Prijs */}
+            <Text style={styles.money}>€100 per dag</Text>
+    
+            {/* Wat inbegrepen */}
+            <Text style={styles.titles}>Dit is wat je krijgt</Text>
+            <FlatList
+              data={included}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
+            />
+    
+            {/* Niet inbegrepen */}
+            <Text style={styles.titles}>Niet inbegrepen</Text>
+            <FlatList
+              data={notIncluded}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
+            />
+    
+            {/* Kalenderknop */}
+            <TouchableOpacity style={styles.calenderButton} onPress={handleCalendarPress}>
+              <Ionicons name="calendar-outline" size={26} color="white" />
+              <Text style={styles.buttonText}>Dit is wat ik wil</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      );
+    }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    padding: 20,
-    //alignItems: 'center',
+    padding: 30,
     backgroundColor: '#f5f5f5',
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 20,
   },
-  money: {
-    marginTop: 3,
-    marginBottom: 20,
-    fontSize: 20,
-    fontWeight: 500
+  mainTitle: {
+    fontSize: 25,
+    color: '#232323',
+    fontFamily: 'Poppins_500Medium',
   },
   iconShare: {
     fontSize: 25,
     marginLeft: 10,
-    marginRight: 10,
-    color: '#628395'
-  },
-  mainTitle: {
-    fontSize: 25,
-    fontWeight: 700,
-    //textAlign: 'center',
-    color: '#232323',
-    padding: 5,
-  },
-  titles: {
-    fontSize: 20,
-    fontWeight: 500,
-    //textAlign: 'center',
-    color: '#232323',
-    padding: 5,
-  },
-  textContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    flexWrap: 'wrap',
-    padding: 10,
+    color: '#628395',
   },
   image: {
     width: '100%',
     height: 200,
     borderRadius: 15,
-    margin: 5,
-    display: 'flex',
-    justifyContent: 'flex-end'
+    marginVertical: 10,
   },
   imageSmallContainer: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
   },
   imageSmall: {
     width: 100,
     height: 100,
     borderRadius: 10,
-    margin: 6.5,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0,0,0,0.85)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -251,46 +226,44 @@ const styles = StyleSheet.create({
     height: 400,
     borderRadius: 10,
   },
-  closeButton: {
-    position: 'absolute',
-    top: 40,
-    right: 20,
+  closeButton: { position: 'absolute', top: 40, right: 20 },
+  prevButton: { position: 'absolute', left: 20, top: '50%' },
+  nextButton: { position: 'absolute', right: 20, top: '50%' },
+  money: {
+    fontSize: 20,
+    marginBottom: 20,
+    fontFamily: 'Poppins_500Medium',
   },
-  prevButton: {
-    position: 'absolute',
-    left: 20,
-    top: '50%',
-    zIndex: 1,
+  titles: {
+    fontSize: 20,
+    color: '#232323',
+    marginTop: 15,
+    marginBottom: 5,
+    fontFamily: 'Poppins_500Medium',
   },
-  nextButton: {
-    zIndex: 1,
-    position: 'absolute',
-    right: 20,
-    top: '50%',
-  },
-  icon: {
-    //zINdex: 5,
-    //elevation: 5,
-    fontSize: 17,
+  text: {
+    fontSize: 16,
+    marginVertical: 2,
+    fontFamily: 'Poppins_400Regular',
   },
   calenderButton: {
-        backgroundColor: '#E74040',
-        padding: 15,
-        marginTop: 0,
-        margin: 15,
-        borderRadius: 50,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
+    backgroundColor: '#E74040',
+    padding: 15,
+    borderRadius: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    marginLeft: 10
-  }
+    marginLeft: 10,
+    fontFamily: 'Poppins_500Medium',
+  },
 });

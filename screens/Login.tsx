@@ -12,7 +12,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  // Controleer of de gebruiker al is ingelogd
+  
   useEffect(() => {
     const checkLoggedIn = async () => {
       const user = await AsyncStorage.getItem('user');
@@ -62,7 +62,7 @@ export default function Login() {
       const result = await response.json();
       console.log('Login geslaagd, gebruiker:', result);
   
-      // Sla de ingelogde gebruiker op in AsyncStorage
+      
       await AsyncStorage.setItem('user', JSON.stringify(result));
   
       navigation.replace('Profile', { user: result });
@@ -106,7 +106,7 @@ export default function Login() {
             <Text style={styles.buttonText}>Inloggen</Text>
           </Pressable>
         )}
-        {/* Registreren knop */}
+        
         <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
           <Text style={styles.registerText}>Heb je nog geen account? Registreer hier.</Text>
         </Pressable>

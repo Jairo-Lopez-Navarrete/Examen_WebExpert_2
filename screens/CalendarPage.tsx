@@ -88,10 +88,10 @@ export default function CalendarPage({ navigation }) {
   const handleTimeSelection = (time) => {
     const updatedActiveTimes = { ...activeTimes };
 
-    // Als de tijd al geselecteerd is, deactiveer deze
+    
     if (updatedActiveTimes[time]) {
       updatedActiveTimes[time] = false;
-      delete selectedTimes[selected];  // Verwijder de geselecteerde tijd voor deze dag
+      delete selectedTimes[selected]; 
     } else {
       
       updatedActiveTimes['Ochtend'] = false;
@@ -138,7 +138,7 @@ export default function CalendarPage({ navigation }) {
       'Avond': false,
     });
 
-    // Als deze dag al eerder is geselecteerd, stel de actieve tijden in
+   
     if (selectedTimes[day.dateString]) {
       const selectedDayTime = selectedTimes[day.dateString];
       const updatedActiveTimes = { ...activeTimes };
