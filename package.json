@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.3.1",
+    "@expo/metro-config": "~0.20.0",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -18,7 +19,7 @@
     "@sendgrid/mail": "^8.1.5",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
-    "expo": "~52.0.37",
+    "expo": "~52.0.0",
     "expo-font": "^13.0.4",
     "expo-image-picker": "~16.0.6",
     "expo-location": "~18.0.10",
