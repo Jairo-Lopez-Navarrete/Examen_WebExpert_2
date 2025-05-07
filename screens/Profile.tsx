@@ -19,22 +19,7 @@ export default function Profile() {
     }, 1000);
   }, []);
 
-
-  const saveReservation = async (email, date, timeSlot) => {
-    try {
-      const key = `reservations_${email}`;
-      const existing = await AsyncStorage.getItem(key);
-      const reservations = existing ? JSON.parse(existing) : {};
   
-      // Voeg nieuwe datum toe
-      reservations[date] = timeSlot;
-  
-      // Opslaan
-      await AsyncStorage.setItem(key, JSON.stringify(reservations));
-    } catch (error) {
-      console.error('Fout bij opslaan reservatie:', error);
-    }
-  };
 
   const loadUserData = async () => {
     try {

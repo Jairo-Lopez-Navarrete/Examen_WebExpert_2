@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, ScrollView, RefreshControl, PermissionsAndroid, Platform } from 'react-native';
 import * as Location from 'expo-location';
 import { Calendar } from 'react-native-calendars';
 
@@ -11,6 +11,75 @@ export default function CalendarPage({ navigation }) {
   const [activeTimes, setActiveTimes] = useState({});
   const [reservedSlots, setReservedSlots] = useState({});
   const isReserved = (time) => reservedSlots[selected]?.includes(time);
+
+
+
+
+  useEffect(() => {
+    requestLocationPermissionAndFetchLocation();
+  }, []);
+  
+  const requestLocationPermissionAndFetchLocation = async () => {
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Locatietoegang nodig',
+            message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
+            buttonNeutral: 'Vraag later',
+            buttonNegative: 'Annuleren',
+            buttonPositive: 'OK',
+          }
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Locatietoegang geweigerd');
+          return;
+        }
+      }
+  
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Toestemming geweigerd voor foreground');
+        return;
+      }
+  
+      const location = await Location.getCurrentPositionAsync({});
+      console.log('Opgehaalde locatie:', location);
+      
+      if (location?.coords) {
+        setLocation(location.coords);
+      } else {
+        console.warn('Geen coordinaten gevonden in locatie object');
+      }
+    } catch (error) {
+      console.error('Fout bij ophalen locatie:', error);
+    }
+  };
+  
+  const getLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Geen toestemming', 'Locatietoegang is vereist om je locatie te tonen.');
+        return;
+      }
+  
+      const location = await Location.getCurrentPositionAsync({});
+      console.log('Handmatig opgehaalde locatie:', location);
+  
+      if (location?.coords) {
+        setLocation(location.coords);
+      } else {
+        console.warn('Geen coordinaten gevonden bij handmatige opvraag');
+      }
+    } catch (error) {
+      console.error('Fout bij handmatig ophalen locatie:', error);
+    }
+  };
+
+
+
 
   useEffect(() => {
     fetch('http://192.168.156.35:3000/reservations')
@@ -81,6 +150,7 @@ export default function CalendarPage({ navigation }) {
         marked: true,
         selectedColor: 'blue',
         selectedTextColor: 'white',
+        dotColor: 'white',
       };
     });
     return markedDates;
@@ -108,7 +178,7 @@ export default function CalendarPage({ navigation }) {
   };
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView>
       <View style={styles.container}>
         <Calendar
           style={styles.calendarStyle}
