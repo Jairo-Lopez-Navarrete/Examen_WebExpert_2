@@ -18,6 +18,7 @@ export default function EditProfile() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState(user.email);
   const [refreshing, setRefreshing] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -92,7 +93,7 @@ export default function EditProfile() {
       return;
     }
 
-    const updatedUser = { name, birthdate, work, profilePic, email, password };
+    const updatedUser = { name, birthdate, work, profilePic, email, password: password || undefined, currentPassword };
 
     if (password) {
       updatedUser.password = password;
@@ -111,6 +112,7 @@ export default function EditProfile() {
           work: updatedUser.work,
           profilePic: updatedUser.profilePic,
           password: updatedUser.password,
+          currentPassword: updatedUser.currentPassword,
         }),
       });
 
@@ -148,7 +150,14 @@ export default function EditProfile() {
         <TextInput style={styles.input} value={work} onChangeText={setWork} />
 
         <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" />
+        <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" /> 
+        <Text style={styles.label}>Huidig Wachtwoord</Text>
+        <TextInput
+        style={styles.input}
+        value={currentPassword}
+        onChangeText={setCurrentPassword}
+        secureTextEntry
+        />
 
         <Text style={styles.label}>Nieuw Wachtwoord (optioneel)</Text>
         <TextInput

@@ -12,9 +12,6 @@ export default function CalendarPage({ navigation }) {
   const [reservedSlots, setReservedSlots] = useState({});
   const isReserved = (time) => reservedSlots[selected]?.includes(time);
 
-
-
-
   useEffect(() => {
     requestLocationPermissionAndFetchLocation();
   }, []);
@@ -184,6 +181,7 @@ export default function CalendarPage({ navigation }) {
           style={styles.calendarStyle}
           onDayPress={(day) => handleDaySelect(day)}
           markedDates={getMarkedDates()}
+          minDate={new Date().toISOString().split('T')[0]}
           theme={{
             todayTextColor: '#000',
             arrowColor: '#2b4570',

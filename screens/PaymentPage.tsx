@@ -115,7 +115,7 @@ export default function PaymentPage({ route }) {
         style={styles.picker}
       >
         <Picker.Item label="Selecteer een betaalmethode..." value=""/>
-        <Picker.Item label="iDEAL" value="iDEAL"/>
+        <Picker.Item label="Cash" value="Cash"/>
         <Picker.Item label="Creditcard" value="Creditcard"/>
         <Picker.Item label="PayPal" value="PayPal"/>
         <Picker.Item label="Bancontact" value="Bancontact"/>

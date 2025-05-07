@@ -66,7 +66,7 @@ app.post('/login', (req, res) => {
 });
 
 app.put('/EditProfile', (req, res) => {
-  const { email, name, birthdate, work, profilePic, password } = req.body;
+  const { email, name, birthdate, work, profilePic, password, currentPassword } = req.body;
 
   if (!email || (!name && !birthdate && !work && !profilePic && !password)) {
     return res.status(400).json({ error: 'Vereiste gegevens ontbreken' });
@@ -79,21 +79,35 @@ app.put('/EditProfile', (req, res) => {
     return res.status(400).json({ error: 'Gebruiker niet gevonden' });
   }
 
-  const updatedUser = users[userIndex];
+  const existingUser = users[userIndex];
 
-  if (name) updatedUser.name = name;
-  if (birthdate) updatedUser.birthdate = birthdate;
-  if (work) updatedUser.work = work;
-  if (profilePic) updatedUser.profilePic = profilePic;
-  if (password) updatedUser.password = password;
+  //const updatedUser = { name, birthdate, work, profilePic, email, password: password || undefined, currentPassword };
 
-  users[userIndex] = updatedUser;
+  
+  if (typeof password === 'string' && password.trim().length > 0) {
+    if (!currentPassword) {
+      return res.status(400).json({ error: 'Huidig wachtwoord is vereist om een nieuw wachtwoord in te stellen.' });
+    }
+
+    if (existingUser.password !== currentPassword) {
+      return res.status(401).json({ error: 'Huidig wachtwoord is onjuist.' });
+    }
+
+    existingUser.password = password;
+  }
+
+  if (name) existingUser.name = name;
+  if (birthdate) existingUser.birthdate = birthdate;
+  if (work) existingUser.work = work;
+  if (profilePic) existingUser.profilePic = profilePic;
+
+  users[userIndex] = existingUser;
   saveUsers(users);
 
-  res.json(updatedUser);
+  res.json(existingUser);
 });
 
-//Contact-mail
+
 app.post('/send-confirmation-email', async (req, res) => {
   const { email, name, reservations, totalPrice, method } = req.body;
 
@@ -205,7 +219,7 @@ app.post('/reservations', (req, res) => {
   }
 
   const newReservations = Object.entries(reservations).map(([date, time]) => ({
-    email,  // E-mailadres van de gebruiker
+    email,
     date,
     time
   }));
@@ -215,7 +229,7 @@ app.post('/reservations', (req, res) => {
   res.status(200).json({ message: 'Reservering opgeslagen' });
 });
 
-//draait de backend op server 3000
+
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server draait op poort 3000');
 });

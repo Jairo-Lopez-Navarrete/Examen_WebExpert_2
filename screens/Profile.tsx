@@ -28,17 +28,17 @@ export default function Profile() {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
   
-        // 1. Eerst lokale cache tonen
+        
         const localData = await AsyncStorage.getItem(`reservations_${parsedUser.email}`);
         if (localData) {
           setReservations(JSON.parse(localData));
         }
   
-        // 2. Dan serverdata ophalen (voor update)
+       
         const response = await fetch(`http://192.168.156.35:3000/reservations/${parsedUser.email}`);
         const remoteData = await response.json();
   
-        // 3. Als serverdata verschilt van lokale data: update
+        
         if (JSON.stringify(remoteData) !== localData) {
           setReservations(remoteData);
           await AsyncStorage.setItem(`reservations_${parsedUser.email}`, JSON.stringify(remoteData));
