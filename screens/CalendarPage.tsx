@@ -12,7 +12,6 @@ export default function CalendarPage({ navigation }) {
   const [reservedSlots, setReservedSlots] = useState({});
   const isReserved = (time) => reservedSlots[selected]?.includes(time);
 
-  // Haal reserveringen op bij laden van de pagina
   useEffect(() => {
     fetch('http://192.168.156.35:3000/reservations')
       .then(res => res.json())
@@ -37,7 +36,6 @@ export default function CalendarPage({ navigation }) {
     }, 2000);
   }, []);
 
-  // Functie voor tijdselectie
   const handleTimeSelection = (timeLabel) => {
     const reserved = reservedSlots[selected]?.includes(timeLabel);
     if (reserved) {
@@ -45,13 +43,11 @@ export default function CalendarPage({ navigation }) {
       return;
     }
 
-    // Update de geselecteerde tijden
     setSelectedTimes((prev) => ({
       ...prev,
       [selected]: prev[selected] === timeLabel ? null : timeLabel,
     }));
 
-    // Update actieve tijden
     setActiveTimes((prev) => ({
       ...prev,
       [selected]: {
@@ -62,24 +58,19 @@ export default function CalendarPage({ navigation }) {
       },
     }));
 
-    // Sla de reservering op in de server (JSON)
     fetch('http://192.168.156.35:3000/reservations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: 'user@example.com', // Vervang dit door de ingelogde gebruikers-email
+        email: 'user@example.com',
         reservations: { [selected]: timeLabel },
       }),
     })
       .then(response => response.json())
-      .then(data => {
-        console.log('Reservering succesvol opgeslagen:', data);
-      })
-      .catch(error => {
-        console.error('Fout bij opslaan reservering:', error);
-      });
+      .then(data => console.log('Reservering succesvol opgeslagen:', data))
+      .catch(error => console.error('Fout bij opslaan reservering:', error));
   };
 
   const getMarkedDates = () => {
@@ -128,7 +119,6 @@ export default function CalendarPage({ navigation }) {
             arrowColor: '#2b4570',
           }}
         />
-
         {selected && (
           <View style={styles.timeSelectionContainer}>
             <Text style={styles.timeSelectionText}>Kies een dagdeel voor {selected}:</Text>
@@ -152,7 +142,6 @@ export default function CalendarPage({ navigation }) {
             </Pressable>
           </View>
         )}
-
         <Pressable style={styles.paymentButton} onPress={handleNavigateToPayment}>
           <Text style={styles.paymentButtonText}>Ga naar Betalingspagina</Text>
         </Pressable>
