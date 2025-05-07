@@ -52,7 +52,7 @@ export default function PaymentPage({ route }) {
               JSON.stringify(reservations)
             );
         
-            const response = await fetch('http://192.168.0.15:3000/send-confirmation-email', {
+            const response = await fetch('http://192.168.156.35:3000/send-confirmation-email', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

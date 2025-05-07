@@ -172,7 +172,7 @@ app.post('/send-contact-message', async (req, res) => {
   }
 });
 
-// RESERVATIONS
+
 const reservationsFilePath = path.join(__dirname, 'reservations.json');
 
 const loadReservations = () => {
@@ -187,7 +187,7 @@ const saveReservations = (reservations) => {
   fs.writeFileSync(reservationsFilePath, JSON.stringify(reservations, null, 2));
 };
 
-app.post('/reserve', (req, res) => {
+app.post('/reservations', (req, res) => {
   const { email, reservations } = req.body;
 
   if (!reservations || !email) {
@@ -205,7 +205,7 @@ app.post('/reserve', (req, res) => {
   }
 
   const newReservations = Object.entries(reservations).map(([date, time]) => ({
-    email,
+    email,  // E-mailadres van de gebruiker
     date,
     time
   }));
@@ -213,11 +213,6 @@ app.post('/reserve', (req, res) => {
   saveReservations([...existingReservations, ...newReservations]);
 
   res.status(200).json({ message: 'Reservering opgeslagen' });
-});
-
-app.get('/reservations', (req, res) => {
-  const reservations = loadReservations();
-  res.json(reservations);
 });
 
 //draait de backend op server 3000

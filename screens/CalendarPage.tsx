@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, PermissionsAndroid, Platform, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, ScrollView, RefreshControl } from 'react-native';
 import * as Location from 'expo-location';
 import { Calendar } from 'react-native-calendars';
 
@@ -9,103 +9,77 @@ export default function CalendarPage({ navigation }) {
   const [selectedTimes, setSelectedTimes] = useState({});
   const [refreshing, setRefreshing] = useState(false);
   const [activeTimes, setActiveTimes] = useState({});
-  
+  const [reservedSlots, setReservedSlots] = useState({});
+  const isReserved = (time) => reservedSlots[selected]?.includes(time);
+
+  // Haal reserveringen op bij laden van de pagina
+  useEffect(() => {
+    fetch('http://192.168.156.35:3000/reservations')
+      .then(res => res.json())
+      .then(data => {
+        const slots = {};
+        data.forEach(({ date, time }) => {
+          if (!slots[date]) slots[date] = [];
+          slots[date].push(time);
+        });
+        setReservedSlots(slots);
+      })
+      .catch(err => console.error('Fout bij ophalen reserveringen:', err));
+  }, []);
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-
     setSelected('');
-    setSelectedTimes('');
-    setActiveTimes('');
-
+    setSelectedTimes({});
+    setActiveTimes({});
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
 
-  useEffect(() => {
-    requestLocationPermissionAndFetchLocation();
-  }, []);
-  
-  const requestLocationPermissionAndFetchLocation = async () => {
-    try {
-      if (Platform.OS === 'android') {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Locatietoegang nodig',
-            message: 'Deze app heeft toegang nodig tot je locatie om correct te functioneren.',
-            buttonNeutral: 'Vraag later',
-            buttonNegative: 'Annuleren',
-            buttonPositive: 'OK',
-          }
-        );
-        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Locatietoegang geweigerd');
-          return;
-        }
-      }
-  
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Toestemming geweigerd voor foreground');
-        return;
-      }
-  
-      const location = await Location.getCurrentPositionAsync({});
-      console.log('Opgehaalde locatie:', location);
-      
-      if (location?.coords) {
-        setLocation(location.coords);
-      } else {
-        console.warn('Geen coordinaten gevonden in locatie object');
-      }
-    } catch (error) {
-      console.error('Fout bij ophalen locatie:', error);
-    }
-  };
-  
-  const getLocation = async () => {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Geen toestemming', 'Locatietoegang is vereist om je locatie te tonen.');
-        return;
-      }
-  
-      const location = await Location.getCurrentPositionAsync({});
-      console.log('Handmatig opgehaalde locatie:', location);
-  
-      if (location?.coords) {
-        setLocation(location.coords);
-      } else {
-        console.warn('Geen coordinaten gevonden bij handmatige opvraag');
-      }
-    } catch (error) {
-      console.error('Fout bij handmatig ophalen locatie:', error);
-    }
-  };
-
-  const handleTimeSelection = (time) => {
-    const updatedActiveTimes = { ...activeTimes };
-
-    
-    if (updatedActiveTimes[time]) {
-      updatedActiveTimes[time] = false;
-      delete selectedTimes[selected]; 
-    } else {
-      
-      updatedActiveTimes['Ochtend'] = false;
-      updatedActiveTimes['Middag'] = false;
-      updatedActiveTimes['Avond'] = false;
-      updatedActiveTimes[time] = true;
-      
-      setSelectedTimes((prevTimes) => ({
-        ...prevTimes,
-        [selected]: time
-      }));
+  // Functie voor tijdselectie
+  const handleTimeSelection = (timeLabel) => {
+    const reserved = reservedSlots[selected]?.includes(timeLabel);
+    if (reserved) {
+      Alert.alert('Tijdslot bezet', 'Dit tijdslot is al gereserveerd.');
+      return;
     }
 
-    setActiveTimes(updatedActiveTimes);
+    // Update de geselecteerde tijden
+    setSelectedTimes((prev) => ({
+      ...prev,
+      [selected]: prev[selected] === timeLabel ? null : timeLabel,
+    }));
+
+    // Update actieve tijden
+    setActiveTimes((prev) => ({
+      ...prev,
+      [selected]: {
+        Ochtend: false,
+        Middag: false,
+        Avond: false,
+        [timeLabel]: !(prev[selected]?.[timeLabel] || false),
+      },
+    }));
+
+    // Sla de reservering op in de server (JSON)
+    fetch('http://192.168.156.35:3000/reservations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'user@example.com', // Vervang dit door de ingelogde gebruikers-email
+        reservations: { [selected]: timeLabel },
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Reservering succesvol opgeslagen:', data);
+      })
+      .catch(error => {
+        console.error('Fout bij opslaan reservering:', error);
+      });
   };
 
   const getMarkedDates = () => {
@@ -131,33 +105,20 @@ export default function CalendarPage({ navigation }) {
 
   const handleDaySelect = (day) => {
     setSelected(day.dateString);
-
-    setActiveTimes({
-      'Ochtend': false,
-      'Middag': false,
-      'Avond': false,
-    });
-
-   
-    if (selectedTimes[day.dateString]) {
-      const selectedDayTime = selectedTimes[day.dateString];
-      const updatedActiveTimes = { ...activeTimes };
-      updatedActiveTimes[selectedDayTime] = true;
-      setActiveTimes(updatedActiveTimes);
-    }
+    const time = selectedTimes[day.dateString];
+    setActiveTimes((prev) => ({
+      ...prev,
+      [day.dateString]: {
+        Ochtend: time === 'Ochtend',
+        Middag: time === 'Middag',
+        Avond: time === 'Avond',
+      },
+    }));
   };
 
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
-        {/* <View style={styles.viewChange}>
-          <Text style={styles.textChange}>Locatiegegevens:</Text>
-          {location ? (<Text>Latitude: {location.latitude}, Longitude: {location.longitude}</Text>) : (<Text>Locatie wordt opgehaald of nog niet beschikbaar.</Text>)}
-          <Pressable onPress={getLocation}>
-            <Text>Haal locatie op</Text>
-          </Pressable>
-        </View> */}
-
         <Calendar
           style={styles.calendarStyle}
           onDayPress={(day) => handleDaySelect(day)}
@@ -172,20 +133,20 @@ export default function CalendarPage({ navigation }) {
           <View style={styles.timeSelectionContainer}>
             <Text style={styles.timeSelectionText}>Kies een dagdeel voor {selected}:</Text>
             <Pressable
-              onPress={() => handleTimeSelection('s morgens')}
-              style={[styles.timeButton, activeTimes['s morgens'] && styles.timeButtonActive]}
+              onPress={() => handleTimeSelection('Ochtend')} disabled={isReserved('Ochtend')}
+              style={[styles.timeButton, activeTimes['Ochtend'] && styles.timeButtonActive, isReserved('Ochtend') && styles.timeButtonDisabled]}
             >
               <Text style={styles.timeButtonText}>Ochtend</Text>
             </Pressable>
             <Pressable
-              onPress={() => handleTimeSelection('s middags')}
-              style={[styles.timeButton, activeTimes['s middags'] && styles.timeButtonActive]}
+              onPress={() => handleTimeSelection('Middag')} disabled={isReserved('Middag')}
+              style={[styles.timeButton, activeTimes['Middag'] && styles.timeButtonActive, isReserved('Middag') && styles.timeButtonDisabled]}
             >
               <Text style={styles.timeButtonText}>Middag</Text>
             </Pressable>
             <Pressable
-              onPress={() => handleTimeSelection('s avonds')}
-              style={[styles.timeButton, activeTimes['s avonds'] && styles.timeButtonActive]}
+              onPress={() => handleTimeSelection('Avond')} disabled={isReserved('Avond')}
+              style={[styles.timeButton, activeTimes['Avond'] && styles.timeButtonActive, isReserved('Avond') && styles.timeButtonDisabled]}
             >
               <Text style={styles.timeButtonText}>Avond</Text>
             </Pressable>
@@ -205,13 +166,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
-  },
-  viewChange: {
-    padding: 20,
-  },
-  textChange: {
-    fontSize: 18,
-    marginBottom: 10,
   },
   calendarStyle: {
     width: '100%',
@@ -241,20 +195,12 @@ const styles = StyleSheet.create({
   timeButtonActive: {
     backgroundColor: '#628395',
   },
+  timeButtonDisabled: {
+    backgroundColor: '#ccc',
+  },
   timeButtonText: {
     color: '#fff',
     fontSize: 16,
-  },
-  selectionConfirmation: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#caf0f8',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  confirmationText: {
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   paymentButton: {
     backgroundColor: '#e74040',

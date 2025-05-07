@@ -19,6 +19,23 @@ export default function Profile() {
     }, 1000);
   }, []);
 
+
+  const saveReservation = async (email, date, timeSlot) => {
+    try {
+      const key = `reservations_${email}`;
+      const existing = await AsyncStorage.getItem(key);
+      const reservations = existing ? JSON.parse(existing) : {};
+  
+      // Voeg nieuwe datum toe
+      reservations[date] = timeSlot;
+  
+      // Opslaan
+      await AsyncStorage.setItem(key, JSON.stringify(reservations));
+    } catch (error) {
+      console.error('Fout bij opslaan reservatie:', error);
+    }
+  };
+
   const loadUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('user');
@@ -26,9 +43,20 @@ export default function Profile() {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
   
-        const savedReservations = await AsyncStorage.getItem(`reservations_${parsedUser.email}`);
-        if (savedReservations) {
-          setReservations(JSON.parse(savedReservations));
+        // 1. Eerst lokale cache tonen
+        const localData = await AsyncStorage.getItem(`reservations_${parsedUser.email}`);
+        if (localData) {
+          setReservations(JSON.parse(localData));
+        }
+  
+        // 2. Dan serverdata ophalen (voor update)
+        const response = await fetch(`http://192.168.156.35:3000/reservations/${parsedUser.email}`);
+        const remoteData = await response.json();
+  
+        // 3. Als serverdata verschilt van lokale data: update
+        if (JSON.stringify(remoteData) !== localData) {
+          setReservations(remoteData);
+          await AsyncStorage.setItem(`reservations_${parsedUser.email}`, JSON.stringify(remoteData));
         }
       }
     } catch (error) {
