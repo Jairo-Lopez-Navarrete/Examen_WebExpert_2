@@ -1,15 +1,18 @@
 [
   {
-    "email": "2025-05-15",
-    "date": "Middag"
+    "email": "user@example.com",
+    "date": "2025-05-15",
+    "time": "Middag"
   },
   {
-    "email": "2025-05-22",
-    "date": "Ochtend"
+    "email": "user@example.com",
+    "date": "2025-05-22",
+    "time": "Ochtend"
   },
   {
-    "email": "2025-05-22",
-    "date": "Ochtend"
+    "email": "user@example.com",
+    "date": "2025-05-22",
+    "time": "Ochtend"
   },
   {
     "email": "user@example.com",
@@ -89,6 +92,91 @@
   {
     "email": "user@example.com",
     "date": "2025-05-13",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-07",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-08",
+    "time": "Avond"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-08",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-08",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-09",
+    "time": "Avond"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-07",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-09",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-09",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-10",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-10",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-15",
+    "time": "Ochtend"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-16",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-17",
+    "time": "Avond"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-07",
+    "time": "Avond"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-29",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-14",
+    "time": "Middag"
+  },
+  {
+    "email": "user@example.com",
+    "date": "2025-05-31",
     "time": "Ochtend"
   }
 ]

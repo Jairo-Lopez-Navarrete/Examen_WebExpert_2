@@ -112,7 +112,7 @@ export default function Kabien(){
           <View style={styles.container}>
             {/* Titel + Share */}
             <View style={styles.titleContainer}>
-              <Text style={styles.mainTitle}>Het wordt dus Kajuit!</Text>
+              <Text style={styles.mainTitle}>Het wordt dus Kabien!</Text>
               <TouchableOpacity onPress={shareInfo}>
                 <Ionicons name="arrow-redo" style={styles.iconShare} />
               </TouchableOpacity>
@@ -227,8 +227,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   closeButton: { position: 'absolute', top: 40, right: 20 },
-  prevButton: { position: 'absolute', left: 20, top: '50%' },
-  nextButton: { position: 'absolute', right: 20, top: '50%' },
+  prevButton: { position: 'absolute', left: 20, top: '50%', zIndex: 1 },
+  nextButton: { position: 'absolute', right: 20, top: '50%', zIndex: 1 },
   money: {
     fontSize: 20,
     marginBottom: 20,
