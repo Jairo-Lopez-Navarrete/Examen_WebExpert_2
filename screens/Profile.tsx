@@ -10,6 +10,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [reservations, setReservations] = useState({});
+  
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -29,13 +30,13 @@ export default function Profile() {
         setUser(parsedUser);
   
         
-        const localData = await AsyncStorage.getItem(`reservations_${parsedUser.email}`);
+        const localData = await AsyncStorage.getItem(`reservations/`);
         if (localData) {
           setReservations(JSON.parse(localData));
         }
   
        
-        const response = await fetch(`http://192.168.156.35:3000/reservations/${parsedUser.email}`);
+        const response = await fetch(`http://192.168.156.35:3000/reservations/`);
         const remoteData = await response.json();
   
         
@@ -110,17 +111,17 @@ export default function Profile() {
 
     <Text style={styles.sectionTitle}>Geboekte afspraken</Text>
 
-    {Object.keys(reservations).length === 0 ? (
-      <Text style={{ color: '#777' }}>Geen geboekte afspraken.</Text>
-    ) : (
-      Object.keys(reservations).map((date) => (
-        <View key={date} style={styles.appointmentItem}>
-          <Text style={styles.appointmentText}>
-            {date}: {reservations[date]}
-          </Text>
-        </View>
-      ))
-    )}
+    {Array.isArray(reservations) && reservations.length > 0 ? (
+  reservations.map(({ date, time, type }, index) => (
+    <View key={index} style={styles.appointmentItem}>
+      <Text style={styles.appointmentText}>
+        {date} | {time} | {type === 'kabien' ? 'Kabien' : type === 'kajuit' ? 'Kajuit' : type}
+      </Text>
+    </View>
+  ))
+) : (
+  <Text style={{ color: '#777' }}>Geen geboekte afspraken.</Text>
+)}
 
   </View>
 </ScrollView>

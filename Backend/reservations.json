@@ -1,201 +1,26 @@
 [
   {
-    "email": "user@example.com",
+    "type": "Kabien",
     "date": "2025-05-15",
     "time": "Middag"
   },
   {
-    "email": "user@example.com",
-    "date": "2025-05-22",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-22",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-28",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-21",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-21",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-20",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-22",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-29",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-30",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-29",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-28",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-27",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-06-04",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-30",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-18",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-16",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-21",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-13",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-07",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-08",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-08",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-08",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-09",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-07",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-09",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-09",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-10",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-10",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-15",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-16",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-17",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-07",
-    "time": "Avond"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-29",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-14",
-    "time": "Middag"
-  },
-  {
-    "email": "user@example.com",
-    "date": "2025-05-31",
-    "time": "Ochtend"
-  },
-  {
-    "email": "user@example.com",
+    "type": "Kabien",
     "date": "2025-05-10",
     "time": "Avond"
   },
   {
-    "email": "user@example.com",
+    "type": "Kabien",
     "date": "2025-05-23",
     "time": "Middag"
   },
   {
-    "email": "user@example.com",
+    "type": "Kajuit",
     "date": "2025-05-24",
     "time": "Avond"
   },
   {
-    "email": "user@example.com",
+    "type": "Kajuit",
     "date": "2025-05-17",
     "time": "Middag"
   }
