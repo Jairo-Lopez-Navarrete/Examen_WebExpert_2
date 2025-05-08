@@ -195,7 +195,11 @@ const loadReservations = () => {
     const data = fs.readFileSync(reservationsFilePath);
     return JSON.parse(data);
   }
-  return { kabien:{}, kajuit:{} };
+  return [];
+};
+
+const saveReservations = (reservations) => {
+  fs.writeFileSync(reservationsFilePath, JSON.stringify(reservations, null, 2));
 };
 
 app.post('/reserve', (req, res) => {
@@ -207,28 +211,21 @@ app.post('/reserve', (req, res) => {
 
   let existingReservations = loadReservations();
 
-  // Check voor conflicten in de kabien en kajuit reserveringen apart
   const conflicts = Object.entries(reservations).filter(([date, time]) =>
-    Object.entries(existingReservations).some(([type, typeReservations]) => 
-      typeReservations[date] === time
-    )
+    existingReservations.some(r => r.date === date && r.time === time)
   );
 
   if (conflicts.length > 0) {
     return res.status(409).json({ error: 'Een of meer dagdelen zijn al gereserveerd', conflicts });
   }
 
-  // Voeg de nieuwe reserveringen toe aan de juiste categorie
-  Object.entries(reservations).forEach(([date, time]) => {
-    if (time === 'kajuit') {
-      existingReservations.kajuit[date] = time;
-    } else {
-      existingReservations.kabien[date] = time;
-    }
-  });
+  const newReservations = Object.entries(reservations).map(([date, time]) => ({
+    email,
+    date,
+    time
+  }));
 
-  // Opslaan
-  saveReservations(existingReservations);
+  saveReservations([...existingReservations, ...newReservations]);
 
   res.status(200).json({ message: 'Reservering opgeslagen' });
 });

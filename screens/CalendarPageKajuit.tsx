@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, ScrollView, PermissionsAndroid, Platform } from 'react-native';
 import * as Location from 'expo-location';
 import { Calendar } from 'react-native-calendars';
 
