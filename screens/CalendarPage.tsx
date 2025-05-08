@@ -141,6 +141,20 @@ export default function CalendarPage({ navigation }) {
 
   const getMarkedDates = () => {
     const markedDates = {};
+
+
+    Object.keys(reservedSlots).forEach((date) => {
+      const reservedDayParts = reservedSlots[date]; 
+  
+      if (reservedDayParts.length > 0) {
+        markedDates[date] = {
+          marked: true,
+          dotColor: 'red',
+        };
+      }
+    });
+
+
     Object.keys(selectedTimes).forEach((date) => {
       markedDates[date] = {
         selected: true,
