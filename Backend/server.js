@@ -187,6 +187,7 @@ app.post('/send-contact-message', async (req, res) => {
 });
 
 
+// RESERVATIONS
 const reservationsFilePath = path.join(__dirname, 'reservations.json');
 
 const loadReservations = () => {
@@ -201,7 +202,7 @@ const saveReservations = (reservations) => {
   fs.writeFileSync(reservationsFilePath, JSON.stringify(reservations, null, 2));
 };
 
-app.post('/reservations', (req, res) => {
+app.post('/reserve', (req, res) => {
   const { email, reservations } = req.body;
 
   if (!reservations || !email) {
@@ -229,6 +230,10 @@ app.post('/reservations', (req, res) => {
   res.status(200).json({ message: 'Reservering opgeslagen' });
 });
 
+app.get('/reservations', (req, res) => {
+  const reservations = loadReservations();
+  res.json(reservations);
+});
 
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server draait op poort 3000');
