@@ -6,13 +6,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PaymentPage({ route }) {
   const navigation = useNavigation();
-  const { selectedTimes } = route.params;
+  const { selectedTimes, type } = route.params || {};
   const [paymentMethod, setPaymentMethod] = useState('');
   const [reservations, setReservations] = useState(selectedTimes);
-  const pricePerReservation = 20;
   const totalReservations = Object.keys(reservations).length;
-  const totalPrice = totalReservations * pricePerReservation;
   const [refreshing, setRefreshing] = useState(false);
+
+  const getPricePerReservation = (type) => {
+    switch (type) {
+      case 'kabien':
+        return 35;
+      case 'kajuit':
+        return 100;
+      default:
+        return 20; // fallback voor veiligheid
+    }
+  };
+  
+  const pricePerReservation = getPricePerReservation(type);
+
+  const totalPrice = totalReservations * pricePerReservation;
+
+  
       
         const onRefresh = useCallback(() => {
           setRefreshing(true);
