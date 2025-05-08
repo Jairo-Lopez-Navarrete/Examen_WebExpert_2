@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { navigate } from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Kabien() {
+export default function Kajuit() {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +51,7 @@ export default function Kabien() {
   }, []);
 
   const handleCalendarPress = () => {
-    navigate(isLoggedIn ? 'CalendarPage' : 'Login');
+    navigate(isLoggedIn ? 'CalendarPageKajuit' : 'Login');
   };
 
   const shareInfo = async () => {

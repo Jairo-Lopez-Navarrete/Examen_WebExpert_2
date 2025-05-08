@@ -16,6 +16,7 @@ import Home from './screens/Home';
 import Profile from './screens/Profile';
 import AboutUs from './screens/AboutUs';
 import CalendarPage from './screens/CalendarPage';
+import CalendarPageKajuit from './screens/CalendarPageKajuit';
 import Kabien from './screens/Kabien';
 import Kajuit from './screens/Kajuit';
 import EditProfile from './screens/EditProfile';
@@ -69,6 +70,7 @@ const App = () => {
             <Stack.Screen name="Kabien" component={Kabien} />
             <Stack.Screen name="Kajuit" component={Kajuit} />
             <Stack.Screen name="CalendarPage" component={CalendarPage} />
+            <Stack.Screen name="CalendarPageKajuit" component={CalendarPageKajuit} />
             <Stack.Screen name="PaymentPage" component={PaymentPage} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Register" component={Register} />

@@ -9,6 +9,7 @@ type Routes = {
     'Kabien': string;
     'Kajuit': string;
     'CalendarPage': string;
+    'CalendarPageKajuit': string;
     'EditProfile': string;
     'PaymentPage': string;
     'Login': string;
