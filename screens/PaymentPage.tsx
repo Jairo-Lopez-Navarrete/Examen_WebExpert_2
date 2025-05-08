@@ -25,9 +25,7 @@ export default function PaymentPage({ route }) {
   
   const pricePerReservation = getPricePerReservation(type);
 
-  const totalPrice = totalReservations * pricePerReservation;
-
-  
+  const totalPrice = totalReservations * pricePerReservation;  
       
         const onRefresh = useCallback(() => {
           setRefreshing(true);
