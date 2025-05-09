@@ -203,7 +203,7 @@ const saveReservations = (reservations) => {
 };
 
 app.post('/reserve', (req, res) => {
-  const { email, reservations } = req.body;
+  const { email, reservations, type = type } = req.body;
 
   if (!reservations || !email) {
     return res.status(400).json({ error: 'Email en reserveringen zijn verplicht' });
@@ -220,7 +220,7 @@ app.post('/reserve', (req, res) => {
   }
 
   const newReservations = Object.entries(reservations).map(([date, time]) => ({
-    type: "Kabien",
+    type: type,
     date,
     time
   }));

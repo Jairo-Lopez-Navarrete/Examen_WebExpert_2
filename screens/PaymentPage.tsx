@@ -81,7 +81,8 @@ export default function PaymentPage({ route }) {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 email: parsedUser.email,
-                reservations: reservations
+                reservations: reservations,
+                type: type,
               }),
             });
 
