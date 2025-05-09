@@ -23,5 +23,20 @@
     "type": "Kajuit",
     "date": "2025-05-17",
     "time": "Middag"
+  },
+  {
+    "email": "james@hotmail.com",
+    "date": "2025-05-16",
+    "time": "Ochtend"
+  },
+  {
+    "email": "james@hotmail.com",
+    "date": "2025-05-30",
+    "time": "Ochtend"
+  },
+  {
+    "email": "james@hotmail.com",
+    "date": "2025-05-31",
+    "time": "Middag"
   }
 ]

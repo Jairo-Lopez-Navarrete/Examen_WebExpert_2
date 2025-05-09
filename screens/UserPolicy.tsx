@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { navigate } from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Kabien() {
+export default function UserPolicy() {
   const items = [
     { title: 'Onboarding', screen: 'Onboarding', icon: 'information-circle-outline'},
     { title: 'Tijdbeheer', screen: 'Tijdbeheer', icon: 'time-outline' },
