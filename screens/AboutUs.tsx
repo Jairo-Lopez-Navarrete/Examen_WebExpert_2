@@ -2,6 +2,9 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, RefreshControl, Pressable  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Animated } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { Dimensions } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function AboutUs() {
   const navigation = useNavigation();
@@ -35,10 +38,10 @@ export default function AboutUs() {
        
         <View style={styles.section}>
           <Text style={styles.paragraph}>
-            We zijn geen reclamebureau en ook geen freelancers, maar iets daartussen.
-          </Text>
-          <Text style={styles.paragraph}>
-            Kapitan ondersteunt marketeers in de uitvoering van hun merkplannen...
+            We zijn geen reclamebureau en ook geen freelancers, wij zijn merkwerkers!
+            {'\n'}{'\n'}Kapitan is een gezellig bedrijf gelegen aan de Kempische Kaai in Hasselt.
+            {'\n'}Ons bedrijf is gelegen langs het kanaal van Hasselt waar een leuke en gezellige sfeer hangt.
+            {'\n'}{'\n'}Wij delen graag ons stuurwiel met jullie, als jullie graag een rustige plaats zoeken om te kunnen werken twijfel dan niet om te reserveren!
           </Text>
         </View>
 
@@ -87,12 +90,20 @@ export default function AboutUs() {
         </View>
 
         
-        <View style={[styles.section, styles.highlightSection2]}>
-          <Text style={styles.subtitle2}>Onze Missie</Text>
-          <Text style={styles.paragraph}>
-            Onze missie is om ... te realiseren...
-          </Text>
-        </View>
+        <View style={styles.mapContainer}>
+  <Text style={styles.subtitle2}>Hier vind je ons</Text>
+  <MapView
+    style={styles.map}
+    initialRegion={{latitude: 50.933898, longitude: 5.337144,latitudeDelta: 0.005,longitudeDelta: 0.005,}}>
+    <Marker
+      coordinate={{ latitude: 50.9333933898, longitude: 5.337144 }}
+      title="Kapitan"
+      description="Kempische Kaai, Hasselt"
+    />
+  </MapView>
+  <Ionicons name="log-out-outline" style={styles.icons} color="#628395" />
+  <Text style={styles.paragraph}>Tip: Zoek de walvis 🐋</Text>
+</View>
 
         
         <View style={styles.section}>
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
   },
   section: {
-    marginBottom: 30,
+    marginVertical: 25 
   },
   highlightSection: {
     // backgroundColor: '#fff',
@@ -203,10 +214,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 5,
   },
+
+
+
+  mapContainer: {
+    marginBottom: 30,
+    overflow: 'hidden',
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: 200,
+    flex: 1
+  },
+
+
+
   button: {
     backgroundColor: '#E74040',
     padding: 15,
-    marginTop: 10,
+    marginTop: 20,
     borderRadius: 50,
     flexDirection: 'row',
     justifyContent: 'center',
