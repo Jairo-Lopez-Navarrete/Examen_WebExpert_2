@@ -149,7 +149,7 @@ export default function Kabien(){
             </Modal>
     
             {/* Prijs */}
-            <Text style={styles.money}>€100 per dag</Text>
+            <Text style={styles.money}>€35 per dagdeel</Text>
     
             {/* Wat inbegrepen */}
             <Text style={styles.titles}>Dit is wat je krijgt</Text>

@@ -110,7 +110,7 @@ export default function CalendarPage({ navigation }) {
       Alert.alert('Waarschuwing', 'Je hebt geen dagen geselecteerd.');
       return;
     }
-    navigation.navigate('PaymentPage', { selectedTimes });
+    navigation.navigate('PaymentPage', { selectedTimes, type: 'Kajuit' });
   };
 
   const getMarkedDates = () => {

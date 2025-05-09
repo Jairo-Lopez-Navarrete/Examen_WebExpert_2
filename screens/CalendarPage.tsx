@@ -171,7 +171,7 @@ export default function CalendarPage({ navigation }) {
     if (Object.keys(selectedTimes).length === 0) {
       Alert.alert('Waarschuwing', 'Je hebt geen dagen geselecteerd.');
     } else {
-      navigation.navigate('PaymentPage', { selectedTimes });
+      navigation.navigate('PaymentPage', { selectedTimes, type: 'Kabien' });
     }
   };
 
