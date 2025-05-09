@@ -28,7 +28,7 @@ export default function Home(){
         Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
       </Text> */}
         <Text style={styles.title}>Boek een vergaderruimte</Text>
-        <Text style={styles.text}>Je hebt de keuze tussen twee kamers om te huren, kabien en kajuit</Text>
+        <Text style={styles.text}>Je hebt de keuze tussen twee ruimtes om te huren, {"\n"}{"\n"}Kabien en Kajuit.{"\n"}{"\n"}Kapitan zeilt graag samen met zijn klanten!</Text>
         <View style={styles.imageContainer}>
             <Pressable onPress={() => navigate('Kabien')}>
                  <ImageBackground source={require('../assets/TestPic1.png')} style={styles.image} imageStyle={styles.imageBorder}>
@@ -73,7 +73,7 @@ textContainer: {
   title: {
     fontSize: 25,
     // height: 70,
-    marginTop: '20%',
+    marginTop: '15%',
     marginBottom: 2,
     justifyContent: 'center',
     fontFamily: 'Poppins_500Medium',

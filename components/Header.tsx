@@ -5,7 +5,7 @@ import {StyleSheet, Text, View } from 'react-native';
 export default function Header(props: any) {
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>Karveel</Text>
+      <Text style={styles.title}>Kaapi</Text>
     </View>
   );
 }
