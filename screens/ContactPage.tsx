@@ -100,21 +100,27 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   header: {
+    fontFamily: 'Poppins_500Medium',
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
+    color: '#232323',
   },
   userInfo: {
+    fontFamily: 'Poppins_400Regular',
     backgroundColor: '#f2f2f2',
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
+    color: '#232323',
   },
   label: {
+    fontFamily: 'Poppins_400Regular',
     fontSize: 18,
     marginBottom: 10,
+    color: '#232323',
   },
   textInput: {
+    fontFamily: 'Poppins_400Regular',
     backgroundColor: '#eaeaea',
     height: 120,
     borderRadius: 8,
@@ -122,6 +128,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     fontSize: 16,
     marginBottom: 20,
+    color: '#232323',
   },
   sendButton: {
     backgroundColor: '#2B4570',
@@ -130,6 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sendButtonText: {
+    fontFamily: 'Poppins_400Regular',
     color: '#fff',
     fontSize: 18,
   },

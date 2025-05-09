@@ -95,9 +95,13 @@ export default function Login() {
         />
         <View style={styles.passwordButtonContainer}>
           <Pressable onPress={() => navigate('ForgotPassword')}>
-            <Text style={styles.registerText}>Wachtwoord vergeten?</Text>
+            <Text style={styles.buttonText}>Wachtwoord vergeten?</Text>
           </Pressable>
         </View>
+        
+        <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
+          <Text style={styles.registerText}>Registreer</Text>
+        </Pressable>
 
         {loading ? (
           <ActivityIndicator size="large" color="#007AFF" />
@@ -106,10 +110,6 @@ export default function Login() {
             <Text style={styles.buttonText}>Inloggen</Text>
           </Pressable>
         )}
-        
-        <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
-          <Text style={styles.registerText}>Heb je nog geen account? Registreer hier.</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
@@ -125,8 +125,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 30,
+    fontFamily: 'Poppins_500Medium',
+    color: '#232323',
   },
   input: {
     width: '100%',
@@ -135,28 +136,31 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     marginBottom: 10,
+    fontFamily: 'Poppins_400Regular',
   },
   button: {
-    marginTop: 30,
-    backgroundColor: '#007AFF',
-    padding: 15,
-    width: "100%",
-    alignItems: "center",
-    borderRadius: 8,
+    marginTop: 40
   },
   buttonText: {
-    color: 'white',
     fontSize: 18,
+    color: '#007AFF',
+    fontFamily: 'Poppins_400Regular',
   },
   passwordButtonContainer: {
     alignItems: "flex-end",
     width: "100%"
   },
   registerButton: {
-    marginTop: 20,
+    marginTop: 40,
+    backgroundColor: '#007AFF',
+    padding: 15,
+    width: "100%",
+    alignItems: "center",
+    borderRadius: 8,
   },
   registerText: {
-    color: '#007AFF',
-    fontSize: 16,
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'Poppins_500Medium',
   },
 });

@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   prevButton: { position: 'absolute', left: 20, top: '50%', zIndex: 1 },
   nextButton: { position: 'absolute', right: 20, top: '50%', zIndex: 1 },
   money: {
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: 20,
     fontFamily: 'Poppins_500Medium',
   },

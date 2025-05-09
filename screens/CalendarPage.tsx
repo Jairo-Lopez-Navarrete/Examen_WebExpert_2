@@ -189,7 +189,7 @@ export default function CalendarPage({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.body}>
       <View style={styles.container}>
         <Calendar
           style={styles.calendarStyle}
@@ -233,6 +233,9 @@ export default function CalendarPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#fff'
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -254,6 +257,7 @@ const styles = StyleSheet.create({
   timeSelectionText: {
     fontSize: 18,
     marginBottom: 10,
+    fontFamily: 'Poppins_400Regular',
   },
   timeButton: {
     backgroundColor: '#2B4570',
@@ -272,6 +276,7 @@ const styles = StyleSheet.create({
   timeButtonText: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
   },
   paymentButton: {
     backgroundColor: '#e74040',
@@ -282,5 +287,6 @@ const styles = StyleSheet.create({
   paymentButtonText: {
     color: '#fff',
     fontSize: 18,
+    fontFamily: 'Poppins_400Regular',
   },
 });

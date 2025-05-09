@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   prevButton: { position: 'absolute', left: 20, top: '50%', zIndex: 1 },
   nextButton: { position: 'absolute', right: 20, top: '50%', zIndex: 1 },
   money: {
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: 20,
     fontFamily: 'Poppins_500Medium',
   },
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginVertical: 2,
+    color: '#232323',
     fontFamily: 'Poppins_400Regular',
   },
   calenderButton: {

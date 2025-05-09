@@ -54,7 +54,7 @@ export default function AboutUs() {
 
         
         <View style={[styles.section]}>
-          <Text style={styles.subtitle}>De core merkwerkers</Text>
+          <Text style={styles.subtitle2}>De core merkwerkers</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -88,7 +88,7 @@ export default function AboutUs() {
 
         
         <View style={[styles.section, styles.highlightSection2]}>
-          <Text style={styles.subtitle}>Onze Missie</Text>
+          <Text style={styles.subtitle2}>Onze Missie</Text>
           <Text style={styles.paragraph}>
             Onze missie is om ... te realiseren...
           </Text>
@@ -96,7 +96,7 @@ export default function AboutUs() {
 
         
         <View style={styles.section}>
-          <Text style={styles.subtitle}>Neem contact met ons op</Text>
+          <Text style={styles.subtitle2}>Neem contact met ons op</Text>
           <Text style={styles.paragraph}>
             Voor vragen of feedback, aarzel dan niet om contact met ons op te nemen.
           </Text>
@@ -141,20 +141,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 20,
-    color: '#333',
+    color: "#232323",
     fontFamily: 'Poppins_500Medium',
   },
   subtitle: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 22,
     marginBottom: 15,
-    color: '#555',
+    color: "#232323",
+    justifyContent: "center",
+    fontFamily: 'Poppins_500Medium',
+  },
+  subtitle2: {
+    fontSize: 20,
+    marginBottom: 15,
+    color: "#232323",
     fontFamily: 'Poppins_500Medium',
   },
   paragraph: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#666',
+    color: "#232323",
     marginBottom: 10,
     fontFamily: 'Poppins_400Regular',
   },
@@ -185,11 +191,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Poppins_500Medium',
     textAlign: 'center',
+    color: "#232323",
   },
   workerInformation: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
-    color: '#555',
+    color: "#232323",
     textAlign: 'center',
   },
   carouselContainer: {

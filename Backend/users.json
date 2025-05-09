@@ -14,5 +14,13 @@
     "work": "pegaso",
     "password": "bulbasaur",
     "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/94df53c3-20e1-43e2-b614-e174a276ffed.jpeg"
+  },
+  {
+    "name": "James",
+    "birthdate": "26-12-2000",
+    "email": "james@hotmail.com",
+    "work": "piloot",
+    "password": "pxltest",
+    "profilePic": ""
   }
 ]

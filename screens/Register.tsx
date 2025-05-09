@@ -137,8 +137,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 30,
+    fontFamily: 'Poppins_500Medium',
+    color: '#232323',
   },
   input: {
     width: '100%',
@@ -147,15 +148,19 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     marginBottom: 10,
+    fontFamily: 'Poppins_400Regular',
   },
   button: {
     marginTop: 30,
     backgroundColor: '#007AFF',
     padding: 15,
     borderRadius: 8,
+    width: '100%',
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'Poppins_400Regular',
   },
 });

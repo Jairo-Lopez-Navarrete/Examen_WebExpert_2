@@ -59,13 +59,36 @@ export default function PaymentPage({ route }) {
           try {
             const userData = await AsyncStorage.getItem('user');
             const parsedUser = userData ? JSON.parse(userData) : {};
-
+        
+            // Maak nieuwe array in het juiste formaat
+            const reservationArray = Object.entries(reservations).map(([date, time]) => ({
+              type: type.charAt(0).toUpperCase() + type.slice(1), // Kabien / Kajuit
+              date,
+              time,
+            }));
+        
+            // Opslaan in AsyncStorage (optioneel, zoals eerder)
             await AsyncStorage.setItem(
               `reservations_${parsedUser.email}`,
               JSON.stringify(reservations)
             );
         
-            const response = await fetch('http://192.168.156.35:3000/send-confirmation-email', {
+            // Push naar backend (nieuw endpoint maken!)
+            const saveResponse = await fetch('http://192.168.156.35:3000/save-reservation', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                reservations: reservationArray,
+              }),
+            });
+        
+            if (!saveResponse.ok) {
+              const saveError = await saveResponse.json();
+              throw new Error(saveError.error || 'Fout bij opslaan reserveringen');
+            }
+        
+            // E-mail versturen zoals eerder
+            const emailResponse = await fetch('http://192.168.156.35:3000/send-confirmation-email', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -77,17 +100,17 @@ export default function PaymentPage({ route }) {
               }),
             });
         
-            const data = await response.json();
+            const emailData = await emailResponse.json();
         
-            if (response.ok) {
+            if (emailResponse.ok) {
               alert('Betaling gelukt! Je ontvangt spoedig een bevestiging.');
               navigation.navigate('Profile');
             } else {
-              alert(`Er ging iets mis: ${data.error || 'Onbekende fout'}`);
+              alert(`Er ging iets mis: ${emailData.error || 'Onbekende fout'}`);
             }
           } catch (error) {
-            console.error('Fout bij verzenden bevestiging:', error);
-            alert('Er ging iets mis bij het verzenden van de bevestiging.');
+            console.error('Fout bij betaling:', error);
+            alert('Er ging iets mis bij het verwerken van de betaling.');
           }
         };
 
@@ -98,7 +121,7 @@ export default function PaymentPage({ route }) {
         };
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView style={styles.body} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Text style={styles.header}>Betalingspagina</Text>
       <Text style={styles.info}>Je hebt de volgende dagen geselecteerd:</Text>
@@ -144,6 +167,9 @@ export default function PaymentPage({ route }) {
 
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#fff'
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -151,12 +177,13 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 10,
+    fontFamily: 'Poppins_500Medium',
   },
   info: {
     fontSize: 18,
     marginBottom: 10,
+    fontFamily: 'Poppins_400Regular',
   },
   reservationItem: {
     flexDirection: 'row',
@@ -166,6 +193,7 @@ const styles = StyleSheet.create({
   },
   reservationText: {
     fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
   },
   removeButton: {
     backgroundColor: '#e74040',
@@ -174,17 +202,19 @@ const styles = StyleSheet.create({
   },
   removeButtonText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
+    fontFamily: 'Poppins_400Regular',
   },
   summary: {
     fontSize: 18,
-    fontWeight: 'bold',
     marginTop: 10,
+    fontFamily: 'Poppins_400Regular',
   },
   label: {
     fontSize: 18,
     marginTop: 20,
     marginBottom: 5,
+    fontFamily: 'Poppins_400Regular',
   },
   picker: {
     backgroundColor: '#fff',
@@ -200,6 +230,6 @@ const styles = StyleSheet.create({
   payButtonText: {
     fontSize: 18,
     color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_500Medium',
   },
 });
