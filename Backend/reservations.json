@@ -25,18 +25,8 @@
     "time": "Middag"
   },
   {
-    "email": "james@hotmail.com",
-    "date": "2025-05-16",
+    "type": "Kabien",
+    "date": "2025-05-21",
     "time": "Ochtend"
-  },
-  {
-    "email": "james@hotmail.com",
-    "date": "2025-05-30",
-    "time": "Ochtend"
-  },
-  {
-    "email": "james@hotmail.com",
-    "date": "2025-05-31",
-    "time": "Middag"
   }
 ]

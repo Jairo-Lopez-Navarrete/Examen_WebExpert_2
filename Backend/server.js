@@ -220,7 +220,7 @@ app.post('/reserve', (req, res) => {
   }
 
   const newReservations = Object.entries(reservations).map(([date, time]) => ({
-    email,
+    type: "Kabien",
     date,
     time
   }));
