@@ -14,9 +14,9 @@ export default function PaymentPage({ route }) {
 
   const getPricePerReservation = (type) => {
     switch (type) {
-      case 'kabien':
+      case 'Kabien':
         return 35;
-      case 'kajuit':
+      case 'Kajuit':
         return 100;
       default:
         return 20; // fallback voor veiligheid
@@ -81,7 +81,7 @@ export default function PaymentPage({ route }) {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 email: parsedUser.email,
-                reservations: reservations // <-- Dit is al het juiste objectformaat
+                reservations: reservations
               }),
             });
 

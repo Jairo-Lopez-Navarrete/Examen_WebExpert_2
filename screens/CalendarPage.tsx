@@ -130,7 +130,7 @@ export default function CalendarPage({ navigation }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: 'user@example.com',
+        type: 'Kabien',
         reservations: { [selected]: timeLabel },
       }),
     })
