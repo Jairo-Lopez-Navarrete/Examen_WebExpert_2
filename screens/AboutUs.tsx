@@ -101,7 +101,7 @@ export default function AboutUs() {
       description="Kempische Kaai, Hasselt"
     />
   </MapView>
-  <Ionicons name="log-out-outline" style={styles.icons} color="#628395" />
+  <Ionicons name="log-out-outline" color="#628395" />
   <Text style={styles.paragraph}>Tip: Zoek de walvis 🐋</Text>
 </View>
 

@@ -13,14 +13,22 @@
     "email": "jairoln@hotmail.com",
     "work": "pegaso",
     "password": "bulbasaur",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/94df53c3-20e1-43e2-b614-e174a276ffed.jpeg"
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/61390df0-6090-446e-b17d-910b83261cef.jpeg"
   },
   {
     "name": "James",
     "birthdate": "26-12-2000",
     "email": "james@hotmail.com",
     "work": "piloot",
-    "password": "pxltest",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/c596ed09-8ccb-4c24-a0a4-0c09fe9924e2.jpeg"
+    "password": "kippenbout",
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/eee4fc14-a66c-48a5-b7ec-e082c19a7a88.jpeg"
+  },
+  {
+    "name": "maribel",
+    "birthdate": "11-08-1973",
+    "email": "maribel-navarrete@hotmail.com",
+    "work": "kapster",
+    "password": "navarrete",
+    "profilePic": ""
   }
 ]

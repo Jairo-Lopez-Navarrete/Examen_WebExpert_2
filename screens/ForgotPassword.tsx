@@ -14,7 +14,7 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://192.168.156.29:3000/forgot-password', {
+      const response = await fetch('http://192.168.0.15:3000/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

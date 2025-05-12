@@ -2,16 +2,16 @@
   {
     "type": "Kabien",
     "date": "2025-05-15",
-    "time": "Middag"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-10",
-    "time": "Avond"
+    "time": "Ochtend"
   },
   {
     "type": "Kajuit",
-    "date": "2025-05-14",
+    "date": "2025-05-23",
     "time": "Ochtend"
+  },
+  {
+    "type": "Kabien",
+    "date": "2025-05-25",
+    "time": "Avond"
   }
 ]

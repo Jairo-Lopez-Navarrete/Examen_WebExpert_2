@@ -43,9 +43,9 @@ export default function Login() {
     }
   
     setLoading(true);
-  
+
     try {
-      const response = await fetch('http://192.168.156.35:3000/login', {
+      const response = await fetch('http://192.168.0.15:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export default function Login() {
   };
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView style={styles.body} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <TextInput style={styles.input} placeholder="E-mailadres" value={email} onChangeText={setEmail} keyboardType="email-address"/>
@@ -116,6 +116,9 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#f5f5f5'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

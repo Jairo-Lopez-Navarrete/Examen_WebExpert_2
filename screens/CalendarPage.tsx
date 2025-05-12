@@ -79,7 +79,7 @@ export default function CalendarPage({ navigation }) {
 
 
   useEffect(() => {
-    fetch('http://192.168.156.35:3000/reservations')
+    fetch('http://192.168.0.15:3000/reservations')
       .then(res => res.json())
       .then(data => {
         const slots = {};
@@ -124,7 +124,7 @@ export default function CalendarPage({ navigation }) {
       },
     }));
 
-    fetch('http://192.168.156.35:3000/reservations', {
+    fetch('http://192.168.0.15:3000/reservations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

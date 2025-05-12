@@ -36,7 +36,7 @@ export default function Profile() {
         }
   
        
-        const response = await fetch(`http://192.168.156.35:3000/reservations/`);
+        const response = await fetch(`http://192.168.0.15:3000/reservations/`);
         const remoteData = await response.json();
   
         

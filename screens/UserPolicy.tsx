@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import { navigate } from '../helpers/RootNavigation';
+import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function UserPolicy() {
+  const navigation = useNavigation();
   const items = [
     { title: 'Onboarding', screen: 'Onboarding', icon: 'information-circle-outline'},
-    { title: 'Tijdbeheer', screen: 'Tijdbeheer', icon: 'time-outline' },
     // Voeg hier meer knoppen toe indien nodig
   ];
 
@@ -17,7 +17,7 @@ export default function UserPolicy() {
         <Pressable
           key={index}
           style={styles.button}
-          onPress={() => navigate(item.screen)}
+          onPress={() => navigation.navigate('Onboarding')}
         >
          <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>{item.title}</Text>

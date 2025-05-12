@@ -41,7 +41,7 @@ export default function ContactPage() {
     }
 
     try {
-      await fetch('http://192.168.156.35:3000/send-contact-message', {
+      await fetch('http://192.168.0.15:3000/send-contact-message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
