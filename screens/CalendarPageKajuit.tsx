@@ -132,7 +132,7 @@ export default function CalendarPage({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.body}>
       <View style={styles.container}>
         <Calendar
           style={styles.calendarStyle}
@@ -154,6 +154,9 @@ export default function CalendarPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: "#fff"
+  },
   container: {
     flex: 1,
     padding: 20,
