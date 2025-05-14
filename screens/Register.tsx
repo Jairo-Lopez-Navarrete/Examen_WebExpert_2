@@ -88,7 +88,7 @@ export default function Register() {
       };
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView style={styles.body} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Text style={styles.title}>Registreren</Text>
       <TextInput style={styles.input} placeholder="Naam" value={name} onChangeText={setName} />
@@ -128,6 +128,9 @@ export default function Register() {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#f5f5f5'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

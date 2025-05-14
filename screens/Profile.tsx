@@ -67,7 +67,7 @@ export default function Profile() {
   if (!user) return null;
 
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView style={styles.body} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
         <View style={styles.profileSection}>
           <View style={styles.rowContainer}>
@@ -121,6 +121,9 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#f5f5f5'
+  },
   container: {
     flex: 1,
     padding: 30,

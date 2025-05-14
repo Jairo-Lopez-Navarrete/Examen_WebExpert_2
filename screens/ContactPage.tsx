@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   sendButton: {
     backgroundColor: '#2B4570',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: 'center',
   },
   sendButtonText: {

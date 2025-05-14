@@ -98,18 +98,19 @@ export default function Login() {
             <Text style={styles.buttonText}>Wachtwoord vergeten?</Text>
           </Pressable>
         </View>
-        
-        <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
-          <Text style={styles.registerText}>Registreer</Text>
-        </Pressable>
 
         {loading ? (
           <ActivityIndicator size="large" color="#007AFF" />
         ) : (
-          <Pressable style={styles.button} onPress={handleLogin} disabled={loading}>
-            <Text style={styles.buttonText}>Inloggen</Text>
+          <Pressable style={styles.buttonLogin} onPress={handleLogin} disabled={loading}>
+            <Text style={styles.buttonLoginText}>Inloggen</Text>
           </Pressable>
         )}
+
+
+        <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
+          <Text style={styles.registerText}>Registreer</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -141,11 +142,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: 'Poppins_400Regular',
   },
-  button: {
-    marginTop: 40
+  // buttonLogin: {
+  //   marginTop: 40,
+  //   backgroundColor: '#c0c0c0',
+  //   padding: 15,
+  //   width: "100%",
+  //   alignItems: "center",
+  //   borderRadius: 8,
+  // },
+  buttonLoginText: {
+    marginTop: 55,
+    fontSize: 18,
+    color: '#007AFF',
+    fontFamily: 'Poppins_400Regular',
   },
   buttonText: {
-    fontSize: 18,
+    marginTop: 5,
+    fontSize: 13,
+    textDecorationLine: "underline",
     color: '#007AFF',
     fontFamily: 'Poppins_400Regular',
   },
