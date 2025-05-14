@@ -220,6 +220,7 @@ app.post('/reserve', (req, res) => {
   }
 
   const newReservations = Object.entries(reservations).map(([date, time]) => ({
+    email,
     type: type,
     date,
     time
@@ -230,9 +231,22 @@ app.post('/reserve', (req, res) => {
   res.status(200).json({ message: 'Reservering opgeslagen' });
 });
 
+// app.get('/reservations', (req, res) => {
+//   const reservations = loadReservations();
+//   res.json(reservations);
+// });
+
 app.get('/reservations', (req, res) => {
-  const reservations = loadReservations();
-  res.json(reservations);
+  const { email } = req.query;
+
+  const allReservations = loadReservations();
+
+  if (email) {
+    const userReservations = allReservations.filter(r => r.email === email);
+    return res.json(userReservations);
+  }
+
+  res.json(allReservations); // fallback: alles tonen (eventueel alleen voor beheerder)
 });
 
 app.listen(3000, '0.0.0.0', () => {
