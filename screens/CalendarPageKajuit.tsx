@@ -99,7 +99,7 @@ export default function CalendarPage({ navigation }) {
       if (updated[date]) {
         delete updated[date];
       } else {
-        updated[date] = 'Ochtend'; // of vraag user om tijdslot, indien gewenst
+        updated[date] = 'Volledige dag'; // of vraag user om tijdslot, indien gewenst
       }
       return updated;
     });

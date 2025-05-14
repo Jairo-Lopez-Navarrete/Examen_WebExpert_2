@@ -1,45 +1,5 @@
 [
   {
-    "type": "Kabien",
-    "date": "2025-05-15",
-    "time": "Ochtend"
-  },
-  {
-    "type": "Kajuit",
-    "date": "2025-05-23",
-    "time": "Ochtend"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-25",
-    "time": "Avond"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-29",
-    "time": "Ochtend"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-31",
-    "time": "Ochtend"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-27",
-    "time": "Avond"
-  },
-  {
-    "type": "Kajuit",
-    "date": "2025-05-19",
-    "time": "Ochtend"
-  },
-  {
-    "type": "Kabien",
-    "date": "2025-05-21",
-    "time": "Ochtend"
-  },
-  {
     "email": "jairoln@hotmail.com",
     "type": "Kabien",
     "date": "2025-05-22",
@@ -50,5 +10,11 @@
     "type": "Kabien",
     "date": "2025-05-18",
     "time": "Ochtend"
+  },
+  {
+    "email": "jairoln@hotmail.com",
+    "type": "Kajuit",
+    "date": "2025-05-29",
+    "time": "Volledige dag"
   }
 ]
