@@ -29,6 +29,30 @@ export default function EditProfile() {
     }, 2000);
   }, []);
 
+
+
+  const chooseImageOption = () => {
+    Alert.alert(
+      'Profielfoto wijzigen',
+      'Kies een optie',
+      [
+        {
+          text: 'Camera',
+          onPress: openCamera,
+        },
+        {
+          text: 'Galerij',
+          onPress: pickImage,
+        },
+        {
+          text: 'Annuleren',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -100,7 +124,7 @@ export default function EditProfile() {
     }
     
     try {
-      const response = await fetch('http://192.168.0.15:3000/EditProfile', {
+      const response = await fetch('http://192.168.156.35:3000/EditProfile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +159,7 @@ export default function EditProfile() {
       <View style={styles.container}>
         <Text style={styles.title}>Bewerk je profiel</Text>
 
-        <Pressable onPress={pickImage}>
+        <Pressable onPress={chooseImageOption}>
           <Ionicons name="camera-outline" size={30} color="black" style={styles.cameraIcon} />
           <Image source={profilePic ? { uri: profilePic } : require('../assets/avatarProfile.png')} style={styles.profileImage} resizeMode="cover"/>
         </Pressable>

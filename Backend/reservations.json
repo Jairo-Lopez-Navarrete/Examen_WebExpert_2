@@ -13,5 +13,25 @@
     "type": "Kabien",
     "date": "2025-05-25",
     "time": "Avond"
+  },
+  {
+    "type": "Kabien",
+    "date": "2025-05-29",
+    "time": "Ochtend"
+  },
+  {
+    "type": "Kabien",
+    "date": "2025-05-31",
+    "time": "Ochtend"
+  },
+  {
+    "type": "Kabien",
+    "date": "2025-05-27",
+    "time": "Avond"
+  },
+  {
+    "type": "Kajuit",
+    "date": "2025-05-19",
+    "time": "Ochtend"
   }
 ]
