@@ -189,9 +189,18 @@ const styles = StyleSheet.create({
     height: 400,
     borderRadius: 10,
   },
-  closeButton: { position: 'absolute', top: 40, right: 20 },
-  prevButton: { position: 'absolute', left: 20, top: '50%', zIndex: 1 },
-  nextButton: { position: 'absolute', right: 20, top: '50%', zIndex: 1 },
+  closeButton: { 
+    position: 'absolute', 
+    top: 40, 
+    right: 20 },
+  prevButton: { 
+    position: 'absolute', 
+    left: 20, top: '50%', 
+    zIndex: 1 },
+  nextButton: { 
+    position: 'absolute', 
+    right: 20, top: '50%', 
+    zIndex: 1 },
   money: {
     fontSize: 22,
     marginBottom: 20,

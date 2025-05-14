@@ -26,6 +26,7 @@ import PaymentPage from './screens/PaymentPage';
 import ForgotPassword from './screens/ForgotPassword';
 import UserPolicy from './screens/UserPolicy';
 import ContactPage from './screens/ContactPage';
+import Onboarding from './screens/Onboarding';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,7 @@ const App = () => {
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="UserPolicy" component={UserPolicy} />
             <Stack.Screen name="ContactPage" component={ContactPage} />
+            <Stack.Screen name="Onboarding" component={Onboarding} options={{ headerShown: false }} />
           </Stack.Navigator>
           <Footer />
           <StatusBar style="auto" />
