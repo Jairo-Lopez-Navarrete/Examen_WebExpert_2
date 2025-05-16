@@ -1,14 +1,13 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { View, Text, Linking, StyleSheet, ScrollView, Image, RefreshControl, Pressable  } from 'react-native';
+import { View, Text, Linking, StyleSheet, ScrollView, Image, RefreshControl, Pressable, FlatList, Dimensions, Animated,} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Animated } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function AboutUs() {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -27,24 +26,54 @@ export default function AboutUs() {
     }).start();
   }, []);
 
+  const workers = [
+    {
+      image: require('../assets/David.png'),
+      name: 'David Cruz-Martinez',
+      role: 'Technology Wizard',
+    },
+    {
+      image: require('../assets/Ann_3D_Cartoon.png'),
+      name: 'Ann Winderickx',
+      role: 'Art Director',
+    },
+    {
+      image: require('../assets/Gunter.png'),
+      name: 'Gunter Flossie',
+      role: 'Studio Manager',
+    },
+  ];
+
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      onScroll={(event) => {
+        const y = event.nativeEvent.contentOffset.y;
+        if (y > 600 && !showMap) {
+          setShowMap(true);
+        }
+      }}
+      scrollEventThrottle={16}
+    >
       <View style={styles.container}>
-        
         <Animated.Text style={[styles.title, { transform: [{ translateX: slideAnimation }] }]}>
           We love to have you around.
         </Animated.Text>
 
-       
         <View style={styles.section}>
           <Text style={styles.paragraph}>
-            Wij zijn Kapitan. {'\n'}{'\n'}Geen reclamebureau en ook geen freelancers maar iets daartussenin. We noemen onszelf merkwerkers.{'\n'}{'\n'}
-            Kapitan heeft een kantoor gelegen aan de Kempische Kaai in Hasselt, aan de oevers van de Blauwe Boulevard waar een leuke en gezellige sfeer hangt.{'\n'}{'\n'}
-            We delen graag onze werkplek met jou. Als je een rustige werkplek zoekt of een inspirerende plek om te meeten, twijfel niet om te reserveren.</Text><Text style={styles.link}
-            onPress={() => Linking.openURL('https://www.kapitan.be')}>www.kapitan.be</Text>
+            Wij zijn Kapitan. {'\n'}{'\n'}Geen reclamebureau en ook geen freelancers maar iets
+            daartussenin. We noemen onszelf merkwerkers.{'\n'}{'\n'}
+            Kapitan heeft een kantoor gelegen aan de Kempische Kaai in Hasselt, aan de oevers van de
+            Blauwe Boulevard waar een leuke en gezellige sfeer hangt.{'\n'}{'\n'}
+            We delen graag onze werkplek met jou. Als je een rustige werkplek zoekt of een inspirerende
+            plek om te meeten, twijfel niet om te reserveren.
+          </Text>
+          <Text style={styles.link} onPress={() => Linking.openURL('https://www.kapitan.be')}>
+            www.kapitan.be
+          </Text>
         </View>
 
-        
         <View style={[styles.section, styles.highlightSection]}>
           <Text style={styles.subtitle}>Maak kennis met El Kapitan</Text>
           <View style={styles.workerContainer}>
@@ -54,57 +83,53 @@ export default function AboutUs() {
           </View>
         </View>
 
-        
         <View style={[styles.section]}>
           <Text style={styles.subtitle2}>De core merkwerkers</Text>
-          <ScrollView
+          <FlatList
+            data={workers}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.carouselContainer}
-          >
-            {[
-              {
-                image: require('../assets/David.png'),
-                name: 'David Cruz-Martinez',
-                role: 'Technology Wizard',
-              },
-              {
-                image: require('../assets/Ann_3D_Cartoon.png'),
-                name: 'Ann Winderickx',
-                role: 'Art Director',
-              },
-              {
-                image: require('../assets/Gunter.png'),
-                name: 'Gunter Flossie',
-                role: 'Studio Manager',
-              },
-            ].map((worker, index) => (
-              <View style={styles.workerCard} key={index}>
-                <Image source={worker.image} style={styles.workerImage} />
-                <Text style={styles.titleInformation}>{worker.name}</Text>
-                <Text style={styles.workerInformation}>{worker.role}</Text>
+            keyExtractor={(item) => item.name}
+            initialNumToRender={1}
+            windowSize={2}
+            renderItem={({ item }) => (
+              <View style={styles.workerCard}>
+                <Image source={item.image} style={styles.workerImage} />
+                <Text style={styles.titleInformation}>{item.name}</Text>
+                <Text style={styles.workerInformation}>{item.role}</Text>
               </View>
-            ))}
-          </ScrollView>
+            )}
+          />
         </View>
 
-        
         <View style={styles.mapContainer}>
-  <Text style={styles.subtitle2}>Hier vind je ons</Text>
-  <MapView
-    style={styles.map}
-    initialRegion={{latitude: 50.933898, longitude: 5.337144,latitudeDelta: 0.005,longitudeDelta: 0.005,}}>
-    <Marker
-      coordinate={{ latitude: 50.9333933898, longitude: 5.337144 }}
-      title="Kapitan"
-      description="Kempische Kaai, Hasselt"
-    />
-  </MapView>
-  <Ionicons name="log-out-outline" color="#628395" />
-  <Text style={styles.paragraph}>Tip: Zoek de walvis 🐋</Text>
-</View>
+          <Text style={styles.subtitle2}>Hier vind je ons</Text>
+          {showMap ? (
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: 50.933898,
+                longitude: 5.337144,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }}
+            >
+              <Marker
+                coordinate={{ latitude: 50.9333933898, longitude: 5.337144 }}
+                title="Kapitan"
+                description="Kempische Kaai, Hasselt"
+              />
+            </MapView>
+          ) : (
+            <View style={[styles.map, { justifyContent: 'center', alignItems: 'center' }]}>
+              <Text>Kaart laden...</Text>
+            </View>
+          )}
+          <Ionicons name="log-out-outline" color="#628395" />
+          <Text style={styles.paragraph}>Tip: Zoek de walvis 🐋</Text>
+        </View>
 
-        
         <View style={styles.section}>
           <Text style={styles.subtitle2}>Neem contact met ons op</Text>
           <Text style={styles.paragraph}>
@@ -127,57 +152,39 @@ const styles = StyleSheet.create({
   },
   link: {
     fontSize: 16,
-    textDecorationLine: "underline",
-    color: "#113A66",
+    textDecorationLine: 'underline',
+    color: '#113A66',
     marginVertical: 10,
     fontFamily: 'Poppins_400Regular',
   },
   section: {
-    marginVertical: 25 
+    marginVertical: 25,
   },
   highlightSection: {
-    // backgroundColor: '#fff',
     padding: 15,
-    // borderRadius: 10,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 2,
-    // elevation: 1,
-  },
-  highlightSection2: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
   },
   title: {
     fontSize: 25,
     marginVertical: 20,
-    color: "#232323",
+    color: '#232323',
     fontFamily: 'Poppins_500Medium',
   },
   subtitle: {
     fontSize: 22,
     marginBottom: 15,
-    color: "#232323",
-    justifyContent: "center",
+    color: '#232323',
     fontFamily: 'Poppins_500Medium',
   },
   subtitle2: {
     fontSize: 20,
     marginBottom: 15,
-    color: "#232323",
+    color: '#232323',
     fontFamily: 'Poppins_500Medium',
   },
   paragraph: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#232323",
+    color: '#232323',
     marginBottom: 10,
     fontFamily: 'Poppins_400Regular',
   },
@@ -189,14 +196,7 @@ const styles = StyleSheet.create({
     width: 200,
     alignItems: 'center',
     marginRight: 15,
-    // backgroundColor: '#fff',
-    // borderRadius: 12,
     padding: 10,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 4,
-    // elevation: 2,
   },
   workerImage: {
     width: 150,
@@ -208,21 +208,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Poppins_500Medium',
     textAlign: 'center',
-    color: "#232323",
+    color: '#232323',
   },
   workerInformation: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
-    color: "#232323",
+    color: '#232323',
     textAlign: 'center',
   },
   carouselContainer: {
     paddingVertical: 10,
     paddingLeft: 5,
   },
-
-
-
   mapContainer: {
     marginBottom: 30,
     overflow: 'hidden',
@@ -230,11 +227,8 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: 200,
-    flex: 1
+    flex: 1,
   },
-
-
-
   button: {
     backgroundColor: '#E74040',
     padding: 15,

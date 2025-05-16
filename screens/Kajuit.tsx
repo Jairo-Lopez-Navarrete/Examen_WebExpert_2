@@ -105,7 +105,6 @@ export default function Kajuit() {
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
-        {/* Titel + Share */}
         <View style={styles.titleContainer}>
            <Animated.Text
                       style={[
@@ -123,10 +122,10 @@ export default function Kajuit() {
           </TouchableOpacity>
         </View>
 
-        {/* Hoofdafbeelding */}
+        
         <Image source={require('../assets/TestPic4.png')} style={styles.image} />
 
-        {/* Kleine afbeeldingen */}
+       
         <View style={styles.imageSmallContainer}>
           {images.map((image, index) => (
             <Pressable key={index} onPress={() => openModal(index)}>
@@ -135,7 +134,7 @@ export default function Kajuit() {
           ))}
         </View>
 
-        {/* Afbeelding Modal */}
+       
         <Modal visible={modalVisible} transparent animationType="fade">
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
@@ -153,11 +152,11 @@ export default function Kajuit() {
           </View>
         </Modal>
 
-        {/* Prijs */}
+       
         <Text style={styles.titles}>Plek in de studio, tussen de medewerkers</Text>
         <Text style={styles.money}>€35 per dag</Text>
 
-        {/* Wat inbegrepen */}
+        
         <Text style={styles.titles}>Dit is wat je krijgt</Text>
         <FlatList
           data={included}
@@ -165,7 +164,7 @@ export default function Kajuit() {
           renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
         />
 
-        {/* Niet inbegrepen */}
+       
         <Text style={styles.titles}>Niet inbegrepen</Text>
         <FlatList
           data={notIncluded}
@@ -173,7 +172,6 @@ export default function Kajuit() {
           renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
         />
 
-        {/* Kalenderknop */}
         <TouchableOpacity style={styles.calenderButton} onPress={handleCalendarPress}>
           <Ionicons name="calendar-outline" size={26} color="white" />
           <Text style={styles.buttonText}>Dit is wat ik wil</Text>

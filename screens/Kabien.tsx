@@ -1,19 +1,30 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl, FlatList, Animated,} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+  Modal,
+  TouchableOpacity,
+  Share,
+  RefreshControl,
+  FlatList,
+  Animated,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {navigate} from '../helpers/RootNavigation';
+import { navigate } from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export default function Kabien() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(20)).current;
 
-export default function Kabien(){
-    const [modalVisible, setModalVisible] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [refreshing, setRefreshing] = useState(false);
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const slideAnim = useRef(new Animated.Value(20)).current;
-
-    useEffect(() => {
+  useEffect(() => {
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -28,139 +39,108 @@ export default function Kabien(){
     ]).start();
   }, []);
 
-      
-        const onRefresh = useCallback(() => {
-          setRefreshing(true);
-          setTimeout(() => {
-            setRefreshing(false);
-          }, 2000);
-        }, []);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
-
-
-    useEffect(() => {
-      const checkLoginStatus = async () => {
-        try {
-          const user = await AsyncStorage.getItem('user');
-          if (user) {
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-          }
-        } catch (error) {
-          console.error('Fout bij het ophalen van gebruikersgegevens:', error);
-          setIsLoggedIn(false);
-        }
-      };
-  
-      checkLoginStatus();
-    }, []);
-  
-    const handleCalendarPress = () => {
-      if (isLoggedIn) {
-        navigate('CalendarPage');
-      } else {
-        navigate('Login');
-      }
-    };
-
-    const shareInfo = async () => {
+  useEffect(() => {
+    const checkLoginStatus = async () => {
       try {
-        const result = await Share.share({
-          message: 'Check deze geweldige werkplek: Kabien! Een groot lokaal voor 8 personen, Wifi, Keukenfaciliteiten en meer. Perfect voor freelancers en bedrijven!\n\n Bekijk de details hier: https://jouwwebsite.com/kabien',
-        });
-    
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-            console.log('Gedeeld via: ', result.activityType);
-          } else {
-            console.log('Deel actie werd uitgevoerd.');
-          }
-        } else if (result.action === Share.dismissedAction) {
-          console.log('Deel actie werd geannuleerd.');
-        }
+        const user = await AsyncStorage.getItem('user');
+        setIsLoggedIn(!!user);
       } catch (error) {
-        console.error('Fout bij delen:', error);
+        console.error('Fout bij het ophalen van gebruikersgegevens:', error);
+        setIsLoggedIn(false);
       }
     };
 
-    const images = [
-        require('../assets/TestPic1.png'),
-        require('../assets/TestPic2.png'),
-        require('../assets/TestPic3.jpg'),
-    ];
+    checkLoginStatus();
+  }, []);
 
-    const openModal = (index: number) => {
-        setCurrentImageIndex(index);
-        setModalVisible(true);
-    };
+  const handleCalendarPress = () => {
+    navigate(isLoggedIn ? 'CalendarPage' : 'Login');
+  };
 
-    const closeModal = () => {
-        setModalVisible(false);
-    };
+  const shareInfo = async () => {
+    try {
+      await Share.share({
+        message:
+          'Check deze geweldige werkplek: Kabien! Een groot lokaal voor 8 personen, Wifi, Keukenfaciliteiten en meer.\n\nBekijk hier: https://jouwwebsite.com/kabien',
+      });
+    } catch (error) {
+      console.error('Fout bij delen:', error);
+    }
+  };
 
-    const nextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    };
+  const images = [
+    require('../assets/TestPic1.png'),
+    require('../assets/TestPic2.png'),
+    require('../assets/TestPic3.jpg'),
+  ];
 
-    const prevImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-    };
+  const included = [
+    'Gebruik flatscreen',
+    'Gebruik flipchart',
+    'Ruime werkplek met voldoende stopcontacten',
+    'WIFI',
+    'Kastruimte',
+    'Koffie, thee en water',
+    'Keukenfaciliteiten en terras',
+    'Toilet',
+    'Kuipstoel',
+    'Stroomverbruik',
+    'Brandverzekering',
+    'Catering mogelijk i.s.m. lokale partners',
+    'Bereikbaar met openbaar vervoer + parkeermogelijkheden op straat met parkeerschijf',
+    'Douche aanwezig (voor fietsers)',
+  ];
 
-    const included = [
-        ["Gebruik flatscreen"],
-        ["Gebruik flipchart"],
-        ["Ruime werkplek met voldoende stopcontacten"],
-        ["WIFI"],
-        ["Kastruimte"],
-        ["Koffie, thee en water"],
-        ["Keukenfaciliteiten en terras"],
-        ["Toilet"],
-        ["Kuipstoel"],
-        ["Stroomverbruik"],
-        ["Brandverzekering"],
-        ["Catering mogelijk i.s.m. lokale partners"],
-        ["Bereikbaar met openbaar vervoer + parkeermogelijkheden op straat met parkeerschijf"],
-        ["Douche aanwezig (voor fietsers)"],
-    ]
+  const notIncluded = [
+    'Sleutel',
+    'Frisdrank',
+    'Printer',
+    'Ruime parkeermogelijkheden onder Blauwe Boulevard (€ 1,5 per uur tot max €10 per dag)',
+    'Postadres',
+    'IT support',
+    'Ongevallenverzekering',
+    'Dekking voor ongevallen',
+    'Catering',
+  ];
 
-    const notIncluded = [
-        ["Sleutel"],
-        ["Frisdrank"],
-        ["Printer"],
-        ["Ruime parkeermogelijkheden onder Blauwe Boulevard (€ 1,5 per uur tot max €10 per dag)"],
-        ["Postadres"],
-        ["IT support"],
-        ["Ongevallenverzekering"],
-        ["Dekking voor ongevallen"],
-        ["Catering"],
-    ]
+  const sections = [
+    { type: 'header' },
+    { type: 'included' },
+    { type: 'notIncluded' },
+    { type: 'button' },
+  ];
 
-    return (
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          <View style={styles.container}>
-            
+  const renderItem = ({ item }: any) => {
+    switch (item.type) {
+      case 'header':
+        return (
+          <>
             <View style={styles.titleContainer}>
               <Animated.Text
-            style={[
-              styles.mainTitle,
-              {
-                opacity: fadeAnim,
-                transform: [{ translateY: slideAnim }],
-              },
-            ]}
-          >
-            Welkom in onze Kabien
-          </Animated.Text>
+                style={[
+                  styles.mainTitle,
+                  {
+                    opacity: fadeAnim,
+                    transform: [{ translateY: slideAnim }],
+                  },
+                ]}
+              >
+                Welkom in onze Kabien
+              </Animated.Text>
               <TouchableOpacity onPress={shareInfo}>
                 <Ionicons name="arrow-redo" style={styles.iconShare} />
               </TouchableOpacity>
             </View>
-    
-            {/* Hoofdafbeelding */}
+
             <Image source={require('../assets/TestPic4.png')} style={styles.image} />
-    
-            {/* Kleine afbeeldingen */}
+
             <View style={styles.imageSmallContainer}>
               {images.map((image, index) => (
                 <Pressable key={index} onPress={() => openModal(index)}>
@@ -168,59 +148,105 @@ export default function Kabien(){
                 </Pressable>
               ))}
             </View>
-    
-            {/* Afbeelding Modal */}
-            <Modal visible={modalVisible} transparent animationType="fade">
-              <View style={styles.modalContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                  <Ionicons name="close-circle" size={40} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.prevButton} onPress={() =>
-                  setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)}>
-                  <Ionicons name="chevron-back-circle" size={50} color="white" />
-                </TouchableOpacity>
-                <Image source={images[currentImageIndex]} style={styles.fullImage} />
-                <TouchableOpacity style={styles.nextButton} onPress={() =>
-                  setCurrentImageIndex((prev) => (prev + 1) % images.length)}>
-                  <Ionicons name="chevron-forward-circle" size={50} color="white" />
-                </TouchableOpacity>
-              </View>
-            </Modal>
-    
-            {/* Prijs */}
+
             <Text style={styles.titles}>Vergaderruimte tot 8 personen</Text>
             <Text style={styles.money}>€146 per dagdeel</Text>
             <Text style={styles.text2}>8u tot 12u / 13u tot 17u / 18u tot 22u</Text>
-    
-            {/* Wat inbegrepen */}
+          </>
+        );
+
+      case 'included':
+        return (
+          <>
             <Text style={styles.titles}>Inbegrepen</Text>
-            <FlatList
-              data={included}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
-            />
-    
-            {/* Niet inbegrepen */}
+            {included.map((item, index) => (
+              <Text key={index} style={styles.text}>• {item}</Text>
+            ))}
+          </>
+        );
+
+      case 'notIncluded':
+        return (
+          <>
             <Text style={styles.titles}>Niet inbegrepen</Text>
-            <FlatList
-              data={notIncluded}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => <Text style={styles.text}>• {item}</Text>}
-            />
-    
-            {/* Kalenderknop */}
-            <TouchableOpacity style={styles.calenderButton} onPress={handleCalendarPress}>
-              <Ionicons name="calendar-outline" size={26} color="white" />
-              <Text style={styles.buttonText}>Dit is wat ik wil</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      );
+            {notIncluded.map((item, index) => (
+              <Text key={index} style={styles.text}>• {item}</Text>
+            ))}
+          </>
+        );
+
+      case 'button':
+        return (
+          <TouchableOpacity style={styles.calenderButton} onPress={handleCalendarPress}>
+            <Ionicons name="calendar-outline" size={26} color="white" />
+            <Text style={styles.buttonText}>Dit is wat ik wil</Text>
+          </TouchableOpacity>
+        );
+
+      default:
+        return null;
     }
+  };
+
+  const openModal = (index: number) => {
+    setCurrentImageIndex(index);
+    setModalVisible(true);
+  };
+
+  return (
+  <View>
+    
+    <FlatList
+      data={sections}
+      keyExtractor={(item, index) => `${item.type}-${index}`}
+      renderItem={renderItem}
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    />
+
+    
+    <Modal visible={modalVisible} transparent animationType="fade">
+      <View style={styles.modalContainer}>
+        
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setModalVisible(false)}
+        >
+          <Ionicons name="close-circle" size={40} color="white" />
+        </TouchableOpacity>
+
+      
+        <TouchableOpacity
+          style={styles.prevButton}
+          onPress={() =>
+            setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+          }
+        >
+          <Ionicons name="chevron-back-circle" size={50} color="white" />
+        </TouchableOpacity>
+
+        
+        <Image source={images[currentImageIndex]} style={styles.fullImage} />
+
+        
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={() =>
+            setCurrentImageIndex((prev) => (prev + 1) % images.length)
+          }
+        >
+          <Ionicons name="chevron-forward-circle" size={50} color="white" />
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  </View>
+);
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 30,
     backgroundColor: '#f5f5f5',
   },
