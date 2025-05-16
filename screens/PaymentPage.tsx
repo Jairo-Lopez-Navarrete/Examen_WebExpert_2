@@ -15,11 +15,11 @@ export default function PaymentPage({ route }) {
   const getPricePerReservation = (type) => {
     switch (type) {
       case 'Kabien':
-        return 35;
+        return 146;
       case 'Kajuit':
-        return 100;
+        return 35;
       default:
-        return 20; // fallback voor veiligheid
+        return 20;
     }
   };
   
@@ -64,7 +64,8 @@ export default function PaymentPage({ route }) {
           try {
             const userData = await AsyncStorage.getItem('user');
             const parsedUser = userData ? JSON.parse(userData) : {};
-        
+            const vatNumber = parsedUser.vatNumber || '';
+
             const reservationArray = Object.entries(reservations).map(([date, time]) => ({
               type: type.charAt(0).toUpperCase() + type.slice(1),
               date,
@@ -111,6 +112,7 @@ export default function PaymentPage({ route }) {
                 reservations: reservations,
                 totalPrice: totalPrice,
                 method: paymentMethod,
+                vatNumber: vatNumber,
               }),
             });
         

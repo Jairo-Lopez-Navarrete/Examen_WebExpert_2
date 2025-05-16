@@ -90,21 +90,32 @@ export default function Kabien(){
     };
 
     const included = [
-        ["Ruime werkplek ", "Wifi"],
-        ["Opbergruimte ", "Warme dranken & water"],
-        ["Keukenfaciliteiten ", "Terras"],
-        ["Toilet ", "Douche (voor fietsers)"],
-        ["Stroomverbruik & verzekering"],
-        ["Catering opties"],
-        ["Bereikbaarheid"]
+        ["Gebruik flatscreen"],
+        ["Gebruik flipchart"],
+        ["Ruime werkplek met voldoende stopcontacten"],
+        ["WIFI"],
+        ["Kastruimte"],
+        ["Koffie, thee en water"],
+        ["Keukenfaciliteiten en terras"],
+        ["Toilet"],
+        ["Kuipstoel"],
+        ["Stroomverbruik"],
+        ["Brandverzekering"],
+        ["Catering mogelijk i.s.m. lokale partners"],
+        ["Bereikbaar met openbaar vervoer + parkeermogelijkheden op straat met parkeerschijf"],
+        ["Douche aanwezig (voor fietsers)"],
     ]
 
     const notIncluded = [
         ["Sleutel"],
-        ["Frisdrank & printer"],
-        ["Ruime parkeermogelijkheden"],
-        ["Postadres & IT-support"],
+        ["Frisdrank"],
+        ["Printer"],
+        ["Ruime parkeermogelijkheden onder Blauwe Boulevard (€ 1,5 per uur tot max €10 per dag)"],
+        ["Postadres"],
+        ["IT support"],
         ["Ongevallenverzekering"],
+        ["Dekking voor ongevallen"],
+        ["Catering"],
     ]
 
     return (
@@ -112,7 +123,7 @@ export default function Kabien(){
           <View style={styles.container}>
             {/* Titel + Share */}
             <View style={styles.titleContainer}>
-              <Text style={styles.mainTitle}>Het wordt dus Kabien!</Text>
+              <Text style={styles.mainTitle}>Welkom in onze Kabien</Text>
               <TouchableOpacity onPress={shareInfo}>
                 <Ionicons name="arrow-redo" style={styles.iconShare} />
               </TouchableOpacity>
@@ -149,10 +160,12 @@ export default function Kabien(){
             </Modal>
     
             {/* Prijs */}
-            <Text style={styles.money}>€35 per dagdeel</Text>
+            <Text style={styles.titles}>Vergaderruimte tot 8 personen</Text>
+            <Text style={styles.money}>€146 per dagdeel</Text>
+            <Text style={styles.text2}>8u tot 12u / 13u tot 17u / 18u tot 22u</Text>
     
             {/* Wat inbegrepen */}
-            <Text style={styles.titles}>Dit is wat je krijgt</Text>
+            <Text style={styles.titles}>Inbegrepen</Text>
             <FlatList
               data={included}
               keyExtractor={(item, index) => index.toString()}
@@ -230,8 +243,9 @@ const styles = StyleSheet.create({
   prevButton: { position: 'absolute', left: 20, top: '50%', zIndex: 1 },
   nextButton: { position: 'absolute', right: 20, top: '50%', zIndex: 1 },
   money: {
+    marginTop: 20,
+    marginBottom: 5,
     fontSize: 22,
-    marginBottom: 20,
     fontFamily: 'Poppins_500Medium',
   },
   titles: {
@@ -244,6 +258,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginVertical: 2,
+    fontFamily: 'Poppins_400Regular',
+  },
+  text2: {
+    fontSize: 16,
+    marginVertical: 2,
+    marginBottom: 20,
     fontFamily: 'Poppins_400Regular',
   },
   calenderButton: {

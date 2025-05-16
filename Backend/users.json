@@ -21,7 +21,7 @@
     "email": "james@hotmail.com",
     "work": "piloot",
     "password": "kippenbout",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/eee4fc14-a66c-48a5-b7ec-e082c19a7a88.jpeg"
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/c0b7e5ea-f61f-4d53-81a5-20d62a65ae4d.jpeg"
   },
   {
     "name": "maribel",
@@ -30,5 +30,21 @@
     "work": "kapster",
     "password": "navarrete",
     "profilePic": ""
+  },
+  {
+    "name": "test",
+    "birthdate": "26-12-2000",
+    "email": "test.pxl.com",
+    "work": "Kapitan",
+    "password": "kapitan",
+    "profilePic": ""
+  },
+  {
+    "name": "kevin",
+    "vatNumber": "NL123456785B01",
+    "email": "test@pxl.com",
+    "company": "Kapitan",
+    "password": "kapitan",
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/51e9dbed-ceeb-45a1-a93e-82a04c3a2fb4.jpeg"
   }
 ]

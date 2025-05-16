@@ -29,9 +29,9 @@ const saveUsers = (users) => {
 };
 
 app.post('/register', (req, res) => {
-  const { name, birthdate, email, work, password } = req.body;
+  const { name, email, company, vatNumber, password } = req.body;
 
-  if (!name || !birthdate || !work || !password || !email) {
+  if (!name || !vatNumber || !company || !password || !email) {
     return res.status(400).json({ error: 'Alle velden zijn verplicht!' });
   }
 
@@ -42,7 +42,7 @@ app.post('/register', (req, res) => {
     return res.status(400).json({ error: 'Gebruiker bestaat al' });
   }
 
-  const newUser = { name, birthdate, email, work, password, profilePic: '' };
+  const newUser = { name, email, company, vatNumber, password, profilePic: '' };
 
   users.push(newUser);
   saveUsers(users);
@@ -66,9 +66,9 @@ app.post('/login', (req, res) => {
 });
 
 app.put('/EditProfile', (req, res) => {
-  const { email, name, birthdate, work, profilePic, password, currentPassword } = req.body;
+  const { email, name, vatNumber, company, profilePic, password, currentPassword } = req.body;
 
-  if (!email || (!name && !birthdate && !work && !profilePic && !password)) {
+  if (!email || (!name && !vatNumber && !company && !profilePic && !password)) {
     return res.status(400).json({ error: 'Vereiste gegevens ontbreken' });
   }
 
@@ -97,8 +97,8 @@ app.put('/EditProfile', (req, res) => {
   }
 
   if (name) existingUser.name = name;
-  if (birthdate) existingUser.birthdate = birthdate;
-  if (work) existingUser.work = work;
+  if (company) existingUser.company = company;
+  if (vatNumber) existingUser.vatNumber = vatNumber;
   if (profilePic) existingUser.profilePic = profilePic;
 
   users[userIndex] = existingUser;
@@ -109,7 +109,7 @@ app.put('/EditProfile', (req, res) => {
 
 
 app.post('/send-confirmation-email', async (req, res) => {
-  const { email, name, reservations, totalPrice, method } = req.body;
+  const { email, name, reservations, totalPrice, method, vatNumber } = req.body;
 
   const htmlList = Object.entries(reservations)
     .map(([dag, tijd]) => `<li>${dag}: ${tijd}</li>`)
@@ -120,7 +120,7 @@ app.post('/send-confirmation-email', async (req, res) => {
     .join('\n');
 
   const msg = {
-    to: 'maitemj0112@gmail.com', 
+    to: 'jairoln2612@gmail.com', 
     from: {
       email: 'jairoln@hotmail.com',
       name: 'Reservatie Systeem'
@@ -130,6 +130,7 @@ app.post('/send-confirmation-email', async (req, res) => {
     text: `Nieuwe reservering ontvangen van ${name} (${email})
 
 Betaalmethode: ${method}
+BTW-nummer: ${vatNumber}
 Totaalprijs: €${totalPrice}
 
 Geselecteerde dagen:
@@ -140,6 +141,7 @@ ${plainTextList}
       <p><strong>Naam:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Betaalmethode:</strong> ${method}</p>
+      <p><strong>BTW-nummer:</strong> ${vatNumber}</p>
       <p><strong>Totaalprijs:</strong> €${totalPrice}</p>
       <h3>Geselecteerde dagen:</h3>
       <ul>${htmlList}</ul>
@@ -158,19 +160,19 @@ ${plainTextList}
 
 
 app.post('/send-contact-message', async (req, res) => {
-  const { name, birthdate, email, work, message } = req.body;
+  const { name, vatNumber, email, company, message } = req.body;
 
   const msg = {
-    to: 'maitemj0112@gmail.com',
+    to: 'jairoln2612@gmail.com',
     from: 'jairoln@hotmail.com',
     subject: 'Nieuw contactbericht ontvangen',
     replyTo: email,
     html: `
       <h2>Contactformulier</h2>
       <p><strong>Naam:</strong> ${name}</p>
-      <p><strong>Geboortedatum:</strong> ${birthdate}</p>
+      <p><strong>BTW-nummer:</strong> ${vatNumber}</p>
       <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Beroep:</strong> ${work}</p>
+      <p><strong>Beroep:</strong> ${company}</p>
       <h3>Bericht:</h3>
       <p>${message}</p>
     `

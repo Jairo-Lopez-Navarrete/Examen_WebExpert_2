@@ -20,17 +20,32 @@ export default function Kajuit() {
   ];
 
   const included = [
-    "Ruime bureau in de studio tussen de medewerkers",
-    "Opbergruimte, Warme dranken & water",
-    "Keukenfaciliteiten, Terras",
-    "Toilet, Douche (voor fietsers)",
-    "Stroomverbruik & verzekering",
-    "Bereikbaarheid"
-  ];
+        ["Gebruik flatscreen"],
+        ["Gebruik flipchart"],
+        ["Ruime werkplek met voldoende stopcontacten"],
+        ["WIFI"],
+        ["Kastruimte"],
+        ["Koffie, thee en water"],
+        ["Keukenfaciliteiten en terras"],
+        ["Toilet"],
+        ["Kuipstoel"],
+        ["Stroomverbruik"],
+        ["Brandverzekering"],
+        ["Catering mogelijk i.s.m. lokale partners"],
+        ["Bereikbaar met openbaar vervoer + parkeermogelijkheden op straat met parkeerschijf"],
+        ["Douche aanwezig (voor fietsers)"],
+    ]
 
   const notIncluded = [
-    "Sleutel", "Frisdrank & printer", "Ruime parkeermogelijkheden",
-    "Postadres & IT-support", "Ongevallenverzekering"
+        ["Sleutel"],
+        ["Frisdrank"],
+        ["Printer"],
+        ["Ruime parkeermogelijkheden onder Blauwe Boulevard (€ 1,5 per uur tot max €10 per dag)"],
+        ["Postadres"],
+        ["IT support"],
+        ["Ongevallenverzekering"],
+        ["Dekking voor ongevallen"],
+        ["Catering"],
   ];
 
   const onRefresh = useCallback(() => {
@@ -70,11 +85,11 @@ export default function Kajuit() {
   };
 
   return (
-    <ScrollView style={styles.body} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
         {/* Titel + Share */}
         <View style={styles.titleContainer}>
-          <Text style={styles.mainTitle}>Het wordt dus Kajuit!</Text>
+          <Text style={styles.mainTitle}>Welkom in onze Kajuit!</Text>
           <TouchableOpacity onPress={shareInfo}>
             <Ionicons name="arrow-redo" style={styles.iconShare} />
           </TouchableOpacity>
@@ -111,7 +126,8 @@ export default function Kajuit() {
         </Modal>
 
         {/* Prijs */}
-        <Text style={styles.money}>€100 per dag</Text>
+        <Text style={styles.titles}>Plek in de studio, tussen de medewerkers</Text>
+        <Text style={styles.money}>€35 per dag</Text>
 
         {/* Wat inbegrepen */}
         <Text style={styles.titles}>Dit is wat je krijgt</Text>
@@ -141,9 +157,6 @@ export default function Kajuit() {
 
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: "#f5f5f5"
-  },
   container: {
     flex: 1,
     padding: 30,

@@ -46,9 +46,9 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: user?.name,
-          birthdate: user?.birthdate,
+          company: user?.company,
           email: user?.email,
-          work: user?.work,
+          vatNumber: user?.vatNumber,
           message: message,
         }),
       });
@@ -71,9 +71,9 @@ export default function ContactPage() {
       {user && (
         <View style={styles.userInfo}>
           <Text>Naam: {user.name}</Text>
-          <Text>Geboortedatum: {user.birthdate}</Text>
           <Text>Email: {user.email}</Text>
-          <Text>Beroep: {user.work}</Text>
+          <Text>bedrijfsnaam: {user.company}</Text>
+          <Text>BTW-nummer: {user.vatNumber}</Text>
         </View>
       )}
 

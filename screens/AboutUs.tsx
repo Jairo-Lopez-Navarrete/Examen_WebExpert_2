@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, RefreshControl, Pressable  } from 'react-native';
+import { View, Text, Linking, StyleSheet, ScrollView, Image, RefreshControl, Pressable  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Animated } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -32,17 +32,16 @@ export default function AboutUs() {
       <View style={styles.container}>
         
         <Animated.Text style={[styles.title, { transform: [{ translateX: slideAnimation }] }]}>
-          Wij zijn Kapitan!
+          We love to have you around.
         </Animated.Text>
 
        
         <View style={styles.section}>
           <Text style={styles.paragraph}>
-            We zijn geen reclamebureau en ook geen freelancers, wij zijn merkwerkers!
-            {'\n'}{'\n'}Kapitan is een gezellig bedrijf gelegen aan de Kempische Kaai in Hasselt.
-            {'\n'}Ons bedrijf is gelegen langs het kanaal van Hasselt waar een leuke en gezellige sfeer hangt.
-            {'\n'}{'\n'}Wij delen graag ons stuurwiel met jullie, als jullie graag een rustige plaats zoeken om te kunnen werken twijfel dan niet om te reserveren!
-          </Text>
+            Wij zijn Kapitan. {'\n'}{'\n'}Geen reclamebureau en ook geen freelancers maar iets daartussenin. We noemen onszelf merkwerkers.{'\n'}{'\n'}
+            Kapitan heeft een kantoor gelegen aan de Kempische Kaai in Hasselt, aan de oevers van de Blauwe Boulevard waar een leuke en gezellige sfeer hangt.{'\n'}{'\n'}
+            We delen graag onze werkplek met jou. Als je een rustige werkplek zoekt of een inspirerende plek om te meeten, twijfel niet om te reserveren.</Text><Text style={styles.link}
+            onPress={() => Linking.openURL('https://www.kapitan.be')}>www.kapitan.be</Text>
         </View>
 
         
@@ -126,6 +125,13 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f8f8f8',
   },
+  link: {
+    fontSize: 16,
+    textDecorationLine: "underline",
+    color: "#113A66",
+    marginVertical: 10,
+    fontFamily: 'Poppins_400Regular',
+  },
   section: {
     marginVertical: 25 
   },
@@ -150,8 +156,8 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   title: {
-    fontSize: 30,
-    marginBottom: 20,
+    fontSize: 25,
+    marginVertical: 20,
     color: "#232323",
     fontFamily: 'Poppins_500Medium',
   },

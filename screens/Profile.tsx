@@ -91,9 +91,8 @@ export default function Profile() {
           </View>
 
           <View style={styles.userInfo}>
-            <Text style={styles.text}>{user.name}</Text>
-            <Text style={styles.text}>{user.birthdate}</Text>
-            <Text style={styles.text}>{user.work}</Text>
+            <Text style={styles.text}>{user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}</Text>
+            <Text style={styles.text}>{user.company}</Text>
           </View>
         </View>
 

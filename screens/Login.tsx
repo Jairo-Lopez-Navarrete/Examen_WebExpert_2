@@ -102,14 +102,14 @@ export default function Login() {
         {loading ? (
           <ActivityIndicator size="large" color="#007AFF" />
         ) : (
-          <Pressable style={styles.buttonLogin} onPress={handleLogin} disabled={loading}>
-            <Text style={styles.buttonLoginText}>Inloggen</Text>
+          <Pressable style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+            <Text style={styles.loginText}>Inloggen</Text>
           </Pressable>
         )}
 
 
-        <Pressable style={styles.registerButton} onPress={() => navigate('Register')}>
-          <Text style={styles.registerText}>Registreer</Text>
+        <Pressable onPress={() => navigate('Register')}>
+          <Text style={styles.buttonRegisterText}>Heb je nog geen account?{"\n"} registreer je hier.</Text>
         </Pressable>
       </View>
     </ScrollView>
@@ -150,11 +150,12 @@ const styles = StyleSheet.create({
   //   alignItems: "center",
   //   borderRadius: 8,
   // },
-  buttonLoginText: {
+  buttonRegisterText: {
     marginTop: 55,
     fontSize: 18,
     color: '#007AFF',
     fontFamily: 'Poppins_400Regular',
+    textAlign: "center"
   },
   buttonText: {
     marginTop: 5,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "100%"
   },
-  registerButton: {
+  loginButton: {
     marginTop: 40,
     backgroundColor: '#007AFF',
     padding: 15,
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
   },
-  registerText: {
+  loginText: {
     color: '#fff',
     fontSize: 18,
     fontFamily: 'Poppins_500Medium',

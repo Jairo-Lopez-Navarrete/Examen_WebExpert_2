@@ -27,8 +27,10 @@ export default function Home(){
       {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
         Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
       </Text> */}
-        <Text style={styles.title}>Boek een vergaderruimte</Text>
-        <Text style={styles.text}>Je hebt de keuze tussen twee ruimtes om te huren, {"\n"}{"\n"}Kabien en Kajuit.{"\n"}{"\n"}Kapitan zeilt graag samen met zijn klanten!</Text>
+        {/* <Text style={styles.title}>Boek een vergaderruimte</Text> */}
+        <Text style={styles.text}>De Kabien geeft plek aan 8 personen en wordt vooral gebruikt als vergaderruimte.{'\n'}{'\n'}
+             Ben je op zoek naar een flex office, dan ben je in onze Kajuit op de juiste plek.
+        </Text>
         <View style={styles.imageContainer}>
             <Pressable onPress={() => navigate('Kabien')}>
                  <ImageBackground source={require('../assets/TestPic1.png')} style={styles.image} imageStyle={styles.imageBorder}>
@@ -83,14 +85,13 @@ textContainer: {
   text: {
     fontSize: 15,
     // height: 70,
-    marginTop: 2,
-    marginBottom: '10%',
+    marginVertical: '15%',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
     fontFamily: 'Poppins_400Regular',
     color: '#232323',
-    padding: 5,
+    paddingHorizontal: 25,
   },
   imageContainer: {
     display: 'flex',

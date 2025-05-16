@@ -11,8 +11,8 @@ export default function EditProfile() {
   const { user, setUser } = route.params;
 
   const [name, setName] = useState(user.name);
-  const [birthdate, setBirthdate] = useState(user.birthdate);
-  const [work, setWork] = useState(user.work);
+  const [company, setCompany] = useState(user.company);
+  const [vatNumber, setVatNumber] = useState(user.vatNumber);
   const [profilePic, setProfilePic] = useState(user.profilePic);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -91,19 +91,9 @@ export default function EditProfile() {
   };
 
   const handleSave = async () => {
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    if (!dateRegex.test(birthdate)) {
-      Alert.alert("Fout", "Voer een geldige geboortedatum in (Dag-Maand-Jaar).");
-      return;
-    }
 
-    const [day, month, year] = birthdate.split('-').map(Number);
-    const birthDateObj = new Date(year, month - 1, day);
-    const today = new Date();
-    const age = today.getFullYear() - birthDateObj.getFullYear();
-
-    if (birthDateObj > today || age < 16) {
-      Alert.alert("Fout", "Je moet ouder als 16 zijn!");
+    if (!vatNumber || vatNumber.length < 5) {
+      Alert.alert("Fout", "Voer een geldig BTW-nummer in.");
       return;
     }
 
@@ -117,7 +107,7 @@ export default function EditProfile() {
       return;
     }
 
-    const updatedUser = { name, birthdate, work, profilePic, email, password: password || undefined, currentPassword };
+    const updatedUser = { name, company, vatNumber, profilePic, email, password: password || undefined, currentPassword };
 
     if (password) {
       updatedUser.password = password;
@@ -132,8 +122,8 @@ export default function EditProfile() {
         body: JSON.stringify({
           email: updatedUser.email, 
           name: updatedUser.name,
-          birthdate: updatedUser.birthdate,
-          work: updatedUser.work,
+          vatNumber: updatedUser.vatNumber,
+          company: updatedUser.company,
           profilePic: updatedUser.profilePic,
           password: updatedUser.password,
           currentPassword: updatedUser.currentPassword,
@@ -167,11 +157,11 @@ export default function EditProfile() {
         <Text style={styles.label}>Naam</Text>
         <TextInput style={styles.input} value={name} onChangeText={setName} />
 
-        <Text style={styles.label}>Geboortedatum</Text>
-        <TextInput style={styles.input} value={birthdate} onChangeText={setBirthdate} />
+        <Text style={styles.label}>Bedrijfsnaam</Text>
+        <TextInput style={styles.input} value={company} onChangeText={setCompany} />
 
-        <Text style={styles.label}>Werk</Text>
-        <TextInput style={styles.input} value={work} onChangeText={setWork} />
+        <Text style={styles.label}>BTW-nummer</Text>
+        <TextInput style={styles.input} value={vatNumber} onChangeText={setVatNumber} />
 
         <Text style={styles.label}>E-mail</Text>
         <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" /> 
