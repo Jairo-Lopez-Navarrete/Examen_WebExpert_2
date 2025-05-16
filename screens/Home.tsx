@@ -3,12 +3,10 @@ import { View, Text, StyleSheet, Pressable, ImageBackground, useWindowDimensions
 import {navigate} from '../helpers/RootNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
- //components
+
 import Header from '../components/Header';
 
 export default function Home(){
-  // const {width, height} = useWindowDimensions();
-  // const isLandscape = width > height;
   const [refreshing, setRefreshing] = useState(false);
     
       const onRefresh = useCallback(() => {
@@ -24,10 +22,6 @@ export default function Home(){
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.container}>
       <Header />
-      {/* <Text style={[styles.text, isLandscape && styles.landscapeText]}>
-        Dit is een {isLandscape ? 'landscape' : 'portrait'} scherm
-      </Text> */}
-        {/* <Text style={styles.title}>Boek een vergaderruimte</Text> */}
         <Text style={styles.text}>De Kabien geeft plek aan 8 personen en wordt vooral gebruikt als vergaderruimte.{'\n'}{'\n'}
              Ben je op zoek naar een flex office, dan ben je in onze Kajuit op de juiste plek.
         </Text>
@@ -67,14 +61,13 @@ textContainer: {
     overflow: 'hidden',
     },
   container: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
   title: {
     fontSize: 25,
-    // height: 70,
+    
     marginTop: '15%',
     marginBottom: 2,
     justifyContent: 'center',
@@ -84,7 +77,7 @@ textContainer: {
   },
   text: {
     fontSize: 15,
-    // height: 70,
+    
     marginVertical: '15%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -117,22 +110,4 @@ textContainer: {
   icon: {
     fontSize: 17,
   },
-
-
-  // landscapeText: {
-  //   fontSize: 24,
-  // },
-  // box: {
-  //   width: 100,
-  //   height: 100,
-  //   backgroundColor: 'tomato',
-  // },
-  // landscapeBox: {
-  //   width: 150,
-  //   height: 150,
-  // },
-  // portraitBox: {
-  //   width: 100,
-  //   height: 100,
-  // }
 });

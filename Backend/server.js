@@ -6,7 +6,6 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-//const nodemailer = require('nodemailer');
 
 
 const app = express();
@@ -80,8 +79,6 @@ app.put('/EditProfile', (req, res) => {
   }
 
   const existingUser = users[userIndex];
-
-  //const updatedUser = { name, birthdate, work, profilePic, email, password: password || undefined, currentPassword };
 
   
   if (typeof password === 'string' && password.trim().length > 0) {
@@ -233,11 +230,6 @@ app.post('/reserve', (req, res) => {
   res.status(200).json({ message: 'Reservering opgeslagen' });
 });
 
-// app.get('/reservations', (req, res) => {
-//   const reservations = loadReservations();
-//   res.json(reservations);
-// });
-
 app.get('/reservations', (req, res) => {
   const { email } = req.query;
 
@@ -248,7 +240,7 @@ app.get('/reservations', (req, res) => {
     return res.json(userReservations);
   }
 
-  res.json(allReservations); // fallback: alles tonen (eventueel alleen voor beheerder)
+  res.json(allReservations);
 });
 
 app.listen(3000, '0.0.0.0', () => {
