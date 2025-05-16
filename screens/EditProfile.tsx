@@ -218,14 +218,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     marginTop: 20,
-    // marginBottom: 20,
   },
   profileImage: {
     width: 200,
     height: 200,
     borderRadius: 100,
     alignSelf: 'center',
-    // marginBottom: 10,
   },
   cameraIcon: {
     position: 'absolute',
