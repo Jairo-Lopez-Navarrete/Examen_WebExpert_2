@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity,
-  ScrollView, Share, RefreshControl, FlatList
+  ScrollView, Share, RefreshControl, FlatList, Animated
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { navigate } from '../helpers/RootNavigation';
@@ -12,6 +12,24 @@ export default function Kajuit() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+      const slideAnim = useRef(new Animated.Value(20)).current;
+  
+      useEffect(() => {
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }, []);
+  
 
   const images = [
     require('../assets/TestPic1.png'),
@@ -89,7 +107,17 @@ export default function Kajuit() {
       <View style={styles.container}>
         {/* Titel + Share */}
         <View style={styles.titleContainer}>
-          <Text style={styles.mainTitle}>Welkom in onze Kajuit!</Text>
+           <Animated.Text
+                      style={[
+                        styles.mainTitle,
+                        {
+                          opacity: fadeAnim,
+                          transform: [{ translateY: slideAnim }],
+                        },
+                      ]}
+                    >
+                      Welkom in onze Kabien
+                    </Animated.Text>
           <TouchableOpacity onPress={shareInfo}>
             <Ionicons name="arrow-redo" style={styles.iconShare} />
           </TouchableOpacity>

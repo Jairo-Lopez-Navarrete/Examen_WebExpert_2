@@ -1,45 +1,5 @@
 [
   {
-    "name": "student",
-    "birthdate": "26-12-2000",
-    "email": "12002138@student.pxl.be",
-    "work": "tudent",
-    "password": "editprofile",
-    "profilePic": ""
-  },
-  {
-    "name": "jairo",
-    "birthdate": "26-12-2000",
-    "email": "jairoln@hotmail.com",
-    "work": "pegaso",
-    "password": "bulbasaur",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/56d01e72-351d-485f-9d0e-a5770bdbee60.jpeg"
-  },
-  {
-    "name": "James",
-    "birthdate": "26-12-2000",
-    "email": "james@hotmail.com",
-    "work": "piloot",
-    "password": "kippenbout",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/c0b7e5ea-f61f-4d53-81a5-20d62a65ae4d.jpeg"
-  },
-  {
-    "name": "maribel",
-    "birthdate": "11-08-1973",
-    "email": "maribel-navarrete@hotmail.com",
-    "work": "kapster",
-    "password": "navarrete",
-    "profilePic": ""
-  },
-  {
-    "name": "test",
-    "birthdate": "26-12-2000",
-    "email": "test.pxl.com",
-    "work": "Kapitan",
-    "password": "kapitan",
-    "profilePic": ""
-  },
-  {
     "name": "kevin",
     "vatNumber": "NL123456785B01",
     "email": "test@pxl.com",

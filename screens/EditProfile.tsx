@@ -29,13 +29,16 @@ export default function EditProfile() {
     }, 2000);
   }, []);
 
-
-
   const chooseImageOption = () => {
     Alert.alert(
       'Profielfoto wijzigen',
       'Kies een optie',
       [
+        {
+          text: 'Profielfoto verwijderen',
+          onPress: () => setProfilePic(null),
+          style: 'destructive'
+        },
         {
           text: 'Camera',
           onPress: openCamera,

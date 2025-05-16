@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl, FlatList} from 'react-native';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { View, Text, StyleSheet, Pressable, Image, Modal, TouchableOpacity, ScrollView, Share, RefreshControl, FlatList, Animated,} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {navigate} from '../helpers/RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,24 @@ export default function Kabien(){
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const slideAnim = useRef(new Animated.Value(20)).current;
+
+    useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
       
         const onRefresh = useCallback(() => {
           setRefreshing(true);
@@ -121,9 +139,19 @@ export default function Kabien(){
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-            {/* Titel + Share */}
+            
             <View style={styles.titleContainer}>
-              <Text style={styles.mainTitle}>Welkom in onze Kabien</Text>
+              <Animated.Text
+            style={[
+              styles.mainTitle,
+              {
+                opacity: fadeAnim,
+                transform: [{ translateY: slideAnim }],
+              },
+            ]}
+          >
+            Welkom in onze Kabien
+          </Animated.Text>
               <TouchableOpacity onPress={shareInfo}>
                 <Ionicons name="arrow-redo" style={styles.iconShare} />
               </TouchableOpacity>
