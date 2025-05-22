@@ -45,7 +45,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://192.168.156.35:3000/login', {
+      const response = await fetch('http://192.168.2.19:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,14 +142,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: 'Poppins_400Regular',
   },
-  // buttonLogin: {
-  //   marginTop: 40,
-  //   backgroundColor: '#c0c0c0',
-  //   padding: 15,
-  //   width: "100%",
-  //   alignItems: "center",
-  //   borderRadius: 8,
-  // },
   buttonRegisterText: {
     marginTop: 55,
     fontSize: 18,

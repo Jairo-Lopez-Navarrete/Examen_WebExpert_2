@@ -7,11 +7,11 @@ export default function UserPolicy() {
   const navigation = useNavigation();
   const items = [
     { title: 'Onboarding', screen: 'Onboarding', icon: 'information-circle-outline'},
-    // Voeg hier meer knoppen toe indien nodig
+    
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView>
       <Text style={styles.header}>Instellingen en activiteit</Text>
       {items.map((item, index) => (
         <Pressable
@@ -30,9 +30,6 @@ export default function UserPolicy() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // padding: 20,
-  },
   header: {
     padding: 20,
     fontSize: 22,
@@ -60,7 +57,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    //marginRight: -10,
     fontSize: 20,
     color: '#232323'
   },
