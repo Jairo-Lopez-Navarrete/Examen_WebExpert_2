@@ -134,7 +134,7 @@ Geselecteerde dagen:
 ${plainTextList}
     `,
     html: `
-      <h2>Nieuwe reservering ontvangen</h2>
+      <h2>Er is een nieuwe reservatie toegekomen.</h2>
       <p><strong>Naam:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Betaalmethode:</strong> ${method}</p>
@@ -142,6 +142,8 @@ ${plainTextList}
       <p><strong>Totaalprijs:</strong> €${totalPrice}</p>
       <h3>Geselecteerde dagen:</h3>
       <ul>${htmlList}</ul>
+      <p>Gelieve een factuur te maken voor deze totaalprijs vóór de reservatiedag met een betaaltermijn van 7 dagen.
+      De factuur wordt verstuurd via Teamleader naar ${email} </p>
     `
   };
 
@@ -165,7 +167,7 @@ app.post('/send-contact-message', async (req, res) => {
     subject: 'Nieuw contactbericht ontvangen',
     replyTo: email,
     html: `
-      <h2>Contactformulier</h2>
+      <h2>Er is een vraag toegekomen via de reserveringsapp</h2>
       <p><strong>Naam:</strong> ${name}</p>
       <p><strong>BTW-nummer:</strong> ${vatNumber}</p>
       <p><strong>Email:</strong> ${email}</p>
