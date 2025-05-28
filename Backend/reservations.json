@@ -16,5 +16,41 @@
     "type": "Kabien",
     "date": "2025-05-29",
     "time": "Avond"
+  },
+  {
+    "email": "navarrete@pxl.com",
+    "type": "Kabien",
+    "date": "2025-05-30",
+    "time": "Ochtend"
+  },
+  {
+    "email": "jairo@pxl.com",
+    "type": "Kajuit",
+    "date": "2025-05-25",
+    "time": "Volledige dag"
+  },
+  {
+    "email": "jairo@pxl.com",
+    "type": "Kajuit",
+    "date": "2025-05-26",
+    "time": "Volledige dag"
+  },
+  {
+    "email": "lopez@pxl.com",
+    "type": "Kabien",
+    "date": "2025-05-29",
+    "time": "Middag"
+  },
+  {
+    "email": "lopez@pxl.com",
+    "type": "Kabien",
+    "date": "2025-05-29",
+    "time": "Ochtend"
+  },
+  {
+    "email": "lopez@pxl.com",
+    "type": "Kabien",
+    "date": "2025-05-28",
+    "time": "Ochtend"
   }
 ]

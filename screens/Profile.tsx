@@ -31,7 +31,7 @@ export default function Profile() {
       }
 
       // Haal nieuwe data van de server
-      const response = await fetch(`http://192.168.2.19:3000/reservations?email=${parsedUser.email}`);
+      const response = await fetch(`http://192.168.156.35:3000/reservations?email=${parsedUser.email}`);
       const remoteData = await response.json();
 
       if (JSON.stringify(remoteData) !== localData) {

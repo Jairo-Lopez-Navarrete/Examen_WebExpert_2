@@ -117,7 +117,7 @@ export default function EditProfile() {
     }
     
     try {
-      const response = await fetch('http://192.168.2.19:3000/EditProfile', {
+      const response = await fetch('http://192.168.156.35:3000/EditProfile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

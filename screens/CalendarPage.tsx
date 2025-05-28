@@ -79,7 +79,7 @@ export default function CalendarPage({ navigation }) {
 
 
   useEffect(() => {
-    fetch('http://192.168.2.19:3000/reservations')
+    fetch('http://192.168.156.35:3000/reservations')
       .then(res => res.json())
       .then(data => {
         const slots = {};
@@ -124,7 +124,7 @@ export default function CalendarPage({ navigation }) {
       },
     }));
 
-    fetch('http://192.168.2.19:3000/reservations', {
+    fetch('http://192.168.156.35:3000/reservations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -140,32 +140,35 @@ export default function CalendarPage({ navigation }) {
   };
 
   const getMarkedDates = () => {
-    const markedDates = {};
+  const markedDates = {};
 
+  Object.keys(reservedSlots).forEach((date) => {
+    const reservedDayParts = reservedSlots[date] || [];
+    let dotColor = 'transparent';
 
-    Object.keys(reservedSlots).forEach((date) => {
-      const reservedDayParts = reservedSlots[date]; 
-  
-      if (reservedDayParts.length > 0) {
-        markedDates[date] = {
-          marked: true,
-          dotColor: 'red',
-        };
-      }
-    });
+    if (reservedDayParts.length === 3) {
+      dotColor = 'red';
+    } else if (reservedDayParts.length > 0) {
+      dotColor = 'orange';
+    }
 
+    markedDates[date] = {
+      marked: true,
+      dotColor,
+    };
+  });
 
-    Object.keys(selectedTimes).forEach((date) => {
-      markedDates[date] = {
-        selected: true,
-        marked: true,
-        selectedColor: 'blue',
-        selectedTextColor: 'white',
-        dotColor: 'white',
-      };
-    });
-    return markedDates;
-  };
+  Object.keys(selectedTimes).forEach((date) => {
+    markedDates[date] = {
+      ...markedDates[date], // behoud eventueel bestaande markering
+      selected: true,
+      selectedColor: 'blue',
+      selectedTextColor: 'white',
+    };
+  });
+
+  return markedDates;
+};
 
   const handleNavigateToPayment = () => {
     if (Object.keys(selectedTimes).length === 0) {

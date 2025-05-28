@@ -77,7 +77,7 @@ export default function PaymentPage({ route }) {
               JSON.stringify(reservations)
             );
         
-            const saveResponse = await fetch('http://192.168.2.19:3000/reserve', {
+            const saveResponse = await fetch('http://192.168.156.35:3000/reserve', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -103,7 +103,7 @@ export default function PaymentPage({ route }) {
               }
             }
         
-            const emailResponse = await fetch('http://192.168.2.19:3000/send-confirmation-email', {
+            const emailResponse = await fetch('http://192.168.156.35:3000/send-confirmation-email', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -173,7 +173,7 @@ export default function PaymentPage({ route }) {
         style={styles.picker}
       >
         <Picker.Item label="Selecteer een betaalmethode..." value=""/>
-        <Picker.Item label="Cash" value="Cash"/>
+        <Picker.Item label="Op factuur" value="Op factuur"/>
         <Picker.Item label="Creditcard" value="Creditcard"/>
         <Picker.Item label="PayPal" value="PayPal"/>
         <Picker.Item label="Bancontact" value="Bancontact"/>

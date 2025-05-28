@@ -12,23 +12,23 @@
     "email": "jairo@pxl.com",
     "company": "Kapitan",
     "vatNumber": "NL123456789B01",
-    "password": "kapitan",
+    "password": "bulbasaur",
     "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/3c4ed002-9cd7-4f3b-a799-315d80b26af3.jpeg"
   },
   {
-    "name": "jairo lopez",
-    "email": "JairoLopez@pxl.com",
-    "company": "kapitan",
-    "vatNumber": "Nl123456789B01",
-    "password": "Kapitan",
-    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/40fc636a-83d9-47b7-a852-456f66bae5b1.jpeg"
-  },
-  {
     "name": "jairo",
-    "email": "jairolopez@pxl.com",
-    "company": "kapitan",
-    "vatNumber": "Nl123456789B01",
+    "email": "lopez@pxl.com",
+    "company": "kapi",
+    "vatNumber": "nl123456789b01",
     "password": "kapitan",
     "profilePic": ""
+  },
+  {
+    "name": "jairo lopez",
+    "email": "navarrete@pxl.com",
+    "company": "kapitan",
+    "vatNumber": "nl123456789b01",
+    "password": "dinosaur",
+    "profilePic": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fgraduaatsproef-59e04b59-bcca-4660-af14-0719c53e1771/ImagePicker/e6bd4368-62c3-4048-a418-bccfda20f029.jpeg"
   }
 ]
